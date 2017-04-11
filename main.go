@@ -3,7 +3,7 @@ package main
 import (
   "github.com/gin-gonic/gin"
   "net/http"
-  "services/database.go"
+  "monsieur-traducteur/services"
 )
 
 func main() {
@@ -25,7 +25,7 @@ func main() {
   // Ping test
 	r.GET("/ping", func(c *gin.Context) {
     
-    projectList := database.getProjects()
+    projectList := services.GetProjects()
 		c.JSON(200, gin.H {
 			"message": "pong",
       "projects": projectList })
