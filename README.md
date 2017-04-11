@@ -8,8 +8,10 @@ Lightweight. Simple. Free.
 sqlite3 trans.sqlite3 < db/schema.sql
 ```
 
-2) download all dependencies with one command
+2) download and install all dependencies with one command
 
 ```
-go get ./...
+go get -u -v github.com/gin-gonic/gin
+go get -u -v github.com/mattn/go-sqlite3
+
 ```

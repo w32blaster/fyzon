@@ -12,7 +12,12 @@
       		{{ .title }}
       	</h1>
 
-        welcome
+        {{range .projects}}
+
+            <p>
+              ID: {{.ID}} - {{.Name}}
+            </p>
+        {{end}}
     </div>
     </body>
 </html>

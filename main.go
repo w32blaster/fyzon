@@ -19,16 +19,15 @@ func main() {
   r.GET("/projects", func(c *gin.Context) {
       c.HTML(http.StatusOK, "projects.tmpl", gin.H {
   			"title": "Pojects",
+        "projects": services.GetProjects(),
   		})
   })
 
   // Ping test
 	r.GET("/ping", func(c *gin.Context) {
-    
-    projectList := services.GetProjects()
 		c.JSON(200, gin.H {
 			"message": "pong",
-      "projects": projectList })
+    })
 	})
 
 	r.Run() // listen and serve on 0.0.0.0:8080
