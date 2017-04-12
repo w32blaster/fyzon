@@ -19,6 +19,7 @@ go get -u -v github.com/mattn/go-sqlite3
 3) rebuild SemanticUI theme
 
 ```
+npm install semantic-ui --save
 cd semantic
 gulp build
 ```

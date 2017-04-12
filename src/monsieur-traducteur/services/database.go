@@ -57,6 +57,32 @@ func GetProjects() Projects {
 }
 
 /*
+   Get term
+*/
+func GetOneTerm(id int) Term {
+
+  // connect to a database
+  var db, err = sql.Open("sqlite3", dbFile)
+  if err != nil {
+      log.Fatal(err)
+  }
+  defer db.Close()
+
+  // make a request for one term
+  rows, err := db.Query("select id, code, comment from terms where id = ? limit 1", id)
+  if err != nil {
+      log.Fatal(err)
+  }
+  defer rows.Close()
+
+  var t Term
+  rows.Next()
+  rows.Scan(&t.ID, &t.Code, &t.Comment)
+
+  return t
+}
+
+/*
   Get one project data
 */
 func GetOneProject(id int) Project {
@@ -68,7 +94,7 @@ func GetOneProject(id int) Project {
     }
     defer db.Close()
 
-    // make a request
+    // make a request for all the terms
     rows, err := db.Query("select id, code, comment from terms where project_id = ?", id)
     if err != nil {
         log.Fatal(err)
@@ -85,7 +111,17 @@ func GetOneProject(id int) Project {
 
         arrTerms = append(arrTerms, t)
     }
-
     p := Project{Terms: arrTerms}
+
+    // Make a request for a project info
+    stmt, err := db.Query("select id, name from projects where id = ? limit 1", id)
+    if err != nil {
+        log.Fatal(err)
+    }
+    defer stmt.Close()
+
+    stmt.Next()
+    _ = stmt.Scan(&p.ID, &p.Name)
+
     return p;
 }

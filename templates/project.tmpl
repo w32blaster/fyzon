@@ -1,23 +1,44 @@
 <html>
   <head>
-    <link rel="stylesheet" type="text/css" href="/semantic/dist/semantic.min.css">
+    <link rel="stylesheet" type="text/css" href="/semantic/dist/semantic.min.css" />
+    <link rel="stylesheet" type="text/css" href="/assets/css/style.css" />
     <script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
     <script src="/semantic/dist/semantic.min.js"></script>
+    <script src="/assets/js/terms.js"></script>
   </head>
 
   <body>
     <div class="ui container">
 
       	<h1 class="uk-heading-primary">
-      		{{ .title }}
+      		{{ .project.Name}}
       	</h1>
 
-        {{range .project.Terms}}
-            <div class="four wide column">
-                {{.Code}} ({{.Comment}})
-            </div>
-        {{end}}
+        <div class="ui grid">
 
+          <!-- Left column: scrollable term list -->
+          <div class="eight wide column scrollable" id="terms-list-panel">
+              <table class="ui very basic collapsing celled table">
+                <tbody>
+
+                  {{range .project.Terms}}
+                      <tr>
+                        <td class="clickable-term" data-id="{{.ID}}">
+                          {{.Code}}
+                        </td>
+                      </tr>
+                  {{end}}
+
+                </tbody>
+              </table>
+          </div>
+
+          <!-- Right column: details of selected term -->
+          <div class="eight wide column" id="translations-panel">
+              nothing is selected
+          </div>
+
+        </div>
 
     </div>
     </body>

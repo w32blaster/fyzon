@@ -1,0 +1,24 @@
+{
+  "name": "monsieur-traducteur",
+  "version": "1.0.0",
+  "description": "The translation tool",
+  "main": "index.js",
+  "dependencies": {
+    "less": "^2.7.2",
+    "semantic-ui": "^2.2.10"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/w32blaster/monsieur-traducteur.git"
+  },
+  "author": "Ilja",
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/w32blaster/monsieur-traducteur/issues"
+  },
+  "homepage": "https://github.com/w32blaster/monsieur-traducteur#readme"
+}

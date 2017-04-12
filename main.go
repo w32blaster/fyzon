@@ -15,6 +15,7 @@ func main() {
   r.Static("/semantic", "./semantic")
   r.Static("/assets", "./assets")
 
+  // HTML endpoints
   r.GET("/", func(c *gin.Context) {
      c.HTML(http.StatusOK, "index.tmpl", gin.H {
        "title": "Pojects",
@@ -30,12 +31,21 @@ func main() {
      })
   })
 
-  // Ping test
+
+  // JSON endpoints
 	r.GET("/ping", func(c *gin.Context) {
 		c.JSON(200, gin.H {
 			"message": "pong",
     })
 	})
+
+  r.GET("/api/terms/:id", func(c *gin.Context) {
+    id, _ := strconv.Atoi(c.Param("id"))
+    term := services.GetOneTerm(id)
+    c.JSON(200, gin.H {
+      "term": term,
+    })
+  })
 
 	r.Run() // listen and serve on 0.0.0.0:8080
 }
