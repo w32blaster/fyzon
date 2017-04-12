@@ -15,3 +15,10 @@ go get -u -v github.com/gin-gonic/gin
 go get -u -v github.com/mattn/go-sqlite3
 
 ```
+
+3) rebuild SemanticUI theme
+
+```
+cd semantic
+gulp build
+```

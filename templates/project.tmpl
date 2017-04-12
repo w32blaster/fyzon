@@ -9,20 +9,15 @@
     <div class="ui container">
 
       	<h1 class="uk-heading-primary">
-      		Translates
+      		{{ .title }}
       	</h1>
 
-        <h2 class="ui dividing header">{{ .title }}</h2>
+        {{range .project.Terms}}
+            <div class="four wide column">
+                {{.Code}} ({{.Comment}})
+            </div>
+        {{end}}
 
-        <div class="ui text container">
-          <div class="ui grid">
-            {{range .projects}}
-                <div class="four wide column">
-                    <a href="/project/{{.ID}}">{{.Name}}</a>
-                </div>
-            {{end}}
-          </div>
-        </div>
 
     </div>
     </body>
