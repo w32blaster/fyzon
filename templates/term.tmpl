@@ -1,0 +1,15 @@
+<form class="ui form">
+
+  <div class="field">
+    <p>{{.term.Comment}}</p>
+  </div>
+
+  {{range .term.Translations}}
+  <div class="field">
+    <label>Last Name</label>
+    <textarea rows="2">{{.Translation}}</textarea>
+  </div>
+  {{end}}
+
+  <button class="ui button" type="submit">Submit</button>
+</form>
