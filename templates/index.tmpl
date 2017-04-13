@@ -8,18 +8,38 @@
   <body>
     <div class="ui container">
 
-      	<h1 class="uk-heading-primary">
-      		Translates
-      	</h1>
-
         <h2 class="ui dividing header">{{ .title }}</h2>
 
         <div class="ui text container">
-          <div class="ui grid">
+          <div class="ui cards">
             {{range .projects}}
-                <div class="four wide column">
-                    <a href="/project/{{.ID}}">{{.Name}}</a>
-                </div>
+
+                  <div class="card">
+                    <div class="content">
+
+                      <div class="header">{{.Name}}</div>
+                      <div class="description">
+
+                        <p>
+                        {{.TermsCount}} translations
+                        </p>
+
+                        <p>
+                        {{range .CountryCodes}}
+                          <img src="/assets/images/flags/gif/{{.}}.gif" width="16" height="11" />
+                        {{end}}
+                        </p>
+                      </div>
+                    </div>
+
+                  <a href="/project/{{.ID}}">
+                    <div class="ui bottom attached button">
+                      <i class="add icon"></i> {{.Name}}
+                      </div>
+                  </a>
+
+                  </div>
+
             {{end}}
           </div>
         </div>

@@ -10,6 +10,14 @@ CREATE TABLE projects (
     name TEXT NOT NULL
 );
 
+-- Languages expected for a project. Country code in ISO 3166-1 format
+CREATE TABLE project_languages (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    country_code VARCHAR(2) NOT NULL,
+    project_id INTEGER,
+    FOREIGN KEY (project_id) REFERENCES projects(id)
+);
+
 -- Language with codes and translations
 CREATE TABLE terms (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -22,12 +30,12 @@ CREATE TABLE terms (
 CREATE TABLE translations (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     translation TEXT NOT NULL,
-    language_code VARCHAR(2) NOT NULL,
+    country_code VARCHAR(2) NOT NULL,
     is_default BOOLEAN DEFAULT false,
     term_id INTEGER,
     FOREIGN KEY (term_id) REFERENCES terms(id)
 );
-CREATE INDEX language_code_index ON translations(language_code);
+CREATE INDEX language_code_index ON translations(country_code);
 
 
 -- Insert few Projects
@@ -43,18 +51,26 @@ INSERT INTO terms(id, code, comment, project_id) values(3, "contact.form.title",
 INSERT INTO terms(id, code, comment, project_id) values(4, "contact.form.submit", "The button on the form submit", 2);
 INSERT INTO terms(id, code, comment, project_id) values(5, "contact.us.header", "Contact us page header", 2);
 
+-- insert expected translations for existing projects
+INSERT INTO project_languages(country_code, project_id) values("gb", 1);
+INSERT INTO project_languages(country_code, project_id) values("ru", 1);
+INSERT INTO project_languages(country_code, project_id) values("gr", 1);
+
+INSERT INTO project_languages(country_code, project_id) values("us", 2);
+INSERT INTO project_languages(country_code, project_id) values("ru", 2);
+
 -- insert some translations
-INSERT INTO translations(translation, language_code, term_id) values("The Title", "en", 1);
-INSERT INTO translations(translation, language_code, term_id) values("Заголовок", "ru", 1);
+INSERT INTO translations(translation, country_code, term_id) values("The Title", "gb", 1);
+INSERT INTO translations(translation, country_code, term_id) values("Заголовок", "ru", 1);
 
-INSERT INTO translations(translation, language_code, term_id) values("The description", "en", 2);
-INSERT INTO translations(translation, language_code, term_id) values("Описание", "ru", 2);
+-- One record partly translated
+INSERT INTO translations(translation, country_code, term_id) values("The description", "gb", 2);
 
-INSERT INTO translations(translation, language_code, term_id) values("Fill The form to contact us", "en", 3);
-INSERT INTO translations(translation, language_code, term_id) values("Заполните форму, чтобы связаться с нами", "ru", 3);
+INSERT INTO translations(translation, country_code, term_id) values("Fill The form to contact us", "us", 3);
+INSERT INTO translations(translation, country_code, term_id) values("Заполните форму, чтобы связаться с нами", "ru", 3);
 
-INSERT INTO translations(translation, language_code, term_id) values("Submit", "en", 4);
-INSERT INTO translations(translation, language_code, term_id) values("Отправить", "ru", 4);
+INSERT INTO translations(translation, country_code, term_id) values("Submit", "us", 4);
+INSERT INTO translations(translation, country_code, term_id) values("Отправить", "ru", 4);
 
-INSERT INTO translations(translation, language_code, term_id) values("Contact us", "en", 5);
-INSERT INTO translations(translation, language_code, term_id) values("Свяжитесь с нами", "ru", 5);
+-- One record partly translated
+INSERT INTO translations(translation, country_code, term_id) values("Contact us", "us", 5);

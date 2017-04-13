@@ -6,7 +6,10 @@
 
   {{range .term.Translations}}
   <div class="field">
-    <label>Last Name</label>
+    <label>
+      <img src="/assets/images/flags/gif/{{.CountryCode}}.gif" width="16" height="11" />
+       {{.CountryCode}}
+     </label>
     <textarea rows="2">{{.Translation}}</textarea>
   </div>
   {{end}}
