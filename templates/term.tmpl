@@ -9,10 +9,11 @@
     <label>
       <img src="/assets/images/flags/gif/{{.CountryCode}}.gif" width="16" height="11" />
        {{.CountryCode}}
-     </label>
-    <textarea rows="2">{{.Translation}}</textarea>
+       <span id="savel-label-{{.ID}}" class="ui green label saved-label" style="display: none;">Saved</span>
+    </label>
+
+    <textarea class="editable" rows="2" data-term-id="{{.ID}}" data-country-code="{{.CountryCode}}">{{.Translation}}</textarea>
   </div>
   {{end}}
 
-  <button class="ui button" type="submit">Submit</button>
 </form>

@@ -202,3 +202,22 @@ func GetTerm(termId int) *Term {
   t.Translations = translations
   return &t
 }
+
+
+/**
+ * Update one translation
+ */
+func UpdateTranslation(value string, id int) {
+
+  // connect to a database
+  var db, err = sql.Open("sqlite3", dbFile)
+  if err != nil {
+      log.Fatal(err)
+  }
+  defer db.Close()
+
+  _, err = db.Exec(`UPDATE translations SET translation=? where id=?`, value, id)
+	if err != nil {
+		log.Fatal("Failed to update record:", err)
+  }
+}

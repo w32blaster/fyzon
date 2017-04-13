@@ -48,5 +48,14 @@ func main() {
     })
 	})
 
+  r.POST("/api/terms/:id", func(c *gin.Context) {
+    id, _ := strconv.Atoi(c.Param("id"))
+    value := c.PostForm("value")
+
+    services.UpdateTranslation(value, id)
+
+    c.JSON(http.StatusOK, gin.H {})
+  })
+
 	r.Run() // listen and serve on 0.0.0.0:8080
 }
