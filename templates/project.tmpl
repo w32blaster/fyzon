@@ -22,7 +22,7 @@
                 <tbody>
 
                   {{range .project.Terms}}
-                      <tr>
+                      <tr id="row-{{.ID}}" class="row">
                         <td class="clickable-term" data-id="{{.ID}}">
                           {{.Code}}
                         </td>

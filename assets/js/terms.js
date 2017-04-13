@@ -2,12 +2,14 @@ $(document).ready(function() {
 
   $(".clickable-term").click(function() {
     var $termId = $(this).data("id");
-    $.get( "/api/terms/" + $termId, function() {
-      alert( "success" );
-    })
-    .fail(function() {
-        $("#translations-panel").text("Error! Can't load details");
+
+    $("#translations-panel").empty();
+    $("#translations-panel").load( "/api/terms/" + $termId, function() {
+      $(".row").removeClass("active");
+      $("#row-" + $termId).addClass("active");
+      console.log("added");
     });
+
   });
 
 });

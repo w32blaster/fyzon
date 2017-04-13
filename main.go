@@ -31,6 +31,15 @@ func main() {
      })
   })
 
+  r.GET("/api/terms/:id", func(c *gin.Context) {
+    id, _ := strconv.Atoi(c.Param("id"))
+    term := services.GetTerm(id)
+    c.HTML(http.StatusOK, "term.tmpl", gin.H {
+      "title": "Pojects",
+      "term": term,
+    })
+  })
+
 
   // JSON endpoints
 	r.GET("/ping", func(c *gin.Context) {
@@ -38,14 +47,6 @@ func main() {
 			"message": "pong",
     })
 	})
-
-  r.GET("/api/terms/:id", func(c *gin.Context) {
-    id, _ := strconv.Atoi(c.Param("id"))
-    term := services.GetOneTerm(id)
-    c.JSON(200, gin.H {
-      "term": term,
-    })
-  })
 
 	r.Run() // listen and serve on 0.0.0.0:8080
 }

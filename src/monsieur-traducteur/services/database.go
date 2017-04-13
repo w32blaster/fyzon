@@ -10,10 +10,18 @@ const (
     dbFile = "./trans.sqlite3"
 )
 
+type Translation struct {
+  ID int
+  Translation string
+  LanguageCode string
+  IsDefault bool
+}
+
 type Term struct {
   ID int
   Code string
   Comment string
+  Translations []Translation
 }
 
 type Project struct {
@@ -124,4 +132,50 @@ func GetOneProject(id int) Project {
     _ = stmt.Scan(&p.ID, &p.Name)
 
     return p;
+}
+
+/*
+  Find Term with all the translations
+*/
+func GetTerm(termId int) Term {
+
+  // connect to a database
+  var db, err = sql.Open("sqlite3", dbFile)
+  if err != nil {
+      log.Fatal(err)
+  }
+  defer db.Close()
+
+  // find one Term
+  stmt, err := db.Query("select id, code, comment from terms where id = ? limit 1", termId)
+  if err != nil {
+      log.Fatal(err)
+  }
+  defer stmt.Close()
+
+  stmt.Next()
+  var t Term
+  _ = stmt.Scan(&t.ID, &t.Code, &t.Comment)
+
+  // find all the translations
+  rows, err := db.Query("select id, translation, language_code, is_default from translations where term_id = ?", termId)
+  if err != nil {
+      log.Fatal(err)
+  }
+  defer rows.Close()
+
+  var translations []Translation
+  for rows.Next() {
+    var tr Translation
+    err = rows.Scan(&tr.ID, &tr.Translation, &tr.LanguageCode, &tr.IsDefault)
+
+    if err != nil {
+      log.Fatal(err)
+    }
+
+    translations = append(translations, tr)
+  }
+
+  t.Translations = translations
+  return t
 }

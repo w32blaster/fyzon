@@ -22,7 +22,7 @@ CREATE TABLE terms (
 CREATE TABLE translations (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     translation TEXT NOT NULL,
-    language_code TEXT NOT NULL,
+    language_code VARCHAR(2) NOT NULL,
     is_default BOOLEAN DEFAULT false,
     term_id INTEGER,
     FOREIGN KEY (term_id) REFERENCES terms(id)
