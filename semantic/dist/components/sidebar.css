@@ -88,7 +88,7 @@
 
 /* Whole Page */
 body.pushable {
-  background: #333333 !important;
+  background: #545454 !important;
 }
 
 /* Page Context */
@@ -135,7 +135,7 @@ body.pushable {
   z-index: 2;
 }
 body.pushable > .pusher {
-  background: #F9F9F9;
+  background: #FFFFFF;
 }
 
 /* Pusher should inherit background from context */
@@ -620,6 +620,12 @@ html.ios {
   -webkit-transform: scale(0.75);
           transform: scale(0.75);
 }
+
+
+/*******************************
+         Theme Overrides
+*******************************/
+
 
 
 /*******************************

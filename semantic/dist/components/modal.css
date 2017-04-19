@@ -13,7 +13,6 @@
              Modal
 *******************************/
 
-@import url(https://fonts.googleapis.com/css?family=Roboto);
 .ui.modal {
   display: none;
   position: fixed;
@@ -23,10 +22,10 @@
   text-align: left;
   background: #FFFFFF;
   border: none;
-  box-shadow: 0px 10px 18px rgba(0, 0, 0, 0.22);
+  box-shadow: 1px 3px 3px 0px rgba(0, 0, 0, 0.2), 1px 3px 15px 2px rgba(0, 0, 0, 0.2);
   -webkit-transform-origin: 50% 25%;
           transform-origin: 50% 25%;
-  border-radius: 0em;
+  border-radius: 0.28571429rem;
   -webkit-user-select: text;
      -moz-user-select: text;
       -ms-user-select: text;
@@ -35,12 +34,12 @@
 }
 .ui.modal > :first-child:not(.icon),
 .ui.modal > .icon:first-child + * {
-  border-top-left-radius: 0em;
-  border-top-right-radius: 0em;
+  border-top-left-radius: 0.28571429rem;
+  border-top-right-radius: 0.28571429rem;
 }
 .ui.modal > :last-child {
-  border-bottom-left-radius: 0em;
-  border-bottom-right-radius: 0em;
+  border-bottom-left-radius: 0.28571429rem;
+  border-bottom-right-radius: 0.28571429rem;
 }
 
 
@@ -76,18 +75,18 @@
 
 .ui.modal > .header {
   display: block;
-  font-family: 'Roboto', "Helvetica Neue", Arial, sans-serif;
+  font-family: 'Lato', 'Helvetica Neue', Arial, Helvetica, sans-serif;
   background: #FFFFFF;
   margin: 0em;
-  padding: 1.7142rem 1.7142rem;
+  padding: 1.25rem 1.5rem;
   box-shadow: none;
   color: rgba(0, 0, 0, 0.85);
-  border-bottom: none;
+  border-bottom: 1px solid rgba(34, 36, 38, 0.15);
 }
 .ui.modal > .header:not(.ui) {
   font-size: 1.42857143rem;
-  line-height: 1.33em;
-  font-weight: 400;
+  line-height: 1.28571429em;
+  font-weight: bold;
 }
 
 /*--------------
@@ -99,7 +98,7 @@
   width: 100%;
   font-size: 1em;
   line-height: 1.4;
-  padding: 1rem 2rem 2rem;
+  padding: 1.5rem;
   background: #FFFFFF;
 }
 .ui.modal > .image.content {
@@ -173,9 +172,9 @@
 ---------------*/
 
 .ui.modal > .actions {
-  background: #FFFFFF;
+  background: #F9FAFB;
   padding: 1rem 1rem;
-  border-top: none;
+  border-top: 1px solid rgba(34, 36, 38, 0.15);
   text-align: right;
 }
 .ui.modal .actions > .button {
@@ -225,9 +224,9 @@
     padding-right: 2.25rem;
   }
   .ui.modal > .close {
-    top: 1.4192rem;
+    top: 1.0535rem;
     right: 1rem;
-    color: #212121;
+    color: rgba(0, 0, 0, 0.87);
   }
 }
 
@@ -315,7 +314,7 @@
   right: 1.5rem;
 }
 .ui.inverted.dimmer > .basic.modal {
-  color: #212121;
+  color: rgba(0, 0, 0, 0.87);
 }
 .ui.inverted.dimmer > .ui.basic.modal > .header {
   color: rgba(0, 0, 0, 0.85);
@@ -405,9 +404,9 @@
   padding-right: 2.25rem;
 }
 .ui.fullscreen.modal > .close {
-  top: 1.4192rem;
+  top: 1.0535rem;
   right: 1rem;
-  color: #212121;
+  color: rgba(0, 0, 0, 0.87);
 }
 
 /*--------------
@@ -489,10 +488,12 @@
     margin: 0em 0em 0em -570px;
   }
 }
-.ui.modal .header {
-  font-family: "Roboto", Arial, Sans-serif !important;
-  font-weight: 400 !important;
-}
+
+
+/*******************************
+         Theme Overrides
+*******************************/
+
 
 
 /*******************************
