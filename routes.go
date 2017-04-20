@@ -4,7 +4,10 @@ import (
   "github.com/gin-gonic/gin"
 )
 
-func InitializeRoutes(router *gin.Engine) {
+/**
+ * Set up all the routes
+ */
+func initializeRoutes(router *gin.Engine) {
 
   // static assets
   router.Static("/semantic", "./semantic")
@@ -13,9 +16,17 @@ func InitializeRoutes(router *gin.Engine) {
   // HTML endpoints
   router.GET("/", MainPage)
   router.GET("/project/:id", GetOneProject)
-  router.GET("/api/terms/:id", GetAllTerms)
 
   // JSON endpoints
   router.GET("/ping", Ping)
-  router.POST("/api/terms/:id", PostOneTerm)
+
+  // Group API routes together
+  api := router.Group("/api")
+  {
+    // update one term
+		api.POST("/terms/:id/:lang", PostOneTerm)
+
+    // get one term
+    api.GET("/terms/:id", GetAllTranslations)
+  }
 }

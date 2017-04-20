@@ -22,6 +22,7 @@ type Term struct {
   Code string
   Comment string
   Translations []Translation
+  ProjectId int
 }
 
 type Project struct {
@@ -142,7 +143,7 @@ func GetOneProject(id int) *Project {
 
         arrTerms = append(arrTerms, t)
     }
-    p := Project{Terms: arrTerms, TermsCount: len(arrTerms)}
+    p := Project{Terms: arrTerms, TermsCount: len(arrTerms), ID: id}
 
     // Make a request for a project info
     stmt, err := db.Query("select id, name from projects where id = ? limit 1", id)
@@ -170,7 +171,7 @@ func GetTerm(termId int) *Term {
   defer db.Close()
 
   // find one Term
-  stmt, err := db.Query("select id, code, comment from terms where id = ? limit 1", termId)
+  stmt, err := db.Query("select id, code, comment, project_id from terms where id = ? limit 1", termId)
   if err != nil {
       log.Fatal(err)
   }
@@ -178,7 +179,7 @@ func GetTerm(termId int) *Term {
 
   stmt.Next()
   var t Term
-  _ = stmt.Scan(&t.ID, &t.Code, &t.Comment)
+  _ = stmt.Scan(&t.ID, &t.Code, &t.Comment, &t.ProjectId)
 
   // find all the translations
   rows, err := db.Query("select id, translation, country_code, is_default from translations where term_id = ?", termId)
@@ -188,6 +189,8 @@ func GetTerm(termId int) *Term {
   defer rows.Close()
 
   var translations []Translation
+  existingLangs := make(map[string]bool) // store which languages we already have
+
   for rows.Next() {
     var tr Translation
     err = rows.Scan(&tr.ID, &tr.Translation, &tr.CountryCode, &tr.IsDefault)
@@ -197,6 +200,15 @@ func GetTerm(termId int) *Term {
     }
 
     translations = append(translations, tr)
+    existingLangs[tr.CountryCode] = true
+  }
+
+  // check if there are some languages missing, then add empty field
+  langs := getAvailableLanguagesForProject(&t.ProjectId, db)
+  for _, lang := range *langs {
+      if (!existingLangs[lang]) {
+        translations = append(translations, Translation{ID: -1, IsDefault: false, CountryCode: lang} )
+      }
   }
 
   t.Translations = translations
@@ -207,7 +219,7 @@ func GetTerm(termId int) *Term {
 /**
  * Update one translation
  */
-func UpdateTranslation(value string, id int) {
+func UpdateTranslation(value string, termId int, countryCode string) {
 
   // connect to a database
   var db, err = sql.Open("sqlite3", dbFile)
@@ -216,8 +228,53 @@ func UpdateTranslation(value string, id int) {
   }
   defer db.Close()
 
-  _, err = db.Exec(`UPDATE translations SET translation=? where id=?`, value, id)
-	if err != nil {
-		log.Fatal("Failed to update record:", err)
+  // firstly, check whether is already exists (create or update?)
+  row, _ := db.Query("SELECT count(*) FROM translations WHERE term_id=? AND country_code=?", termId, countryCode)
+  var count int
+	for row.Next() {
+		row.Scan(&count)
   }
+
+  if (count > 0) {
+
+    // Update it
+    _, err = db.Exec(`UPDATE translations SET translation=? where term_id=?`, value, termId)
+  	if err != nil {
+  		log.Fatal("Failed to update record:", err)
+    }
+  } else {
+
+    // Create new translation
+    _, err = db.Exec(`INSERT INTO translations(translation, country_code, is_default, term_id) VALUES (?, ?, ?, ?)`, value, countryCode, false, termId)
+  	if err != nil {
+  		log.Fatal("Failed to update record:", err)
+    }
+  }
+
+}
+
+/**
+ * Get list of available languages for a given project
+ */
+func getAvailableLanguagesForProject(projectId *int, db *sql.DB) *[]string {
+
+  rows, err := db.Query("SELECT country_code FROM project_languages WHERE project_id=?", projectId)
+  if err != nil {
+      log.Fatal(err)
+  }
+  defer rows.Close()
+
+  var langs []string
+  for rows.Next() {
+    var lang string
+    err = rows.Scan(&lang)
+
+    if err != nil {
+      log.Fatal(err)
+    }
+
+    langs = append(langs, lang)
+  }
+
+  return &langs
 }

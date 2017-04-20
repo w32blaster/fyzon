@@ -4,13 +4,15 @@ $(document).ready(function() {
    * Update single translation and
    */
   var fnUpdateTranslation = function() {
-      var $termId = $(this).data("term-id");
+      var $lang = $(this).data("country-code");
+      var $termId = $("#termId").val();
       var data = {
         value: $(this).val(),
         id: $termId
       };
 
-      $.post( "/api/terms/" + $termId, data)
+      // this is existing term, let's update it
+      $.post( "/api/terms/" + $termId + "/" + $lang, data)
         .done(function( data ) {
           $('#savel-label-' + $termId)
               .transition('scale')

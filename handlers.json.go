@@ -21,9 +21,10 @@ func Ping(c *gin.Context) {
  */
 func PostOneTerm(c *gin.Context) {
 	id, _ := strconv.Atoi(c.Param("id"))
+	countryCode := c.Param("lang")
 	value := c.PostForm("value")
 
-	services.UpdateTranslation(value, id)
+	services.UpdateTranslation(value, id, countryCode)
 
 	c.JSON(http.StatusOK, gin.H {})
 }

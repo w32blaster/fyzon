@@ -12,7 +12,7 @@ func main() {
   router.LoadHTMLGlob("templates/*")
 
   // initialize all the routes
-  InitializeRoutes(router)
+  initializeRoutes(router)
 
 	router.Run() // listen and serve on 0.0.0.0:8080
 }

@@ -29,13 +29,14 @@ func GetOneProject(c *gin.Context) {
 }
 
 /**
- * Get all the terms for given project
+ * Get all the translations for given term
  */
-func GetAllTerms(c *gin.Context) {
+func GetAllTranslations(c *gin.Context) {
 	id, _ := strconv.Atoi(c.Param("id"))
 	term := services.GetTerm(id)
 	c.HTML(http.StatusOK, "term.tmpl", gin.H {
 		"title": "Pojects",
 		"term": term,
+		"termId": id,
 	})
 }
