@@ -238,7 +238,7 @@ func UpdateTranslation(value string, termId int, countryCode string) {
   if (count > 0) {
 
     // Update it
-    _, err = db.Exec(`UPDATE translations SET translation=? where term_id=?`, value, termId)
+    _, err = db.Exec("UPDATE translations SET translation=? where term_id=?", value, termId)
   	if err != nil {
   		log.Fatal("Failed to update record:", err)
     }
@@ -250,7 +250,30 @@ func UpdateTranslation(value string, termId int, countryCode string) {
   		log.Fatal("Failed to update record:", err)
     }
   }
+}
 
+/**
+ * Add new language to given project
+ */
+func AddNewLanguage(projectId *int, countryCode *string) {
+
+  // connect to a database
+  var db, err = sql.Open("sqlite3", dbFile)
+  if err != nil {
+      log.Fatal(err)
+  }
+  defer db.Close()
+
+  if (!isLanguageAlreadyExists(projectId, countryCode, db)) {
+
+    _, err = db.Exec("INSERT INTO project_languages(project_id,country_code) values(?, ?)", projectId, countryCode)
+    if err != nil {
+      log.Fatal("Failed to update record:", err)
+    }
+
+  } else {
+    log.Print("This project has already this language");
+  }
 }
 
 /**
@@ -277,4 +300,18 @@ func getAvailableLanguagesForProject(projectId *int, db *sql.DB) *[]string {
   }
 
   return &langs
+}
+
+/**
+ * Check whether the given language already exists for the given project
+ */
+func isLanguageAlreadyExists(projectId *int, countryCode *string, db *sql.DB) bool {
+
+  row, _ := db.Query("SELECT count(*) FROM project_languages WHERE project_id=? AND country_code=?", projectId, countryCode)
+  var count int
+  for row.Next() {
+    row.Scan(&count)
+  }
+
+  return count > 0
 }

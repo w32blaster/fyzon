@@ -28,3 +28,20 @@ func PostOneTerm(c *gin.Context) {
 
 	c.JSON(http.StatusOK, gin.H {})
 }
+
+/**
+ * Add new language
+ */
+func PostNewLanguage(c *gin.Context) {
+
+		if projectId, err := strconv.Atoi(c.PostForm("projectId")); err == nil {
+
+			countryCode := c.PostForm("countryCode")
+	    services.AddNewLanguage(&projectId, &countryCode)
+			c.JSON(http.StatusOK, gin.H {})
+
+	} else {
+      c.AbortWithStatus(http.StatusBadRequest)
+	}
+
+}

@@ -7,7 +7,8 @@
   {{range .term.Translations}}
   <div class="field">
     <label class="term-header">
-      <img src="/assets/images/flags/gif/{{.CountryCode}}.gif" width="16" height="11" />
+      <i class="{{.CountryCode}} flag"></i>
+
        {{.CountryCode}}
        <span id="savel-label-{{.ID}}" class="ui small green label saved-label" style="display: none;">Saved</span>
     </label>

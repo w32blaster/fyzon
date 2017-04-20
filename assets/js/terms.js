@@ -20,6 +20,25 @@ $(document).ready(function() {
         });
   };
 
+  /**
+   * Add new language request
+   */
+  var fnAddNewLanguage = function(selectedCountryCode) {
+    $projectId = $('#projectId').val();
+    var data = {
+      projectId: $projectId,
+      countryCode: selectedCountryCode
+    };
+
+    $.post( "/api/project/add/language", data)
+      .done(function( data ) {
+        location.reload();
+      });
+  };
+
+  /**
+   * On a term selected, we load its translations on the right
+   */
   $(".clickable-term").click(function() {
     var $termId = $(this).data("id");
 
@@ -33,6 +52,22 @@ $(document).ready(function() {
       $(".editable").blur(fnUpdateTranslation);
     });
 
-  });
+ });
+
+ /**
+  * Show the dialog
+  */
+ $("#add-language-button").click(function() {
+   $('#modal-add-lang')
+      .modal('setting', {
+        onApprove: function () {
+          var val = $('#country-dropdown').dropdown('get value');
+          fnAddNewLanguage(val);
+        }
+       })
+      .modal('show');
+
+    $('#country-dropdown').dropdown();
+ });
 
 });

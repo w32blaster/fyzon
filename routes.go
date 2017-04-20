@@ -28,5 +28,8 @@ func initializeRoutes(router *gin.Engine) {
 
     // get one term
     api.GET("/terms/:id", GetAllTranslations)
+
+    // add new language to project
+    api.POST("/project/add/language", PostNewLanguage)
   }
 }

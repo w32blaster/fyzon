@@ -24,6 +24,7 @@ func GetOneProject(c *gin.Context) {
 	 id, _ := strconv.Atoi(c.Param("id"))
 	 c.HTML(http.StatusOK, "project.tmpl", gin.H {
 		 "title": "Pojects",
+		 "projectId": id,
 		 "project": services.GetOneProject(id),
 	 })
 }
