@@ -35,24 +35,24 @@
 /* Divider */
 .ui.breadcrumb .divider {
   display: inline-block;
-  opacity: 1;
-  margin: 0em 0 0em;
-  font-size: 1.30769231rem;
-  color: inherit;
+  opacity: 0.7;
+  margin: 0em 0.2rem 0em;
+  font-size: 0.93333333em;
+  color: rgba(0, 0, 0, 0.4);
   vertical-align: baseline;
 }
 
 /* Link */
 .ui.breadcrumb a {
-  color: #4078C0;
+  color: #19bc9c;
 }
 .ui.breadcrumb a:hover {
-  color: #4078C0;
+  color: #19bc9c;
 }
 
 /* Icon Divider */
 .ui.breadcrumb .icon.divider {
-  font-size: 0.84615385em;
+  font-size: 0.86666667em;
   vertical-align: baseline;
 }
 
@@ -69,7 +69,7 @@
 /* Loose Coupling */
 .ui.breadcrumb.segment {
   display: inline-block;
-  padding: 0.76923077em 1em;
+  padding: 0.8em 1em;
 }
 
 
@@ -87,28 +87,32 @@
 *******************************/
 
 .ui.mini.breadcrumb {
-  font-size: 0.76923077rem;
+  font-size: 0.8rem;
 }
 .ui.tiny.breadcrumb {
-  font-size: 0.84615385rem;
+  font-size: 0.86666667rem;
 }
 .ui.small.breadcrumb {
-  font-size: 0.92307692rem;
+  font-size: 0.93333333rem;
 }
 .ui.breadcrumb {
   font-size: 1rem;
 }
 .ui.large.breadcrumb {
-  font-size: 1.15384615rem;
+  font-size: 1.13333333rem;
 }
 .ui.big.breadcrumb {
-  font-size: 1.30769231rem;
+  font-size: 1.26666667rem;
 }
 .ui.huge.breadcrumb {
-  font-size: 1.5384em;
+  font-size: 1.4rem;
 }
 .ui.massive.breadcrumb {
-  font-size: 1.69230769rem;
+  font-size: 1.73333333rem;
+}
+.ui.breadcrumb {
+  background-color: #ecf0f1;
+  padding: 0.6em;
 }
 
 

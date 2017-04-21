@@ -54,9 +54,9 @@
 
 .ui.form .field > label {
   display: block;
-  margin: 0em 0em 6px 0em;
-  color: rgba(0, 0, 0, 0.87);
-  font-size: 0.92307692em;
+  margin: 0em 0em 0.26666667rem 0em;
+  color: #2c3e50;
+  font-size: 0.93333333em;
   font-weight: bold;
   text-transform: none;
 }
@@ -99,19 +99,19 @@
 .ui.form input[type="text"],
 .ui.form input[type="file"],
 .ui.form input[type="url"] {
-  font-family: 'Arial', 'Helvetica Neue', Arial, Helvetica, sans-serif;
+  font-family: 'Lato', 'Helvetica Neue', Arial, Helvetica, sans-serif;
   margin: 0em;
   outline: none;
   -webkit-appearance: none;
   tap-highlight-color: rgba(255, 255, 255, 0);
   line-height: 1.21428571em;
-  padding: 0.73901099em 1.07692308em;
+  padding: 0.62619048em 0.93333333em;
   font-size: 1em;
-  background: #FAFAFA;
-  border: 1px solid #CCCCCC;
-  color: rgba(0, 0, 0, 0.87);
-  border-radius: 3px;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.075) inset;
+  background: #FFFFFF;
+  border: 1px solid rgba(34, 36, 38, 0.15);
+  color: #2c3e50;
+  border-radius: 0.26666667rem;
+  box-shadow: 0em 0em 0em 0em transparent inset;
   -webkit-transition: color 0.1s ease, border-color 0.1s ease;
   transition: color 0.1s ease, border-color 0.1s ease;
 }
@@ -121,13 +121,13 @@
   margin: 0em;
   -webkit-appearance: none;
   tap-highlight-color: rgba(255, 255, 255, 0);
-  padding: 0.84615385em 1.07692308em;
-  background: #FAFAFA;
-  border: 1px solid #CCCCCC;
+  padding: 0.73333333em 0.93333333em;
+  background: #FFFFFF;
+  border: 1px solid rgba(34, 36, 38, 0.15);
   outline: none;
-  color: rgba(0, 0, 0, 0.87);
-  border-radius: 3px;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.075) inset;
+  color: #2c3e50;
+  border-radius: 0.26666667rem;
+  box-shadow: 0em 0em 0em 0em transparent inset;
   -webkit-transition: color 0.1s ease, border-color 0.1s ease;
   transition: color 0.1s ease, border-color 0.1s ease;
   font-size: 1em;
@@ -161,11 +161,11 @@
   height: auto;
   width: 100%;
   background: #FFFFFF;
-  border: 1px solid #CCCCCC;
-  border-radius: 3px;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.075) inset;
-  padding: 0.62em 1.07692308em;
-  color: rgba(0, 0, 0, 0.87);
+  border: 1px solid rgba(34, 36, 38, 0.15);
+  border-radius: 0.26666667rem;
+  box-shadow: 0em 0em 0em 0em transparent inset;
+  padding: 0.62em 0.93333333em;
+  color: #2c3e50;
   -webkit-transition: color 0.1s ease, border-color 0.1s ease;
   transition: color 0.1s ease, border-color 0.1s ease;
 }
@@ -257,8 +257,8 @@
 .ui.form .field .prompt.label {
   white-space: normal;
   background: #FFFFFF !important;
-  border: 1px solid #E0B4B4 !important;
-  color: #9F3A38 !important;
+  border: 1px solid #e74c3c !important;
+  color: #fff !important;
 }
 .ui.form .inline.fields .field .prompt,
 .ui.form .inline.field .prompt {
@@ -308,42 +308,42 @@
 
 /* browsers require these rules separate */
 .ui.form ::-webkit-input-placeholder {
-  color: rgba(191, 191, 191, 0.87);
+  color: #b4bcc2;
 }
 .ui.form :-ms-input-placeholder {
-  color: rgba(191, 191, 191, 0.87);
+  color: #b4bcc2;
 }
 .ui.form ::-moz-placeholder {
-  color: rgba(191, 191, 191, 0.87);
+  color: #b4bcc2;
 }
 .ui.form :focus::-webkit-input-placeholder {
-  color: rgba(115, 115, 115, 0.87);
+  color: #9ab1c7;
 }
 .ui.form :focus:-ms-input-placeholder {
-  color: rgba(115, 115, 115, 0.87);
+  color: #9ab1c7;
 }
 .ui.form :focus::-moz-placeholder {
-  color: rgba(115, 115, 115, 0.87);
+  color: #9ab1c7;
 }
 
 /* Error Placeholder */
 .ui.form .error ::-webkit-input-placeholder {
-  color: #e7bdbc;
+  color: #ffffff;
 }
 .ui.form .error :-ms-input-placeholder {
-  color: #e7bdbc !important;
+  color: #ffffff !important;
 }
 .ui.form .error ::-moz-placeholder {
-  color: #e7bdbc;
+  color: #ffffff;
 }
 .ui.form .error :focus::-webkit-input-placeholder {
-  color: #da9796;
+  color: #ffffff;
 }
 .ui.form .error :focus:-ms-input-placeholder {
-  color: #da9796 !important;
+  color: #ffffff !important;
 }
 .ui.form .error :focus::-moz-placeholder {
-  color: #da9796;
+  color: #ffffff;
 }
 
 /*--------------------
@@ -362,18 +362,18 @@
 .ui.form input[type="text"]:focus,
 .ui.form input[type="file"]:focus,
 .ui.form input[type="url"]:focus {
-  color: rgba(0, 0, 0, 0.95);
-  border-color: #51A7E8;
-  border-radius: 3px;
+  color: #000;
+  border-color: #85B7D9;
+  border-radius: 0.26666667rem;
   background: #FFFFFF;
-  box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.075) inset, 0px 0px 5px rgba(81, 167, 232, 0.5);
+  box-shadow: 0px 0em 0em 0em rgba(34, 36, 38, 0.35) inset;
 }
 .ui.form textarea:focus {
-  color: rgba(0, 0, 0, 0.95);
-  border-color: #51A7E8;
-  border-radius: 3px;
+  color: #000;
+  border-color: #85B7D9;
+  border-radius: 0.26666667rem;
   background: #FFFFFF;
-  box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.075) inset, 0px 0px 5px rgba(81, 167, 232, 0.5);
+  box-shadow: 0px 0em 0em 0em rgba(34, 36, 38, 0.35) inset;
   -webkit-appearance: none;
 }
 
@@ -436,11 +436,11 @@
 .ui.form .field.error label,
 .ui.form .fields.error .field .input,
 .ui.form .field.error .input {
-  color: #9F3A38;
+  color: #fff;
 }
 .ui.form .fields.error .field .corner.label,
 .ui.form .field.error .corner.label {
-  border-color: #9F3A38;
+  border-color: #fff;
   color: #FFFFFF;
 }
 .ui.form .fields.error .field textarea,
@@ -471,9 +471,9 @@
 .ui.form .field.error input[type="text"],
 .ui.form .field.error input[type="file"],
 .ui.form .field.error input[type="url"] {
-  background: #FFF6F6;
-  border-color: #E0B4B4;
-  color: #9F3A38;
+  background: #e74c3c;
+  border-color: #e74c3c;
+  color: #fff;
   border-radius: '';
   box-shadow: none;
 }
@@ -491,9 +491,9 @@
 .ui.form .field.error input[type="text"]:focus,
 .ui.form .field.error input[type="file"]:focus,
 .ui.form .field.error input[type="url"]:focus {
-  background: #FFF6F6;
-  border-color: #E0B4B4;
-  color: #9F3A38;
+  background: #e74c3c;
+  border-color: #e74c3c;
+  color: #fff;
   -webkit-appearance: none;
   box-shadow: none;
 }
@@ -512,25 +512,25 @@
 .ui.form .field.error .ui.dropdown,
 .ui.form .field.error .ui.dropdown .text,
 .ui.form .field.error .ui.dropdown .item {
-  background: #FFF6F6;
-  color: #9F3A38;
+  background: #e74c3c;
+  color: #fff;
 }
 .ui.form .fields.error .field .ui.dropdown,
 .ui.form .field.error .ui.dropdown {
-  border-color: #E0B4B4 !important;
+  border-color: #e74c3c !important;
 }
 .ui.form .fields.error .field .ui.dropdown:hover,
 .ui.form .field.error .ui.dropdown:hover {
-  border-color: #E0B4B4 !important;
+  border-color: #e74c3c !important;
 }
 .ui.form .fields.error .field .ui.dropdown:hover .menu,
 .ui.form .field.error .ui.dropdown:hover .menu {
-  border-color: #E0B4B4;
+  border-color: #e74c3c;
 }
 .ui.form .fields.error .field .ui.multiple.selection.dropdown > .label,
 .ui.form .field.error .ui.multiple.selection.dropdown > .label {
   background-color: #EACBCB;
-  color: #991111;
+  color: #fff;
 }
 
 /* Hover */
@@ -559,20 +559,20 @@
 .ui.form .field.error .checkbox:not(.toggle):not(.slider) label,
 .ui.form .fields.error .field .checkbox:not(.toggle):not(.slider) .box,
 .ui.form .field.error .checkbox:not(.toggle):not(.slider) .box {
-  color: #9F3A38;
+  color: #fff;
 }
 .ui.form .fields.error .field .checkbox:not(.toggle):not(.slider) label:before,
 .ui.form .field.error .checkbox:not(.toggle):not(.slider) label:before,
 .ui.form .fields.error .field .checkbox:not(.toggle):not(.slider) .box:before,
 .ui.form .field.error .checkbox:not(.toggle):not(.slider) .box:before {
-  background: #FFF6F6;
-  border-color: #E0B4B4;
+  background: #e74c3c;
+  border-color: #e74c3c;
 }
 .ui.form .fields.error .field .checkbox label:after,
 .ui.form .field.error .checkbox label:after,
 .ui.form .fields.error .field .checkbox .box:after,
 .ui.form .field.error .checkbox .box:after {
-  color: #9F3A38;
+  color: #fff;
 }
 
 /*--------------------
@@ -583,11 +583,11 @@
 .ui.form .disabled.field,
 .ui.form .field :disabled {
   pointer-events: none;
-  opacity: 0.3;
+  opacity: 0.45;
 }
 .ui.form .field.disabled > label,
 .ui.form .fields.disabled > label {
-  opacity: 0.3;
+  opacity: 0.45;
 }
 .ui.form .field.disabled :disabled {
   opacity: 1;
@@ -670,7 +670,7 @@
 .ui.form .required.field > .checkbox:after {
   margin: -0.2em 0em 0em 0.2em;
   content: '*';
-  color: #DB2828;
+  color: #E74C3C;
 }
 .ui.form .required.fields:not(.grouped) > .field > label:after,
 .ui.form .required.fields.grouped > label:after,
@@ -722,9 +722,9 @@
 .ui.inverted.form input[type="text"],
 .ui.inverted.form input[type="file"],
 .ui.inverted.form input[type="url"] {
-  background: #FAFAFA;
+  background: #FFFFFF;
   border-color: rgba(255, 255, 255, 0.1);
-  color: rgba(0, 0, 0, 0.87);
+  color: #2c3e50;
   box-shadow: none;
 }
 
@@ -742,9 +742,9 @@
   margin-bottom: 0em;
 }
 .ui.form .grouped.fields > label {
-  margin: 0em 0em 6px 0em;
-  color: rgba(0, 0, 0, 0.87);
-  font-size: 0.92307692em;
+  margin: 0em 0em 0.26666667rem 0em;
+  color: #2c3e50;
+  font-size: 0.93333333em;
   font-weight: bold;
   text-transform: none;
 }
@@ -822,7 +822,7 @@
 }
 
 /* Swap to full width on mobile */
-@media only screen and (max-width: 1048px) {
+@media only screen and (max-width: 767px) {
   .ui.form .fields {
     -ms-flex-wrap: wrap;
         flex-wrap: wrap;
@@ -908,7 +908,7 @@
 }
 
 /* Swap to full width on mobile */
-@media only screen and (max-width: 1048px) {
+@media only screen and (max-width: 767px) {
   .ui.form .two.fields > .fields,
   .ui.form .two.fields > .field,
   .ui.form .three.fields > .fields,
@@ -977,9 +977,9 @@
   margin-top: 0em;
   margin-bottom: 0em;
   vertical-align: baseline;
-  font-size: 0.92307692em;
+  font-size: 0.93333333em;
   font-weight: bold;
-  color: rgba(0, 0, 0, 0.87);
+  color: #2c3e50;
   text-transform: none;
 }
 
@@ -1004,7 +1004,7 @@
 /* Label */
 .ui.form .inline.fields .field > :first-child,
 .ui.form .inline.field > :first-child {
-  margin: 0em 0.84615385em 0em 0em;
+  margin: 0em 0.86666667em 0em 0em;
 }
 .ui.form .inline.fields .field > :only-child,
 .ui.form .inline.field > :only-child {
@@ -1030,42 +1030,93 @@
 ---------------------*/
 
 .ui.mini.form {
-  font-size: 0.76923077rem;
+  font-size: 0.8rem;
 }
 .ui.tiny.form {
-  font-size: 0.84615385rem;
+  font-size: 0.86666667rem;
 }
 .ui.small.form {
-  font-size: 0.92307692rem;
+  font-size: 0.93333333rem;
 }
 .ui.form {
   font-size: 1rem;
 }
 .ui.large.form {
-  font-size: 1.15384615rem;
+  font-size: 1.13333333rem;
 }
 .ui.big.form {
-  font-size: 1.30769231rem;
+  font-size: 1.26666667rem;
 }
 .ui.huge.form {
-  font-size: 1.46153846rem;
+  font-size: 1.4rem;
 }
 .ui.massive.form {
-  font-size: 1.69230769rem;
+  font-size: 1.73333333rem;
 }
-
-
-/*******************************
-           Overrides
-*******************************/
-
-.ui.selection.dropdown {
-  background-color: #FAFAFA;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.075) inset;
-  border-color: #CCCCCC;
+.ui.form *,
+input *,
+.input * {
+  border-width: 2px;
+  box-shadow: none;
 }
-.ui.selection.dropdown:focus {
-  box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.075) inset, 0px 0px 5px rgba(81, 167, 232, 0.5);
+.ui.form *:focus,
+input *:focus,
+.input *:focus {
+  box-shadow: none;
+}
+.form.warning .field label,
+.form.warning .field .label,
+.form.warning .field .radio,
+.form.warning .field .checkbox,
+.form.warning .field .inline .radio,
+.form.warning .field .inline .checkbox,
+.form.warning .field.radio label,
+.form.warning .field.checkbox label,
+.form.warning .field.inline .radio label,
+.form.warning .field.inline .checkbox label,
+.form.warning .field .icon {
+  color: #F39C12;
+}
+.form.warning .field .input,
+.form.warning .field input {
+  border: 1px solid #F39C12;
+}
+.form.error .field.error label,
+.form.error .field.error .label,
+.form.error .field.error .radio,
+.form.error .field.error .checkbox,
+.form.error .field.error .inline .radio,
+.form.error .field.error .inline .checkbox,
+.form.error .field.error.radio label,
+.form.error .field.error.checkbox label,
+.form.error .field.error.inline .radio label,
+.form.error .field.error.inline .checkbox label,
+.form.error .field.error .icon {
+  color: #E74C3C;
+}
+.form.error .field.error .input,
+.form.error .field.error input {
+  border: 1px solid #E74C3C;
+}
+.form.success .field label,
+.form.success .field .label,
+.form.success .field .radio,
+.form.success .field .checkbox,
+.form.success .field .inline .radio,
+.form.success .field .inline .checkbox,
+.form.success .field.radio label,
+.form.success .field.checkbox label,
+.form.success .field.inline .radio label,
+.form.success .field.inline .checkbox label,
+.form.success .field .icon {
+  color: #18BC9C;
+}
+.form.success .field .input,
+.form.success .field input {
+  border: 1px solid #18BC9C;
+}
+.input .icon {
+  color: #2c3e50;
 }
 
 

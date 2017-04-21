@@ -18,18 +18,18 @@ body {
   height: 100%;
 }
 html {
-  font-size: 13px;
+  font-size: 15px;
 }
 body {
   margin: 0px;
   padding: 0px;
-  overflow-x: visible;
-  min-width: 1049px;
+  overflow-x: hidden;
+  min-width: 320px;
   background: #FFFFFF;
-  font-family: 'Arial', 'Helvetica Neue', Arial, Helvetica, sans-serif;
-  font-size: 13px;
+  font-family: 'Lato', 'Helvetica Neue', Arial, Helvetica, sans-serif;
+  font-size: 15px;
   line-height: 1.4285em;
-  color: rgba(0, 0, 0, 0.87);
+  color: #2c3e50;
   font-smoothing: antialiased;
 }
 
@@ -43,15 +43,15 @@ h2,
 h3,
 h4,
 h5 {
-  font-family: 'Arial', 'Helvetica Neue', Arial, Helvetica, sans-serif;
+  font-family: 'Lato', 'Helvetica Neue', Arial, Helvetica, sans-serif;
   line-height: 1.28571429em;
   margin: calc(2rem -  0.14285714em ) 0em 1rem;
-  font-weight: bold;
+  font-weight: 400;
   padding: 0em;
 }
 h1 {
   min-height: 1rem;
-  font-size: 2.25em;
+  font-size: 2rem;
 }
 h2 {
   font-size: 1.71428571rem;
@@ -101,12 +101,12 @@ p:last-child {
 --------------------*/
 
 a {
-  color: #4078C0;
+  color: #19bc9c;
   text-decoration: none;
 }
 a:hover {
-  color: #4078C0;
-  text-decoration: underline;
+  color: #19bc9c;
+  text-decoration: none;
 }
 
 
@@ -118,32 +118,52 @@ a:hover {
 /* Site */
 ::-webkit-selection {
   background-color: #CCE2FF;
-  color: rgba(0, 0, 0, 0.87);
+  color: #2c3e50;
 }
 ::-moz-selection {
   background-color: #CCE2FF;
-  color: rgba(0, 0, 0, 0.87);
+  color: #2c3e50;
 }
 ::selection {
   background-color: #CCE2FF;
-  color: rgba(0, 0, 0, 0.87);
+  color: #2c3e50;
 }
 
 /* Form */
 textarea::-webkit-selection,
 input::-webkit-selection {
   background-color: rgba(100, 100, 100, 0.4);
-  color: rgba(0, 0, 0, 0.87);
+  color: #2c3e50;
 }
 textarea::-moz-selection,
 input::-moz-selection {
   background-color: rgba(100, 100, 100, 0.4);
-  color: rgba(0, 0, 0, 0.87);
+  color: #2c3e50;
 }
 textarea::selection,
 input::selection {
   background-color: rgba(100, 100, 100, 0.4);
-  color: rgba(0, 0, 0, 0.87);
+  color: #2c3e50;
+}
+.text.primary,
+.text.primary:hover {
+  color: #2C3E50;
+}
+.text.positive,
+.text.positive:hover {
+  color: #18BC9C;
+}
+.text.negative,
+.text.negative:hover {
+  color: #E74C3C;
+}
+.text.warning,
+.text.warning:hover {
+  color: #F39C12;
+}
+.text.info,
+.text.info:hover {
+  color: #3498DB;
 }
 
 
