@@ -15,6 +15,7 @@ type Translation struct {
   Translation string
   CountryCode string
   IsDefault bool
+  TermId int
 }
 
 type Term struct {
@@ -166,7 +167,7 @@ func GetTerm(termId int) *Term {
   existingLangs := make(map[string]bool) // store which languages we already have
 
   for rows.Next() {
-    var tr Translation
+    tr := Translation{TermId: termId}
     err = rows.Scan(&tr.ID, &tr.Translation, &tr.CountryCode, &tr.IsDefault)
 
     if err != nil {

@@ -54,7 +54,7 @@ func PostNewTerm(c *gin.Context) {
     termKey := c.PostForm("termKey")
 		projectId, err := strconv.Atoi(c.PostForm("projectId"));
 
-		if termKey == "" && err != nil {
+		if len(termKey) == 0 || err != nil {
       c.AbortWithStatus(http.StatusBadRequest)
 		} else {
 			// description is optional

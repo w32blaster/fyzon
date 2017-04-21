@@ -31,7 +31,7 @@ $(document).ready(function() {
       // this is existing term, let's update it
       $.post( "/api/terms/" + $termId + "/" + $lang, data)
         .done(function( data ) {
-          $('#savel-label-' + $termId)
+          $('#savel-label-' + $termId + "-" + $lang)
               .transition('scale')
               .transition('scale');
         });
@@ -105,10 +105,23 @@ $(document).ready(function() {
   * Show the dialog "add new term"
   */
  $('#add-term-button').click(function() {
+
+    $('#add-new-term-form').form({
+      fields: {
+        'key': 'empty'
+      },
+      on: 'blur'
+    });
+
    $('#modal-add-term')
        .modal('setting', {
            onApprove: function () {
-             fnAddNewTerm();
+             var isValid = $('#add-new-term-form').form('is valid');
+             if (isValid) {
+                fnAddNewTerm();
+             }
+             else
+                return false;
            }
         })
        .modal('show');

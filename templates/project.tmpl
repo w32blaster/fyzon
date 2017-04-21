@@ -14,48 +14,44 @@
 
         <div class="ui grid">
 
-          <!-- Left column: scrollable term list -->
-          <div class="eight wide column scrollable" id="terms-list-panel">
-
-            <div>
-              <a id="add-term-button" class="ui basic button link" tabindex="-1">
-                <i class="plus square outline icon"></i>
-                Add term
+            <!-- Add language -->
+            <div class="row">
+              <a id="add-language-button" class="ui basic button link" tabindex="-1">
+                <i class="icon user"></i>
+                Add Language
               </a>
             </div>
 
-              <table id="table-terms" class="ui very basic collapsing celled table">
-                <tbody>
+              <!-- Left column: scrollable term list -->
+              <div class="eight wide column scrollable" id="terms-list-panel">
 
-                  {{range .project.Terms}}
-                      <tr id="row-{{.ID}}" class="row">
-                        <td class="clickable-term" data-id="{{.ID}}">
-                          {{.Code}}
-                        </td>
-                      </tr>
-                  {{end}}
+                <div>
+                  <a id="add-term-button" class="ui basic button link" tabindex="-1">
+                    <i class="plus square outline icon"></i>
+                    Add term
+                  </a>
+                </div>
 
-                </tbody>
-              </table>
+                  <table id="table-terms" class="ui very basic collapsing celled table">
+                    <tbody>
 
-          </div>
+                      {{range .project.Terms}}
+                          <tr id="row-{{.ID}}" class="row">
+                            <td class="clickable-term" data-id="{{.ID}}">
+                              {{.Code}}
+                            </td>
+                          </tr>
+                      {{end}}
 
-          <!-- Right column: details of selected term -->
-          <div class="eight wide column">
+                    </tbody>
+                  </table>
 
-              <div id="translations-panel">
-                 nothing is selected
               </div>
 
-              <!-- Add language -->
-              <div>
-                <a id="add-language-button" class="ui basic button link" tabindex="-1">
-                  <i class="icon user"></i>
-                  Add Language
-                </a>
+              <!-- Right column: details of selected term -->
+              <div id="translations-panel" class="eight wide column">
+                    nothing is selected
               </div>
-
-          </div>
 
         </div>
 
@@ -340,11 +336,11 @@
         Add new term
       </div>
 
-      <div class="content ui form">
+      <div id="add-new-term-form" class="content ui form">
 
         <div class="field">
             <label>Term input</label>
-            <input id="new-term-key" type="text" placeholder="new.term.key.for.your.phrase">
+            <input id="new-term-key" name="key" type="text" placeholder="new.term.key.for.your.phrase">
         </div>
 
         <div class="field">

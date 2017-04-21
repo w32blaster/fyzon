@@ -10,7 +10,7 @@
       <i class="{{.CountryCode}} flag"></i>
 
        {{.CountryCode}}
-       <span id="savel-label-{{.ID}}" class="ui small green label saved-label" style="display: none;">Saved</span>
+       <span id="savel-label-{{.TermId}}-{{.CountryCode}}" class="ui small green label saved-label" style="display: none;">Saved</span>
     </label>
 
     <textarea class="editable" rows="2" data-term-id="{{.ID}}" data-country-code="{{.CountryCode}}">{{.Translation}}</textarea>
