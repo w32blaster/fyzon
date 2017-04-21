@@ -43,5 +43,25 @@ func PostNewLanguage(c *gin.Context) {
 	} else {
       c.AbortWithStatus(http.StatusBadRequest)
 	}
+}
 
+/**
+ * Add new term to project
+ */
+func PostNewTerm(c *gin.Context) {
+
+    // key and projectId are mandatory
+    termKey := c.PostForm("termKey")
+		projectId, err := strconv.Atoi(c.PostForm("projectId"));
+
+		if termKey == "" && err != nil {
+      c.AbortWithStatus(http.StatusBadRequest)
+		} else {
+			// description is optional
+			termDescr := c.PostForm("termDescr")
+			addedTerm := services.AddNewTerm(&termKey, &termDescr, &projectId)
+			c.JSON(http.StatusOK, gin.H {
+				"term": addedTerm,
+			})
+		}
 }

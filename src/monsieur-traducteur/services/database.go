@@ -89,32 +89,6 @@ func GetProjects() *Projects {
 }
 
 /*
-   Get term
-*/
-func GetOneTerm(id int) *Term {
-
-  // connect to a database
-  var db, err = sql.Open("sqlite3", dbFile)
-  if err != nil {
-      log.Fatal(err)
-  }
-  defer db.Close()
-
-  // make a request for one term
-  rows, err := db.Query("select id, code, comment from terms where id = ? limit 1", id)
-  if err != nil {
-      log.Fatal(err)
-  }
-  defer rows.Close()
-
-  var t Term
-  rows.Next()
-  rows.Scan(&t.ID, &t.Code, &t.Comment)
-
-  return &t
-}
-
-/*
   Get one project data
 */
 func GetOneProject(id int) *Project {
@@ -274,6 +248,29 @@ func AddNewLanguage(projectId *int, countryCode *string) {
   } else {
     log.Print("This project has already this language");
   }
+}
+
+/**
+ * Add new Term to the given project
+ */
+func AddNewTerm(termKey *string, termDescr *string, projectId *int) *Term {
+
+  // connect to a database
+  var db, err = sql.Open("sqlite3", dbFile)
+  if err != nil {
+      log.Fatal(err)
+  }
+  defer db.Close()
+
+  res, err := db.Exec("INSERT INTO terms(code,comment,project_id) values(?, ?, ?)", termKey, termDescr, projectId)
+  if err != nil {
+    log.Fatal("Failed to update record:", err)
+  }
+
+  addedId64,_ := res.LastInsertId()
+  var addedId int
+  addedId = int(addedId64)
+  return GetTerm(addedId)
 }
 
 /**

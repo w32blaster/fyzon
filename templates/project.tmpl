@@ -16,7 +16,15 @@
 
           <!-- Left column: scrollable term list -->
           <div class="eight wide column scrollable" id="terms-list-panel">
-              <table class="ui very basic collapsing celled table">
+
+            <div>
+              <a id="add-term-button" class="ui basic button link" tabindex="-1">
+                <i class="plus square outline icon"></i>
+                Add term
+              </a>
+            </div>
+
+              <table id="table-terms" class="ui very basic collapsing celled table">
                 <tbody>
 
                   {{range .project.Terms}}
@@ -29,6 +37,7 @@
 
                 </tbody>
               </table>
+
           </div>
 
           <!-- Right column: details of selected term -->
@@ -40,10 +49,10 @@
 
               <!-- Add language -->
               <div>
-                <button id="add-language-button" class="ui basic button link" tabindex="-1">
+                <a id="add-language-button" class="ui basic button link" tabindex="-1">
                   <i class="icon user"></i>
                   Add Language
-                </button>
+                </a>
               </div>
 
           </div>
@@ -319,7 +328,35 @@
 
       <div class="actions">
         <div class="ui negative button">Cancel</div>
-        <div class="ui positive right labeled icon button">OK</div>
+        <div class="ui positive right labeled icon button">Add new language</div>
+      </div>
+    </div>
+
+
+    <!-- Modal window to add new term -->
+    <div id="modal-add-term" class="ui modal small">
+      <i class="close icon"></i>
+      <div class="header">
+        Add new term
+      </div>
+
+      <div class="content ui form">
+
+        <div class="field">
+            <label>Term input</label>
+            <input id="new-term-key" type="text" placeholder="new.term.key.for.your.phrase">
+        </div>
+
+        <div class="field">
+          <label>Description</label>
+          <textarea id="new-term-description" rows="2"></textarea>
+        </div>
+
+      </div>
+
+      <div class="actions">
+        <div class="ui negative button">Cancel</div>
+        <div class="ui positive right labeled icon button">Add new term</div>
       </div>
     </div>
 
