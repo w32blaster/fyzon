@@ -1,13 +1,18 @@
 {{ template "_header.tmpl" .}}
 
-    <div class="ui container">
+    <header>
 
-      <div class="ui breadcrumb">
-        <a class="section" href="/">Home</a>
-        <div class="divider"> / </div>
-        <div class="active section">Project {{ .project.Name}}</div>
+      <div class="ui container">
+        <div class="ui breadcrumb">
+          <a class="section" href="/">Home</a>
+          <div class="divider"> / </div>
+          <div class="active section">Project {{ .project.Name}}</div>
+        </div>
       </div>
 
+    </header>
+
+    <div class="ui container">
       	<h1 class="uk-heading-primary">
       		{{ .project.Name}}
       	</h1>
@@ -16,10 +21,12 @@
 
             <!-- Add language -->
             <div class="row">
-              <a id="add-language-button" class="ui basic button link" tabindex="-1">
-                <i class="icon user"></i>
-                Add Language
-              </a>
+              <div class="column">
+                <a id="add-language-button" class="ui right floated basic button link" tabindex="-1">
+                  <i class="icon world"></i>
+                  Add Language
+                </a>
+              </div>
             </div>
 
               <!-- Left column: scrollable term list -->
@@ -27,7 +34,7 @@
 
                 <div>
                   <a id="add-term-button" class="ui basic button link" tabindex="-1">
-                    <i class="plus square outline icon"></i>
+                    <i class="plus icon"></i>
                     Add term
                   </a>
                 </div>

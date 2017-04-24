@@ -6,3 +6,8 @@
 .term-header {
   height: 30px;
 }
+
+header {
+  background-color: #ecf0f1;
+  margin-bottom: 30px;
+}
