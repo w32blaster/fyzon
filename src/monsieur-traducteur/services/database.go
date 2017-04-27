@@ -4,7 +4,6 @@ import (
     "database/sql"
     _ "github.com/mattn/go-sqlite3"
     "log"
-    "fmt"
 )
 
 const (
@@ -214,14 +213,14 @@ func UpdateTranslation(value string, termId int, countryCode string) {
   if (count > 0) {
 
     // Update it
-    _, err = db.Exec("UPDATE translations SET translation=? where term_id=?", value, termId)
+    _, err = db.Exec("UPDATE translations SET translation=? WHERE term_id=? AND country_code=?", value, termId, countryCode)
   	if err != nil {
   		log.Fatal("Failed to update record:", err)
     }
   } else {
 
     // Create new translation
-    _, err = db.Exec(`INSERT INTO translations(translation, country_code, is_default, term_id) VALUES (?, ?, ?, ?)`, value, countryCode, false, termId)
+    _, err = db.Exec("INSERT INTO translations(translation, country_code, is_default, term_id) VALUES (?, ?, ?, ?)", value, countryCode, false, termId)
   	if err != nil {
   		log.Fatal("Failed to update record:", err)
     }
@@ -365,7 +364,6 @@ func _insertAllTerms(terms *map[string]string, projectId *int, db *sql.DB) error
 
       // insert and get fresh term
       _, err = stmt.Exec(projectId, key, "")
-      fmt.Print("Inserted " + key + "\n")
       if err != nil {
         log.Fatal(err)
       }

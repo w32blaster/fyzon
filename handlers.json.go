@@ -103,6 +103,10 @@ func PostNewFile(c *gin.Context) {
 		services.SaveImportedTermsForProject(mapLines, &country, &projectId)
 
 		// delete temp file
+		_ = os.Remove("/tmp/" + filename)
+
+		// redirect
+		c.Redirect(http.StatusMovedPermanently, "/project/" + strconv.Itoa(projectId) + "?imported")
 }
 
 /**
