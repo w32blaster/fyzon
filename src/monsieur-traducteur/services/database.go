@@ -4,6 +4,7 @@ import (
     "database/sql"
     _ "github.com/mattn/go-sqlite3"
     "log"
+    "fmt"
 )
 
 const (
@@ -102,7 +103,7 @@ func GetOneProject(id int) *Project {
     defer db.Close()
 
     // make a request for all the terms
-    rows, err := db.Query("select id, code, comment from terms where project_id = ?", id)
+    rows, err := db.Query("select id, code, comment from terms where project_id = ? ORDER BY code", id)
     if err != nil {
         log.Fatal(err)
     }
@@ -301,6 +302,120 @@ func getAvailableLanguagesForProject(projectId *int, db *sql.DB) *[]string {
 }
 
 /**
+ * Save the imported terms within a transaction.
+ */
+func SaveImportedTermsForProject(terms *map[string]string, countryCode *string, projectId *int) error {
+
+  // connect to a database
+  var db, err = sql.Open("sqlite3", dbFile)
+  if err != nil {
+      log.Fatal(err)
+  }
+  defer db.Close()
+
+  // insert languages to the project, if is not used still
+  _insertLanguage(countryCode, projectId, db)
+
+  _insertAllTerms(terms, projectId, db)
+
+  _insertAllTranslations(terms, projectId, countryCode, db)
+
+  return nil
+}
+
+/**
+ * Insert country code if not used
+ */
+func _insertLanguage(countryCode *string, projectId *int, db *sql.DB) {
+
+  existingLangs := getAvailableLanguagesForProject(projectId, db)
+  isFound := false
+  for _, lang := range *existingLangs {
+      if (!isFound && &lang == countryCode) {
+        isFound = true
+        break
+      }
+  }
+
+  if (!isFound) {
+      AddNewLanguage(projectId, countryCode)
+  }
+
+}
+
+func _insertAllTerms(terms *map[string]string, projectId *int, db *sql.DB) error {
+
+  // begin transaction
+  tx, err := db.Begin()
+    if err != nil {
+      log.Fatal(err)
+  }
+
+  // prepare one common statement
+  stmt, err := tx.Prepare("INSERT INTO terms(project_id, code, comment) values(?, ?, ?)")
+  if err != nil {
+    log.Fatal(err)
+    return err
+  }
+  defer stmt.Close()
+
+  for key, _ := range *terms {
+
+    if termId := getTermIdFor(projectId, &key, db); termId == -1 {
+
+      // insert and get fresh term
+      _, err = stmt.Exec(projectId, key, "")
+      fmt.Print("Inserted " + key + "\n")
+      if err != nil {
+        log.Fatal(err)
+      }
+
+    }
+  }
+
+  // Commit transaction
+  tx.Commit()
+  return nil
+}
+
+/**
+ * Insert all the translations within one transaction
+ */
+func _insertAllTranslations(terms *map[string]string, projectId *int, countryCode *string, db *sql.DB) error {
+  tx, err := db.Begin()
+  	if err != nil {
+  		log.Fatal(err)
+  }
+
+  stmtTranslation, err := tx.Prepare("insert into translations(translation, country_code, is_default, term_id) values(?, ?, ?, ?)")
+	if err != nil {
+		log.Fatal(err)
+    return err
+	}
+	defer stmtTranslation.Close()
+
+  // now iterate over all the items and insert all of them
+  for key, value := range *terms {
+
+    // insert and get fresh term
+    if termId := getTermIdFor(projectId, &key, db); termId != -1 {
+
+      // add translation for this term:
+      _, err = stmtTranslation.Exec(value, countryCode, false, termId)
+      //fmt.Print("insert " + value + "\n");
+  		if err != nil {
+  			log.Fatal(err)
+  		}
+    }
+
+	}
+
+  // Commit transaction
+  tx.Commit()
+  return nil
+}
+
+/**
  * Check whether the given language already exists for the given project
  */
 func isLanguageAlreadyExists(projectId *int, countryCode *string, db *sql.DB) bool {
@@ -312,4 +427,18 @@ func isLanguageAlreadyExists(projectId *int, countryCode *string, db *sql.DB) bo
   }
 
   return count > 0
+}
+
+/**
+ * Chekc whether this term is already exists in the given project
+ */
+func getTermIdFor(projectId *int, termCode *string, db *sql.DB) int {
+
+  row, _ := db.Query("SELECT id FROM terms WHERE project_id=? AND code=?", projectId, termCode)
+  termId := -1
+  for row.Next() {
+    row.Scan(&termId)
+  }
+
+  return termId
 }

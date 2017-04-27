@@ -13,6 +13,7 @@ sqlite3 trans.sqlite3 < db/schema.sql
 ```
 go get -u -v github.com/gin-gonic/gin
 go get -u -v github.com/mattn/go-sqlite3
+go get -u -v github.com/stretchr/testify
 
 ```
 

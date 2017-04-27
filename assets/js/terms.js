@@ -128,5 +128,24 @@ $(document).ready(function() {
 
  });
 
+ /**
+  * Show the dialog "Upload new file"
+  */
+ $('#import-new-file-button').click(function() {
+
+   $('#modal-import-language')
+       .modal('setting', {
+           onApprove: function () {
+             var isValid = $('#add-new-term-form').form('is valid');
+             if (isValid) {
+                fnAddNewTerm();
+             }
+             else
+                return false;
+           }
+        })
+       .modal('show');
+   $('#country-upload-dropdown').dropdown();
+ });
 
 });

@@ -18,7 +18,7 @@ CREATE TABLE project_languages (
     FOREIGN KEY (project_id) REFERENCES projects(id)
 );
 
--- Language with codes and translations
+-- Term code (key)
 CREATE TABLE terms (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     code TEXT NOT NULL,

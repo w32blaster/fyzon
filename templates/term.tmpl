@@ -1,8 +1,10 @@
 <form class="ui form">
 
+  {{if .term.Comment}}
   <div class="ui message">
     <p>{{.term.Comment}}</p>
   </div>
+  {{end}}
 
   {{range .term.Translations}}
   <div class="field">
