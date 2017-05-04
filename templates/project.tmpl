@@ -44,27 +44,45 @@
               <!-- Left column: scrollable term list -->
               <div class="eight wide column" id="terms-list-panel">
 
-                <div>
+
+              <div class="row">
                   <a id="add-term-button" class="ui button link" tabindex="-1">
                     <i class="plus icon"></i>
                     Add term
                   </a>
                 </div>
 
+<!--
+
+<tr id="row-{{.ID}}" class="row">
+  <td class="clickable-term" data-id="{{.ID}}">
+    {{.Code}}
+  </td>
+</tr>
+
+-->
+
+                <div class="row">
+                  <div class="ui icon input">
+                    <input placeholder="Search..." type="text" class="fuzzy-search">
+                    <i class="search icon"></i>
+                  </div>
+                </div>
+
                 <div class="scrollable">
-                  <table id="table-terms" class="ui very basic collapsing celled table">
-                    <tbody>
+                  <div id="table-terms" class="ui middle aligned selection celled list">
 
-                      {{range .project.Terms}}
-                          <tr id="row-{{.ID}}" class="row">
-                            <td class="clickable-term" data-id="{{.ID}}">
-                              {{.Code}}
-                            </td>
-                          </tr>
-                      {{end}}
+                    {{range .project.Terms}}
 
-                    </tbody>
-                  </table>
+                        <div class="item" id="row-{{.ID}}">
+                          <div class="content">
+                            <a class="header clickable-term" data-id="{{.ID}}">{{.Code}}</a>
+                          </div>
+                        </div>
+
+                    {{end}}
+
+                  </div>
                 </div>
 
               </div>

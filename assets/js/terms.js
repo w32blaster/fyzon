@@ -2,13 +2,16 @@ $(document).ready(function() {
 
   $projectId = $('#projectId').val();
 
+  /**
+   * Activate selected term
+   */
   var fnClickTermCallback = function() {
     var $termId = $(this).data("id");
 
     $("#translations-panel").empty();
     $("#translations-panel").load( "/api/terms/" + $termId, function() {
       $(".saved-label").hide();
-      $(".row").removeClass("active");
+      $(".item").removeClass("active");
       $("#row-" + $termId).addClass("active");
 
       // on blur, save changes
@@ -129,7 +132,7 @@ $(document).ready(function() {
  });
 
  /**
-  * Show the dialog "Upload new file"
+  * Show the dialog "Upload new file" to import new translation
   */
  $('#import-new-file-button').click(function() {
 
