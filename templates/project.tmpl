@@ -45,29 +45,42 @@
               <div class="eight wide column" id="terms-list-panel">
 
 
-              <div class="row">
+              <div class="row row-margin">
                   <a id="add-term-button" class="ui button link" tabindex="-1">
                     <i class="plus icon"></i>
                     Add term
                   </a>
-                </div>
+              </div>
 
-<!--
+              <div class="row row-margin">
+                  <div class="ui two column grid">
 
-<tr id="row-{{.ID}}" class="row">
-  <td class="clickable-term" data-id="{{.ID}}">
-    {{.Code}}
-  </td>
-</tr>
+                      <div class="column">
+                        <div class="ui small icon input">
+                          <input placeholder="Search..." type="text" class="fuzzy-search">
+                          <i class="search icon"></i>
+                        </div>
 
--->
+                      </div>
 
-                <div class="row">
-                  <div class="ui icon input">
-                    <input placeholder="Search..." type="text" class="fuzzy-search">
-                    <i class="search icon"></i>
+                      <div class="column">
+                        <div class="ui selection dropdown">
+                          <input name="Filter" type="hidden">
+                          <i class="dropdown icon"></i>
+
+                          <div class="default text">All</div>
+                          <div class="menu">
+                            <a href="/project/{{ .project.ID}}" class="item">All</a>
+                            {{range .project.CountryCodes}}
+                               <a href="/project/{{ $.project.ID}}/untranslated/{{.}}" class="item">Untraslated ({{.}})</a>
+                            {{end}}
+                          </div>
+                        </div>
+                    </div>
+
                   </div>
                 </div>
+
 
                 <div class="scrollable">
                   <div id="table-terms" class="ui middle aligned selection celled list">

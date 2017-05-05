@@ -127,6 +127,9 @@ func GetOneProject(id int) *Project {
     }
     defer stmt.Close()
 
+    // get all available languages for this project
+    p.CountryCodes = *getAvailableLanguagesForProject(&id, db)
+
     stmt.Next()
     _ = stmt.Scan(&p.ID, &p.Name)
 

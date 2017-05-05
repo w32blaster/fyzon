@@ -5,5 +5,7 @@ $(document).ready(function() {
   };
 
   var userList = new List('terms-list-panel', options);
-  
+
+  $('.ui.dropdown').dropdown();
+
 });
