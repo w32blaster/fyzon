@@ -1,4 +1,4 @@
-package services
+package main
 
 import (
     "database/sql"
@@ -10,6 +10,17 @@ const (
     dbFile = "./trans.sqlite3"
 )
 
+/**
+ * Represents a language that project may expect
+ */
+type ProjectLanguage struct {
+  CountryCode string
+  IsDefault bool
+}
+
+/**
+ * One translation in one given language for a selected term
+ */
 type Translation struct {
   ID int
   Translation string
@@ -18,6 +29,9 @@ type Translation struct {
   TermId int
 }
 
+/**
+ * Term (a key, that can have many translations on other languages)
+ */
 type Term struct {
   ID int
   Code string
@@ -96,7 +110,7 @@ func GetProjects() *Projects {
  * @countryCode - language terms that doesn't have any translations yet. If nil, then
  *                show all the terms.
  */
-func GetOneProject(id int, countryCode *string) *Project {
+func FindOneProject(id int, countryCode *string) *Project {
 
     // connect to a database
     var db, err = sql.Open("sqlite3", dbFile)
@@ -149,7 +163,8 @@ func GetOneProject(id int, countryCode *string) *Project {
     defer stmt.Close()
 
     // get all available languages for this project
-    p.CountryCodes = *getAvailableLanguagesForProject(&id, db)
+    projectLanguages := getAvailableLanguagesForProject(&id, db)
+    p.CountryCodes = *asStringArray(projectLanguages)
 
     stmt.Next()
     _ = stmt.Scan(&p.ID, &p.Name)
@@ -181,7 +196,10 @@ func GetTerm(termId int) *Term {
   _ = stmt.Scan(&t.ID, &t.Code, &t.Comment, &t.ProjectId)
 
   // find all the translations
-  rows, err := db.Query("select id, translation, country_code, is_default from translations where term_id = ?", termId)
+  rows, err := db.Query("SELECT t.id, t.translation, t.country_code, pl.is_default FROM translations AS t " +
+    "INNER JOIN project_languages AS pl ON pl.country_code = t.country_code " +
+    "WHERE t.term_id = ? GROUP BY t.country_code", termId)
+
   if err != nil {
       log.Fatal(err)
   }
@@ -205,8 +223,8 @@ func GetTerm(termId int) *Term {
   // check if there are some languages missing, then add empty field
   langs := getAvailableLanguagesForProject(&t.ProjectId, db)
   for _, lang := range *langs {
-      if (!existingLangs[lang]) {
-        translations = append(translations, Translation{ID: -1, IsDefault: false, CountryCode: lang} )
+      if (!existingLangs[lang.CountryCode]) {
+        translations = append(translations, Translation{ID: -1, IsDefault: lang.IsDefault, CountryCode: lang.CountryCode} )
       }
   }
 
@@ -244,7 +262,7 @@ func UpdateTranslation(value string, termId int, countryCode string) {
   } else {
 
     // Create new translation
-    _, err = db.Exec("INSERT INTO translations(translation, country_code, is_default, term_id) VALUES (?, ?, ?, ?)", value, countryCode, false, termId)
+    _, err = db.Exec("INSERT INTO translations(translation, country_code, term_id) VALUES (?, ?, ?)", value, countryCode, termId)
   	if err != nil {
   		log.Fatal("Failed to update record:", err)
     }
@@ -301,18 +319,18 @@ func AddNewTerm(termKey *string, termDescr *string, projectId *int) *Term {
 /**
  * Get list of available languages for a given project
  */
-func getAvailableLanguagesForProject(projectId *int, db *sql.DB) *[]string {
+func getAvailableLanguagesForProject(projectId *int, db *sql.DB) *[]ProjectLanguage {
 
-  rows, err := db.Query("SELECT country_code FROM project_languages WHERE project_id=?", projectId)
+  rows, err := db.Query("SELECT country_code, is_default FROM project_languages WHERE project_id=?", projectId)
   if err != nil {
       log.Fatal(err)
   }
   defer rows.Close()
 
-  var langs []string
+  var langs []ProjectLanguage
   for rows.Next() {
-    var lang string
-    err = rows.Scan(&lang)
+    var lang ProjectLanguage
+    err = rows.Scan(&lang.CountryCode, &lang.IsDefault)
 
     if err != nil {
       log.Fatal(err)
@@ -354,7 +372,7 @@ func _insertLanguage(countryCode *string, projectId *int, db *sql.DB) {
   existingLangs := getAvailableLanguagesForProject(projectId, db)
   isFound := false
   for _, lang := range *existingLangs {
-      if (!isFound && &lang == countryCode) {
+      if (!isFound && &lang.CountryCode == countryCode) {
         isFound = true
         break
       }
@@ -463,4 +481,15 @@ func getTermIdFor(projectId *int, termCode *string, db *sql.DB) int {
   }
 
   return termId
+}
+
+/**
+ * Simply turns array of ProjectLanguage to array of Strings, having
+ */
+func asStringArray(langs *[]ProjectLanguage) *[]string {
+  var arrCountryCodes = make([]string, len(*langs))
+  for i := range *langs {
+      arrCountryCodes[i] = (*langs)[i].CountryCode
+  }
+  return &arrCountryCodes
 }

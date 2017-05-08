@@ -3,7 +3,6 @@ package main
 import (
 	"net/http"
 	"strconv"
-	"monsieur-traducteur/services"
 	"github.com/gin-gonic/gin"
 )
 
@@ -13,7 +12,7 @@ import (
 func MainPage(c *gin.Context) {
 	c.HTML(http.StatusOK, "index.tmpl", gin.H {
 		"title": "Pojects",
-		"projects": services.GetProjects(),
+		"projects": GetProjects(),
 	})
 }
 
@@ -26,7 +25,7 @@ func GetOneProject(c *gin.Context) {
 		 "title": "Pojects",
 		 "projectId": id,
 		 "currentLang": "all",
-		 "project": services.GetOneProject(id, nil),
+		 "project": FindOneProject(id, nil),
 	 })
 }
 
@@ -40,7 +39,7 @@ func GetOneProjectUntranslated(c *gin.Context) {
 		"title": "Untranslated from " + countryCode,
 		"currentLang": countryCode,
 		"projectId": id,
-		"project": services.GetOneProject(id, &countryCode),
+		"project": FindOneProject(id, &countryCode),
 	})
 }
 
@@ -49,7 +48,7 @@ func GetOneProjectUntranslated(c *gin.Context) {
  */
 func GetAllTranslations(c *gin.Context) {
 	id, _ := strconv.Atoi(c.Param("id"))
-	term := services.GetTerm(id)
+	term := GetTerm(id)
 	c.HTML(http.StatusOK, "term.tmpl", gin.H {
 		"title": "All translations",
 		"term": term,

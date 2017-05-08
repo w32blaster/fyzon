@@ -12,6 +12,11 @@
       <i class="{{.CountryCode}} flag"></i>
 
        {{.CountryCode}}
+
+       {{ if .IsDefault }}
+          <strong>(default)</strong>
+       {{end}}
+
        <span id="savel-label-{{.TermId}}-{{.CountryCode}}" class="ui small green label saved-label" style="display: none;">Saved</span>
     </label>
 

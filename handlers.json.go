@@ -2,7 +2,6 @@ package main
 
 import (
 	"net/http"
-	"monsieur-traducteur/services"
 	"github.com/gin-gonic/gin"
 	"strconv"
 	"io"
@@ -30,7 +29,7 @@ func PostOneTerm(c *gin.Context) {
 	countryCode := c.Param("lang")
 	value := c.PostForm("value")
 
-	services.UpdateTranslation(value, id, countryCode)
+	UpdateTranslation(value, id, countryCode)
 
 	c.JSON(http.StatusOK, gin.H {})
 }
@@ -43,7 +42,7 @@ func PostNewLanguage(c *gin.Context) {
 		if projectId, err := strconv.Atoi(c.PostForm("projectId")); err == nil {
 
 			countryCode := c.PostForm("countryCode")
-	    services.AddNewLanguage(&projectId, &countryCode)
+	    AddNewLanguage(&projectId, &countryCode)
 			c.JSON(http.StatusOK, gin.H {})
 
 	} else {
@@ -65,7 +64,7 @@ func PostNewTerm(c *gin.Context) {
 		} else {
 			// description is optional
 			termDescr := c.PostForm("termDescr")
-			addedTerm := services.AddNewTerm(&termKey, &termDescr, &projectId)
+			addedTerm := AddNewTerm(&termKey, &termDescr, &projectId)
 			c.JSON(http.StatusOK, gin.H {
 				"term": addedTerm,
 			})
@@ -100,7 +99,7 @@ func PostNewFile(c *gin.Context) {
 		mapLines, _ := readLines("/tmp/" + filename, delimeter)
 
 		// save it somehow
-		services.SaveImportedTermsForProject(mapLines, &country, &projectId)
+		SaveImportedTermsForProject(mapLines, &country, &projectId)
 
 		// delete temp file
 		_ = os.Remove("/tmp/" + filename)

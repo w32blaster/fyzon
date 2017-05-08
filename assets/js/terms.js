@@ -46,7 +46,8 @@ $(document).ready(function() {
   var fnAddNewLanguage = function(selectedCountryCode) {
     var data = {
       projectId: $projectId,
-      countryCode: selectedCountryCode
+      countryCode: selectedCountryCode,
+      isDefault: false
     };
 
     $.post( "/api/project/add/language", data)
