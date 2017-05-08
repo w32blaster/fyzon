@@ -16,6 +16,7 @@ func initializeRoutes(router *gin.Engine) {
   // HTML endpoints
   router.GET("/", MainPage)
   router.GET("/project/:id", GetOneProject)
+  router.GET("/project/:id/untranslated/:lang", GetOneProjectUntranslated)
 
   router.POST("/project/:id/import", PostNewFile)
 

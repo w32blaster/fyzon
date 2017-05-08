@@ -13,9 +13,14 @@
     </header>
 
     <div class="ui container">
+
       	<h1 class="uk-heading-primary">
       		{{ .project.Name}}
       	</h1>
+
+        <h2>
+            {{ .title }}
+        </h2>
 
         <div class="ui grid">
 
@@ -64,15 +69,16 @@
                       </div>
 
                       <div class="column">
+                        <input id="selected-lang-id" type="hidden" value="{{ .currentLang }}">
                         <div class="ui selection dropdown">
                           <input name="Filter" type="hidden">
                           <i class="dropdown icon"></i>
 
                           <div class="default text">All</div>
                           <div class="menu">
-                            <a href="/project/{{ .project.ID}}" class="item">All</a>
+                            <a href="/project/{{ .project.ID}}" class="item" data-value="0">All</a>
                             {{range .project.CountryCodes}}
-                               <a href="/project/{{ $.project.ID}}/untranslated/{{.}}" class="item">Untraslated ({{.}})</a>
+                               <a href="/project/{{ $.project.ID}}/untranslated/{{.}}" class="item">Untraslated {{.}} <i class="{{.}} flag"></i></a>
                             {{end}}
                           </div>
                         </div>
@@ -83,7 +89,7 @@
 
 
                 <div class="scrollable">
-                  <div id="table-terms" class="ui middle aligned selection celled list">
+                  <div id="table-terms" class="ui middle aligned selection list">
 
                     {{range .project.Terms}}
 

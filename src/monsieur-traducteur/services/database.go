@@ -90,9 +90,13 @@ func GetProjects() *Projects {
 }
 
 /*
-  Get one project data
-*/
-func GetOneProject(id int) *Project {
+ * Get one project data
+ *
+ * @id - project id
+ * @countryCode - language terms that doesn't have any translations yet. If nil, then
+ *                show all the terms.
+ */
+func GetOneProject(id int, countryCode *string) *Project {
 
     // connect to a database
     var db, err = sql.Open("sqlite3", dbFile)
@@ -102,7 +106,24 @@ func GetOneProject(id int) *Project {
     defer db.Close()
 
     // make a request for all the terms
-    rows, err := db.Query("select id, code, comment from terms where project_id = ? ORDER BY code", id)
+    var rows *sql.Rows
+    if(countryCode == nil) {
+
+      // if no untranslated lang specified, return all
+      sqlQuery := "select id, code, comment from terms where project_id = ? ORDER BY code"
+      rows, _ = db.Query(sqlQuery, id);
+
+    } else {
+
+      // if untranslated lang is set, show only these terms
+      sqlQuery := "select t.id, t.code, t.comment " +
+              "FROM terms AS t " +
+              "INNER JOIN project_languages AS pl ON pl.project_id = t.project_id " +
+              "LEFT JOIN translations AS tr ON tr.term_id = t.id AND pl.country_code = tr.country_code " +
+              "WHERE t.project_id = ? AND tr.id IS NULL AND pl.country_code = ? GROUP BY t.id ORDER BY code"
+      rows, _ = db.Query(sqlQuery, id, countryCode);
+    }
+
     if err != nil {
         log.Fatal(err)
     }

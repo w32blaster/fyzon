@@ -46,10 +46,11 @@ INSERT INTO projects(id, name) values(2, "Project Two");
 -- Insert some terms
 INSERT INTO terms(id, code, comment, project_id) values(1, "main.page.title", "Top title on the main page", 1);
 INSERT INTO terms(id, code, comment, project_id) values(2, "main.page.description", "Main page description", 1);
+INSERT INTO terms(id, code, comment, project_id) values(3, "main.page.footer", "The header of footer", 1);
 
-INSERT INTO terms(id, code, comment, project_id) values(3, "contact.form.title", "Contact form title", 2);
-INSERT INTO terms(id, code, comment, project_id) values(4, "contact.form.submit", "The button on the form submit", 2);
-INSERT INTO terms(id, code, comment, project_id) values(5, "contact.us.header", "Contact us page header", 2);
+INSERT INTO terms(id, code, comment, project_id) values(4, "contact.form.title", "Contact form title", 2);
+INSERT INTO terms(id, code, comment, project_id) values(5, "contact.form.submit", "The button on the form submit", 2);
+INSERT INTO terms(id, code, comment, project_id) values(6, "contact.us.header", "Contact us page header", 2);
 
 -- insert expected translations for existing projects
 INSERT INTO project_languages(country_code, project_id) values("gb", 1);
@@ -65,12 +66,13 @@ INSERT INTO translations(translation, country_code, term_id) values("Загол�
 
 -- One record partly translated
 INSERT INTO translations(translation, country_code, term_id) values("The description", "gb", 2);
+INSERT INTO translations(translation, country_code, term_id) values("Подвал", "ru", 3);
 
-INSERT INTO translations(translation, country_code, term_id) values("Fill The form to contact us", "us", 3);
-INSERT INTO translations(translation, country_code, term_id) values("Заполните форму, чтобы связаться с нами", "ru", 3);
+INSERT INTO translations(translation, country_code, term_id) values("Fill The form to contact us", "us", 4);
+INSERT INTO translations(translation, country_code, term_id) values("Заполните форму, чтобы связаться с нами", "ru", 4);
 
-INSERT INTO translations(translation, country_code, term_id) values("Submit", "us", 4);
-INSERT INTO translations(translation, country_code, term_id) values("Отправить", "ru", 4);
+INSERT INTO translations(translation, country_code, term_id) values("Submit", "us", 5);
+INSERT INTO translations(translation, country_code, term_id) values("Отправить", "ru", 5);
 
 -- One record partly translated
-INSERT INTO translations(translation, country_code, term_id) values("Contact us", "us", 5);
+INSERT INTO translations(translation, country_code, term_id) values("Contact us", "us", 6);
