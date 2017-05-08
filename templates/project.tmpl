@@ -69,16 +69,15 @@
                       </div>
 
                       <div class="column">
-                        <input id="selected-lang-id" type="hidden" value="{{ .currentLang }}">
                         <div class="ui selection dropdown">
-                          <input name="Filter" type="hidden">
+                          <input name="Filter" type="hidden" value="{{ .currentLang }}">
                           <i class="dropdown icon"></i>
 
-                          <div class="default text">All</div>
+                          <div class="default text">Show...</div>
                           <div class="menu">
-                            <a href="/project/{{ .project.ID}}" class="item" data-value="0">All</a>
+                            <a href="/project/{{ .project.ID}}" class="item" data-value="all">All</a>
                             {{range .project.CountryCodes}}
-                               <a href="/project/{{ $.project.ID}}/untranslated/{{.}}" class="item">Untraslated {{.}} <i class="{{.}} flag"></i></a>
+                               <a href="/project/{{ $.project.ID}}/untranslated/{{.}}" class="item" data-value="{{.}}">Untraslated {{.}} <i class="{{.}} flag"></i></a>
                             {{end}}
                           </div>
                         </div>

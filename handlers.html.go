@@ -25,6 +25,7 @@ func GetOneProject(c *gin.Context) {
 	 c.HTML(http.StatusOK, "project.tmpl", gin.H {
 		 "title": "Pojects",
 		 "projectId": id,
+		 "currentLang": "all",
 		 "project": services.GetOneProject(id, nil),
 	 })
 }
@@ -51,7 +52,6 @@ func GetAllTranslations(c *gin.Context) {
 	term := services.GetTerm(id)
 	c.HTML(http.StatusOK, "term.tmpl", gin.H {
 		"title": "All translations",
-		"currentLang": "",
 		"term": term,
 		"termId": id,
 	})
