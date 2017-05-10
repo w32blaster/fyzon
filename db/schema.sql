@@ -7,14 +7,14 @@ DROP TABLE IF EXISTS translations;
 -- Project
 CREATE TABLE projects (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    name TEXT NOT NULL
+    name TEXT NOT NULL,
+    default_country_code VARCHAR(2) NOT NULL
 );
 
 -- Languages expected for a project. Country code in ISO 3166-1 format
 CREATE TABLE project_languages (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     country_code VARCHAR(2) NOT NULL,
-    is_default BOOLEAN NOT NULL CHECK (is_default IN (0,1)) DEFAULT 0,
     project_id INTEGER,
     FOREIGN KEY (project_id) REFERENCES projects(id)
 );
@@ -39,8 +39,8 @@ CREATE INDEX language_code_index ON translations(country_code);
 
 
 -- Insert few Projects
-INSERT INTO projects(id, name) values(1, "Project One");
-INSERT INTO projects(id, name) values(2, "Project Two");
+INSERT INTO projects(id, name, default_country_code) values(1, "Project One", "gb");
+INSERT INTO projects(id, name, default_country_code) values(2, "Project Two", "ru");
 
 
 -- Insert some terms
@@ -53,12 +53,12 @@ INSERT INTO terms(id, code, comment, project_id) values(5, "contact.form.submit"
 INSERT INTO terms(id, code, comment, project_id) values(6, "contact.us.header", "Contact us page header", 2);
 
 -- insert expected translations for existing projects
-INSERT INTO project_languages(country_code, project_id, is_default) values("gb", 1, 1);
-INSERT INTO project_languages(country_code, project_id, is_default) values("ru", 1, 0);
-INSERT INTO project_languages(country_code, project_id, is_default) values("gr", 1, 0);
+INSERT INTO project_languages(country_code, project_id) values("gb", 1);
+INSERT INTO project_languages(country_code, project_id) values("ru", 1);
+INSERT INTO project_languages(country_code, project_id) values("gr", 1);
 
-INSERT INTO project_languages(country_code, project_id, is_default) values("us", 2, 1);
-INSERT INTO project_languages(country_code, project_id, is_default) values("ru", 2, 0);
+INSERT INTO project_languages(country_code, project_id) values("us", 2);
+INSERT INTO project_languages(country_code, project_id) values("ru", 2);
 
 -- insert some translations
 INSERT INTO translations(translation, country_code, term_id) values("The Title", "gb", 1);
