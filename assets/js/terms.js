@@ -2,6 +2,8 @@ $(document).ready(function() {
 
   $projectId = $('#projectId').val();
 
+  $('.icon-default-language').popup();
+
   /**
    * Activate selected term
    */

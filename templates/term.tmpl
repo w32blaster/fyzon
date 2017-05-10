@@ -15,6 +15,9 @@
 
        {{ if .IsDefault }}
           <strong>(default)</strong>
+          {{ if not .Translation}}
+              <i class="warning sign icon withoutDefaultTranslation"></i> Translation for the default language is missing!
+          {{ end }}
        {{end}}
 
        <span id="savel-label-{{.TermId}}-{{.CountryCode}}" class="ui small green label saved-label" style="display: none;">Saved</span>

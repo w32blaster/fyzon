@@ -94,7 +94,15 @@
 
                         <div class="item" id="row-{{.ID}}">
                           <div class="content">
-                            <a class="header clickable-term {{ if .HasDefault}} hasDefaultLanguage {{ else }} withoutDefaultTranslation {{ end}}" data-id="{{.ID}}">{{.Code}}</a>
+                            <a class="header clickable-term" data-id="{{.ID}}">
+
+                              {{.Code}}
+
+                              {{ if not .HasDefault}}
+                                  <i class="warning sign icon withoutDefaultTranslation"></i>
+                              {{ end }}
+
+                            </a>
                           </div>
                         </div>
 
