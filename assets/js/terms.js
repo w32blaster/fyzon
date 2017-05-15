@@ -27,6 +27,8 @@ $(document).ready(function() {
    */
   var fnUpdateTranslation = function() {
       var $lang = $(this).data("country-code");
+      var $isDefault = JSON.parse($(this).data("is-default")); // use JSON.parse to get bool from string
+
       var $termId = $("#termId").val();
       var data = {
         value: $(this).val(),
@@ -36,9 +38,18 @@ $(document).ready(function() {
       // this is existing term, let's update it
       $.post( "/api/terms/" + $termId + "/" + $lang, data)
         .done(function( data ) {
-          $('#savel-label-' + $termId + "-" + $lang)
+
+          // show animated "Saved" lavel
+          $('#saved-label-' + $termId + "-" + $lang)
               .transition('scale')
               .transition('scale');
+
+          // if there is some warning mark "no default translation" then remove it
+          if ($isDefault) {
+            $('#warn-icon-' + $termId + '-def-lang').hide();
+            $('#warn-label-def-lang-' + $termId).hide();
+          }
+
         });
   };
 
@@ -78,11 +89,17 @@ $(document).ready(function() {
         $('#new-term-key').val('');
         $('#new-term-description').val('');
 
-        $('#table-terms > tbody:last-child').append(
-          '<tr id="row-' + data.term.ID + '" class="row">' +
-            '<td id="row-td-' + data.term.ID + '" class="clickable-term" data-id="' + data.term.ID + '">' + data.term.Code + '</td>' +
-          '</tr>');
-        $('#row-td-' + data.term.ID).click(fnClickTermCallback);
+        $('#table-terms').append(
+          '<div class="item" id="row-' + data.term.ID + '">' +
+            '<div class="content">' +
+              '<a id="row-a-' + data.term.ID + '" class="header clickable-term" data-id="' + data.term.ID + '">' +
+                  data.term.Code +
+                  '<i id="warn-icon-' + data.term.ID + '-def-lang" class="warning sign icon withoutDefaultTranslation"></i>' +
+              '</a>' +
+          '</div>');
+
+        $('#row-a-' + data.term.ID).click(fnClickTermCallback);
+
       });
   };
 

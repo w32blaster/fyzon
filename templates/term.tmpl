@@ -16,14 +16,17 @@
        {{ if .IsDefault }}
           <strong>(default)</strong>
           {{ if not .Translation}}
-              <i class="warning sign icon withoutDefaultTranslation"></i> Translation for the default language is missing!
+              <span id="warn-label-def-lang-{{$.termId}}">
+                <i class="warning sign icon withoutDefaultTranslation"></i>
+                Translation for the default language is missing!
+              </span>
           {{ end }}
        {{end}}
 
-       <span id="savel-label-{{.TermId}}-{{.CountryCode}}" class="ui small green label saved-label" style="display: none;">Saved</span>
+       <span id="saved-label-{{.TermId}}-{{.CountryCode}}" class="ui small green label saved-label" style="display: none;">Saved</span>
     </label>
 
-    <textarea class="editable" rows="2" data-term-id="{{.ID}}" data-country-code="{{.CountryCode}}">{{.Translation}}</textarea>
+    <textarea class="editable" rows="2" data-term-id="{{.ID}}" data-country-code="{{.CountryCode}}" data-is-default="{{.IsDefault}}">{{.Translation}}</textarea>
   </div>
   {{end}}
 

@@ -12,7 +12,7 @@ import (
 func MainPage(c *gin.Context) {
 	c.HTML(http.StatusOK, "index.tmpl", gin.H {
 		"title": "Pojects",
-		"projects": GetProjects(),
+		"projects": GetProjects(dbFile),
 	})
 }
 
@@ -48,7 +48,7 @@ func GetOneProjectUntranslated(c *gin.Context) {
  */
 func GetAllTranslations(c *gin.Context) {
 	id, _ := strconv.Atoi(c.Param("id"))
-	term := GetTerm(id)
+	term := GetTerm(dbFile, id)
 	c.HTML(http.StatusOK, "term.tmpl", gin.H {
 		"title": "All translations",
 		"term": term,

@@ -7,10 +7,6 @@ import (
     "strings"
 )
 
-const (
-    dbFile = "./trans.sqlite3"
-)
-
 /**
  * Represents a language that project may expect
  */
@@ -55,10 +51,10 @@ type Projects []Project
 /*
   Get all the projects as map
 */
-func GetProjects() *Projects {
+func GetProjects(dbFilePath string) *Projects {
 
     // connect to a database
-    var db, err = sql.Open("sqlite3", dbFile)
+    var db, err = sql.Open("sqlite3", dbFilePath)
     if err != nil {
         log.Fatal(err)
     }
@@ -139,7 +135,7 @@ func FindOneProject(id int, countryCode *string) *Project {
     if(countryCode == nil) {
 
       // if no untranslated lang specified, return all
-      sqlQuery := "select t.id, t.code, t.comment, GROUP_CONCAT(tr.country_code) AS codes from terms AS t " +
+      sqlQuery := "select t.id, t.code, t.comment, ifnull(GROUP_CONCAT(tr.country_code), '') AS codes from terms AS t " +
               "LEFT JOIN translations AS tr ON tr.term_id = t.id " +
               "where t.project_id = ? GROUP BY t.code ORDER BY t.code"
       rows, _ = db.Query(sqlQuery, id);
@@ -147,7 +143,7 @@ func FindOneProject(id int, countryCode *string) *Project {
     } else {
 
       // if untranslated lang is set, show only these terms
-      sqlQuery := "select t.id, t.code, t.comment, GROUP_CONCAT(tr.country_code) AS codes " +
+      sqlQuery := "select t.id, t.code, t.comment, ifnull(GROUP_CONCAT(tr.country_code), '') AS codes " +
               "FROM terms AS t " +
               "INNER JOIN project_languages AS pl ON pl.project_id = t.project_id " +
               "LEFT JOIN translations AS tr ON tr.term_id = t.id AND pl.country_code = tr.country_code " +
@@ -187,10 +183,10 @@ func FindOneProject(id int, countryCode *string) *Project {
 /*
   Find Term with all the translations
 */
-func GetTerm(termId int) *Term {
+func GetTerm(dbFilePath string, termId int) *Term {
 
   // connect to a database
-  var db, err = sql.Open("sqlite3", dbFile)
+  var db, err = sql.Open("sqlite3", dbFilePath)
   if err != nil {
       log.Fatal(err)
   }
@@ -199,7 +195,7 @@ func GetTerm(termId int) *Term {
   // find one Term
   stmt, err := db.Query("select t.id, t.code, t.comment, t.project_id, p.default_country_code from terms AS t " +
                         "INNER JOIN projects AS p ON p.id = t.project_id " +
-                        "where t.id = 1 GROUP BY t.project_id limit 1", termId)
+                        "where t.id = ? GROUP BY t.project_id limit 1", termId)
   if err != nil {
       log.Fatal(err)
   }
@@ -209,7 +205,6 @@ func GetTerm(termId int) *Term {
   var t Term
   var default_country_code string
   _ = stmt.Scan(&t.ID, &t.Code, &t.Comment, &t.ProjectId, &default_country_code)
-
 
   // find all the translations
   rows, err := db.Query("SELECT t.id, t.translation, t.country_code FROM translations AS t " +
@@ -242,7 +237,7 @@ func GetTerm(termId int) *Term {
   langs := getAvailableLanguagesForProject(&t.ProjectId, &default_country_code, db)
   for _, lang := range *langs {
       if (!existingLangs[lang.CountryCode]) {
-        translations = append(translations, Translation{ID: -1, IsDefault: lang.IsDefault, CountryCode: lang.CountryCode} )
+        translations = append(translations, Translation{ID: -1, IsDefault: lang.IsDefault, CountryCode: lang.CountryCode, TermId: termId} )
       }
   }
 
@@ -314,10 +309,10 @@ func AddNewLanguage(projectId *int, countryCode *string) {
 /**
  * Add new Term to the given project
  */
-func AddNewTerm(termKey *string, termDescr *string, projectId *int) *Term {
+func AddNewTerm(dbFilePath string, termKey *string, termDescr *string, projectId *int) *Term {
 
   // connect to a database
-  var db, err = sql.Open("sqlite3", dbFile)
+  var db, err = sql.Open("sqlite3", dbFilePath)
   if err != nil {
       log.Fatal(err)
   }
@@ -329,9 +324,7 @@ func AddNewTerm(termKey *string, termDescr *string, projectId *int) *Term {
   }
 
   addedId64,_ := res.LastInsertId()
-  var addedId int
-  addedId = int(addedId64)
-  return GetTerm(addedId)
+  return GetTerm(dbFilePath, int(addedId64))
 }
 
 /**

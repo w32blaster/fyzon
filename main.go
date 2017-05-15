@@ -6,6 +6,10 @@ import (
 
 var router *gin.Engine
 
+const (
+    dbFile = "./trans.sqlite3"
+)
+
 func main() {
 	router := gin.Default()
 

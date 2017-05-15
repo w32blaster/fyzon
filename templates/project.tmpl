@@ -94,12 +94,12 @@
 
                         <div class="item" id="row-{{.ID}}">
                           <div class="content">
-                            <a class="header clickable-term" data-id="{{.ID}}">
+                            <a id="row-a-{{.ID}}" class="header clickable-term" data-id="{{.ID}}">
 
                               {{.Code}}
 
                               {{ if not .HasDefault}}
-                                  <i class="warning sign icon withoutDefaultTranslation"></i>
+                                  <i id="warn-icon-{{ .ID }}-def-lang" class="warning sign icon withoutDefaultTranslation"></i>
                               {{ end }}
 
                             </a>

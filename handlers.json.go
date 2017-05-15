@@ -64,7 +64,7 @@ func PostNewTerm(c *gin.Context) {
 		} else {
 			// description is optional
 			termDescr := c.PostForm("termDescr")
-			addedTerm := AddNewTerm(&termKey, &termDescr, &projectId)
+			addedTerm := AddNewTerm(dbFile, &termKey, &termDescr, &projectId)
 			c.JSON(http.StatusOK, gin.H {
 				"term": addedTerm,
 			})
