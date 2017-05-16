@@ -1,10 +1,11 @@
-<form class="ui form">
 
-  {{if .term.Comment}}
-  <div class="ui message">
-    <p>{{.term.Comment}}</p>
-  </div>
-  {{end}}
+{{if .term.Comment}}
+<div class="ui message">
+  <p>{{.term.Comment}}</p>
+</div>
+{{end}}
+
+<form class="ui form">
 
   {{range .term.Translations}}
   <div class="field">
@@ -30,26 +31,40 @@
   </div>
   {{end}}
 
-
-  <div class="ui grid">
-    <div class="row">
-      <div class="column">
-
-        <div class="ui right floated basic buttons">
-
-            <!-- Delete this term -->
-            <button class="ui icon negative basic button">
-              <i class="trash icon"></i>
-            </button>
-
-        </div>
-
-      </div>
-    </div>
-  </div>
-
-
-
   <input type="hidden" id="termId" value="{{.termId}}" />
 
 </form>
+
+
+<!-- Delete this term button and confirmation popup -->
+<div class="ui grid">
+  <div class="row">
+    <div class="column">
+
+      <div class="ui right floated buttons">
+
+          <div id="delete-term-btn-id" class="ui icon negative basic button">
+            <i class="trash icon"></i>
+          </div>
+
+          <div class="ui flowing popup top left transition hidden">
+              <h4 class="ui header">Delete term? Sure?</h4>
+              <p>The term <strong>{{.term.Code}}</strong> and all its translations will be deleted!</p>
+
+              <div class="ui buttons">
+                <button id="delete-term-cancel-btn-id" class="ui button">
+                  <i class="hand paper icon"></i> Wait, no!
+                </button>
+                <div class="or"></div>
+                <button id="delete-term-confirm-btn-id" class="ui red button">
+                  <i class="trash icon"></i> Delete this term
+                </button>
+              </div>
+
+          </div>
+
+      </div>
+
+    </div>
+  </div>
+</div>

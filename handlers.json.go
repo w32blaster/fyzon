@@ -29,7 +29,7 @@ func PostOneTerm(c *gin.Context) {
 	countryCode := c.Param("lang")
 	value := c.PostForm("value")
 
-	UpdateTranslation(value, id, countryCode)
+	UpdateTranslation(dbFile, value, id, countryCode)
 
 	c.JSON(http.StatusOK, gin.H {})
 }
@@ -42,7 +42,7 @@ func PostNewLanguage(c *gin.Context) {
 		if projectId, err := strconv.Atoi(c.PostForm("projectId")); err == nil {
 
 			countryCode := c.PostForm("countryCode")
-	    AddNewLanguage(&projectId, &countryCode)
+	    AddNewLanguage(projectId, countryCode)
 			c.JSON(http.StatusOK, gin.H {})
 
 	} else {
@@ -64,7 +64,7 @@ func PostNewTerm(c *gin.Context) {
 		} else {
 			// description is optional
 			termDescr := c.PostForm("termDescr")
-			addedTerm := AddNewTerm(dbFile, &termKey, &termDescr, &projectId)
+			addedTerm := AddNewTerm(dbFile, termKey, termDescr, projectId)
 			c.JSON(http.StatusOK, gin.H {
 				"term": addedTerm,
 			})
@@ -99,7 +99,7 @@ func PostNewFile(c *gin.Context) {
 		mapLines, _ := readLines("/tmp/" + filename, delimeter)
 
 		// save it somehow
-		SaveImportedTermsForProject(mapLines, &country, &projectId)
+		SaveImportedTermsForProject(*mapLines, country, projectId)
 
 		// delete temp file
 		_ = os.Remove("/tmp/" + filename)
@@ -107,6 +107,26 @@ func PostNewFile(c *gin.Context) {
 		// redirect
 		c.Redirect(http.StatusMovedPermanently, "/project/" + strconv.Itoa(projectId) + "?imported")
 }
+
+/**
+ * Delete one term and all its translations
+ */
+func DeleteOneTerm(c *gin.Context)  {
+		if termId, err := strconv.Atoi(c.Param("id")); err == nil {
+
+			result := DeleteTerm(dbFile, termId)
+			if (result) {
+					c.JSON(http.StatusOK, gin.H {})
+			}else {
+				c.JSON(http.StatusBadRequest, gin.H {})
+			}
+
+		} else {
+				c.AbortWithStatus(http.StatusBadRequest)
+		}
+
+}
+
 
 /**
  * read lines for the given file

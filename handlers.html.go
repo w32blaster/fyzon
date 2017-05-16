@@ -4,6 +4,7 @@ import (
 	"net/http"
 	"strconv"
 	"github.com/gin-gonic/gin"
+	"fmt"
 )
 
 /**
@@ -20,12 +21,13 @@ func MainPage(c *gin.Context) {
  * Get one given project
  */
 func GetOneProject(c *gin.Context) {
-	 id, _ := strconv.Atoi(c.Param("id"))
+   id, _ := strconv.Atoi(c.Param("id"))
 	 c.HTML(http.StatusOK, "project.tmpl", gin.H {
 		 "title": "Pojects",
 		 "projectId": id,
 		 "currentLang": "all",
-		 "project": FindOneProject(id, nil),
+		 "project": FindOneProject(id, ""),
+		 "wasTermDeleted": len(c.Query("termDeleted")) > 0,
 	 })
 }
 
@@ -39,7 +41,8 @@ func GetOneProjectUntranslated(c *gin.Context) {
 		"title": "Untranslated from " + countryCode,
 		"currentLang": countryCode,
 		"projectId": id,
-		"project": FindOneProject(id, &countryCode),
+		"project": FindOneProject(id, countryCode),
+		"wasTermDeleted": len(c.Query("termDeleted")) > 0,
 	})
 }
 

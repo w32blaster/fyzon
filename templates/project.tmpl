@@ -22,6 +22,21 @@
             {{ .title }}
         </h2>
 
+
+        {{ if .wasTermDeleted}}
+          <!-- The message "The term was deleted" -->
+          <div class="ui success message">
+            <a href="/project/{{ .project.ID }}">
+              <i class="close icon"></i>
+            </a>
+
+            <div class="header">Ok</div>
+            <p>The term and all its translations were deleted</p>
+          </div>
+        {{ end }}
+
+
+
         <div class="ui grid">
 
             <div class="row">

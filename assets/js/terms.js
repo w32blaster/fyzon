@@ -18,6 +18,29 @@ $(document).ready(function() {
 
       // on blur, save changes
       $(".editable").blur(fnUpdateTranslation);
+
+      // activate popup "are you sure you want to delete this term?"
+      var $popup = $('#delete-term-btn-id');
+      $popup.popup({
+        on: 'click'
+      });
+
+      // "Cancel" button
+      $('#delete-term-cancel-btn-id').click(function() {
+        $popup.popup('hide');
+      });
+
+      // "Delete term" button
+      $('#delete-term-confirm-btn-id').click(function() {
+        $.ajax({
+          method: "DELETE",
+          url: "/api/terms/" + $termId
+        })
+        .done(function( msg ) {
+          window.location = "/project/" + $projectId + "?termDeleted=true";
+        });
+      });
+
     });
 
  };

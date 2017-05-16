@@ -37,5 +37,8 @@ func initializeRoutes(router *gin.Engine) {
 
     // add new term to project
     api.POST("/project/add/term", PostNewTerm)
+
+    // delete one term and all its translations
+    api.DELETE("/terms/:id", DeleteOneTerm)
   }
 }
