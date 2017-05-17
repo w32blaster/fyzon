@@ -14,6 +14,24 @@
 
         <h2 class="ui dividing header">{{ .title }}</h2>
 
+        <div class="ui grid">
+
+            <div class="row">
+              <div class="column">
+
+                <div class="ui right floated basic buttons">
+
+                    <!-- Add project -->
+                    <a href="/add/new/project" class="ui button">
+                      <i class="icon plus"></i>
+                      Create new project
+                    </a>
+                </div>
+
+              </div>
+            </div>
+          </div>
+
         <div class="ui text container">
           <div class="ui cards">
             {{range .projects}}
@@ -38,7 +56,7 @@
 
                   <a href="/project/{{.ID}}">
                     <div class="ui bottom attached button">
-                      <i class="add icon"></i> {{.Name}}
+                      <i class="world icon"></i> Translate
                       </div>
                   </a>
 

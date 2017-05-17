@@ -48,6 +48,31 @@ type Project struct {
 }
 type Projects []Project
 
+/**
+ * Creates new project
+ */
+func CreateNewProject(dbFilePath string, name string, defaultLanguage string) *Project {
+
+  var db, err = sql.Open("sqlite3", dbFilePath)
+  checkErr(err)
+  defer db.Close()
+
+  stmt, err := db.Prepare("INSERT INTO projects(name, default_country_code) values(?, ?)")
+  checkErr(err)
+  defer stmt.Close()
+
+  res, err := stmt.Exec(name, defaultLanguage)
+  checkErr(err)
+
+  id64, err := res.LastInsertId()
+  id := int(id64)
+  checkErr(err)
+
+  AddNewLanguage(id, defaultLanguage)
+
+  return FindOneProject(int(id), "")
+}
+
 /*
   Get all the projects as map
 */
@@ -106,7 +131,7 @@ func GetProjects(dbFilePath string) *Projects {
  * Get one project data
  *
  * @id - project id
- * @countryCode - language terms that doesn't have any translations yet. If nil, then
+ * @countryCode - language terms that doesn't have any translations yet. If empty (""), then
  *                show all the terms.
  */
 func FindOneProject(id int, countryCode string) *Project {
@@ -358,6 +383,13 @@ func DeleteTerm(dbFilePath string, termId int) bool {
 }
 
 /**
+ * Recursively delete the project
+ */
+func DeleteProject(dbFilePath string, projectId int) bool {
+  return false
+}
+
+/**
  * Get list of available languages for a given project
  */
 func getAvailableLanguagesForProject(projectId int, project_default_lang string, db *sql.DB) *[]ProjectLanguage {
@@ -560,4 +592,10 @@ func isContainingDefaultLanguage(codes string, defaultCode string) bool {
         }
     }
   return false
+}
+
+func checkErr(err error) {
+	if err != nil {
+		panic(err)
+	}
 }

@@ -56,6 +56,11 @@
                       Import
                     </button>
 
+                    <!-- Delete whole project -->
+                    <button id="delete-project-button" class="ui red basic button">
+                      <i class="icon trash"></i>
+                    </button>
+
                 </div>
 
               </div>
@@ -139,7 +144,7 @@
 
     <input type="hidden" id="projectId" value="{{.projectId}}" />
 
-    <!-- Modal Window -->
+    <!-- Modal Window to add new language -->
     <div id="modal-add-lang" class="ui modal small">
       <i class="close icon"></i>
       <div class="header">
@@ -187,6 +192,28 @@
       <div class="actions">
         <div class="ui negative button">Cancel</div>
         <div class="ui positive right labeled icon button">Add new term</div>
+      </div>
+    </div>
+
+    <!-- Modal Window to cofirm project deleting -->
+    <div id="confirm-delete-msg-id" class="ui basic modal">
+      <div class="ui icon header">
+        <i class="trash icon"></i>
+        Delete project?
+      </div>
+      <div class="content">
+        <p>You are going to delete this project and all its terms and translations.</p>
+      </div>
+
+      <div class="actions">
+        <div class="ui white basic cancel inverted button">
+          <i class="remove icon"></i>
+          Wait, no
+        </div>
+        <div id="delete-project-cofirmed-btn" class="ui red ok inverted button">
+          <i class="trash icon"></i>
+          Yes, delete this project
+        </div>
       </div>
     </div>
 

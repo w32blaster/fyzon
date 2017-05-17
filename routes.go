@@ -20,6 +20,8 @@ func initializeRoutes(router *gin.Engine) {
 
   router.POST("/project/:id/import", PostNewFile)
 
+  router.GET("/add/new/project", AddNewProjectForm)
+
   // JSON endpoints
   router.GET("/ping", Ping)
 
@@ -38,7 +40,12 @@ func initializeRoutes(router *gin.Engine) {
     // add new term to project
     api.POST("/project/add/term", PostNewTerm)
 
+    api.POST("/project/add", PostCreateNewProject)
+
     // delete one term and all its translations
     api.DELETE("/terms/:id", DeleteOneTerm)
+
+    // delete one project and a-a-a-a-a-l its terms and translations
+    api.DELETE("/project/:id", DeleteOneProject)
   }
 }

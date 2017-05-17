@@ -17,6 +17,23 @@ func MainPage(c *gin.Context) {
 }
 
 /**
+ * "Add new project" page
+ */
+func AddNewProjectForm(c *gin.Context) {
+	c.HTML(http.StatusOK, "add-new-project.tmpl", gin.H {})
+}
+
+/**
+ * Create new Project
+ */
+func PostCreateNewProject(c *gin.Context)  {
+	name := c.PostForm("name")
+	country := c.PostForm("country")
+	project := CreateNewProject(dbFile, name, country)
+	c.Redirect(http.StatusMovedPermanently, "/project/" + strconv.Itoa(project.ID))
+}
+
+/**
  * Get one given project
  */
 func GetOneProject(c *gin.Context) {

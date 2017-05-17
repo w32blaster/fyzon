@@ -117,16 +117,32 @@ func DeleteOneTerm(c *gin.Context)  {
 			result := DeleteTerm(dbFile, termId)
 			if (result) {
 					c.JSON(http.StatusOK, gin.H {})
-			}else {
+			} else {
 				c.JSON(http.StatusBadRequest, gin.H {})
 			}
 
 		} else {
 				c.AbortWithStatus(http.StatusBadRequest)
 		}
-
 }
 
+/**
+ * Delete one project
+ */
+func DeleteOneProject(c *gin.Context)  {
+		if projectId, err := strconv.Atoi(c.Param("id")); err == nil {
+
+			result := DeleteProject(dbFile, projectId)
+			if (result) {
+					c.JSON(http.StatusOK, gin.H {})
+			} else {
+				c.JSON(http.StatusBadRequest, gin.H {})
+			}
+
+		} else {
+				c.AbortWithStatus(http.StatusBadRequest)
+		}
+}
 
 /**
  * read lines for the given file

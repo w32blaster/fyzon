@@ -148,6 +148,22 @@ $(document).ready(function() {
  });
 
  /**
+  * Show the dialog "Are you sure to delete this project?"
+  */
+  $("#delete-project-button").click(function() {
+    $('#confirm-delete-msg-id').modal('show');
+    $('#delete-project-cofirmed-btn').click(function() {
+      $.ajax({
+        method: "DELETE",
+        url: "/api/project/" + $termId
+      })
+      .done(function( msg ) {
+        window.location = "/";
+      });
+    });
+  });
+
+ /**
   * Show the dialog "add new term"
   */
  $('#add-term-button').click(function() {
