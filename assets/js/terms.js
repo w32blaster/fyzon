@@ -155,10 +155,10 @@ $(document).ready(function() {
     $('#delete-project-cofirmed-btn').click(function() {
       $.ajax({
         method: "DELETE",
-        url: "/api/project/" + $termId
+        url: "/api/project/" + $projectId
       })
       .done(function( msg ) {
-        window.location = "/";
+        window.location = "/?projectdeleted=true";
       });
     });
   });

@@ -16,7 +16,9 @@ CREATE TABLE project_languages (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     country_code VARCHAR(2) NOT NULL,
     project_id INTEGER,
-    FOREIGN KEY (project_id) REFERENCES projects(id)
+    CONSTRAINT fk_pl_projects
+      FOREIGN KEY (project_id) REFERENCES projects(id)
+      ON DELETE CASCADE
 );
 
 -- Term code (key)
@@ -25,7 +27,9 @@ CREATE TABLE terms (
     code TEXT NOT NULL,
     comment TEXT NOT NULL,
     project_id INTEGER,
-    FOREIGN KEY (project_id) REFERENCES projects(id)
+    CONSTRAINT fk_t_projects
+      FOREIGN KEY (project_id) REFERENCES projects(id)
+      ON DELETE CASCADE
 );
 
 CREATE TABLE translations (
@@ -33,7 +37,9 @@ CREATE TABLE translations (
     translation TEXT NOT NULL,
     country_code VARCHAR(2) NOT NULL,
     term_id INTEGER,
-    FOREIGN KEY (term_id) REFERENCES terms(id)
+    CONSTRAINT fk_t_terms
+      FOREIGN KEY (term_id) REFERENCES terms(id)
+      ON DELETE CASCADE
 );
 CREATE INDEX language_code_index ON translations(country_code);
 

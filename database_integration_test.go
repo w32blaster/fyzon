@@ -33,8 +33,7 @@ func TestMain(m *testing.M) {
   check(err)
   tableDDL := string(dat)
 
-  db, err2 := sql.Open("sqlite3", dbTestFile)
-  check(err2)
+  db := _connectDb()
   defer db.Close()
 
   // create tables and insert some data into it
@@ -89,8 +88,7 @@ func TestWeAddNewItem(t *testing.T) {
 func TestDeleteOneTerm(t *testing.T) {
 
   // before:
-  db, err2 := sql.Open("sqlite3", dbTestFile)
-  check(err2)
+  db := _connectDb()
   defer db.Close()
 
   // Given:
@@ -101,7 +99,7 @@ func TestDeleteOneTerm(t *testing.T) {
   UpdateTranslation(dbTestFile, "Translation in Russian", createdTerm.ID, "ru")
   UpdateTranslation(dbTestFile, "Translation in Greece", createdTerm.ID, "gr")
 
-  // Before start, assert there are nine translation (see schema.sql for details)
+  // Before start, assert there are 12 translation (see schema.sql for details)
   translationsCount := _getCountOf(db, "translations")
   assert.Equal(t, 12, translationsCount, "After we insert more three translations, we expect 12 (9+3) of them altogether")
 
@@ -125,6 +123,63 @@ func TestDeleteOneTerm(t *testing.T) {
 }
 
 /**
+ * Delete project
+ *
+ */
+func TestDeleteProject(t *testing.T) {
+
+  /*
+     Populate the database
+  */
+
+  // before:
+  db := _connectDb()
+  defer db.Close()
+
+  // Given:
+  createdProject := CreateNewProject(dbTestFile, "Test Project", "en")
+  AddNewLanguage(dbTestFile, createdProject.ID, "ru")
+  AddNewLanguage(dbTestFile, createdProject.ID, "de")
+
+  // and:
+  createdTermOne := AddNewTerm(dbTestFile, "term.one.project.to.be.deleted", "", createdProject.ID)
+  createdTermTwo := AddNewTerm(dbTestFile, "term.two.project.to.be.deleted", "", createdProject.ID)
+
+  // and:
+  UpdateTranslation(dbTestFile, "Translation in English", createdTermOne.ID, "en")
+  UpdateTranslation(dbTestFile, "Translation in Russian", createdTermOne.ID, "ru")
+  UpdateTranslation(dbTestFile, "Translation in German", createdTermOne.ID, "de")
+
+  UpdateTranslation(dbTestFile, "Translation2 in English", createdTermTwo.ID, "en")
+  UpdateTranslation(dbTestFile, "Translation2 in Russian", createdTermTwo.ID, "ru")
+
+  // assert, that we have three projects in the database (two from schema.sql and one created above)
+  projectsCount := _getCountOf(db, "projects")
+  assert.Equal(t, projectsCount, 3, "We have 3 projects after we created a project")
+
+  // assert we have 5 (initially) + 1 (default language when we created new project) + 2 (in addition) = 8 languages
+  langsCount := _getCountOf(db, "project_languages")
+  assert.Equal(t, langsCount, 8, "We have 8 languages after we created a project")
+
+  // assert there are 14 translation (9 (schema.sql) + 5 added above)
+  translationsCount := _getCountOf(db, "translations")
+  assert.Equal(t, 14, translationsCount, "After we insert more three translations, we expect 14 (9+5) of them altogether")
+
+  /*
+     Here test begins
+  */
+
+  // When:
+  result := DeleteProject(dbTestFile, createdProject.ID)
+
+  // Then:
+  assert.True(t, result);
+
+  // and:
+  _assertDatabaseInOriginalCondition(t, db)
+}
+
+/**
  * Get count of records in the given table
  */
 func _getCountOf(db *sql.DB, tableName string) int {
@@ -134,4 +189,29 @@ func _getCountOf(db *sql.DB, tableName string) int {
     row.Scan(&count)
   }
   return count
+}
+
+func _connectDb() *sql.DB {
+  db, err2 := sql.Open("sqlite3", dbTestFile)
+  check(err2)
+  return db
+}
+
+/**
+ * Helping method to check that the database in its original state
+ * and all the added items are gone.
+*/
+func _assertDatabaseInOriginalCondition(t *testing.T, db *sql.DB)  {
+
+  projectsCount := _getCountOf(db, "projects")
+  assert.Equal(t, projectsCount, 2, "We have 2 projects as before test started (as in the schema.sql)")
+
+  // and
+  langsCount := _getCountOf(db, "project_languages")
+  assert.Equal(t, langsCount, 5, "We have 5 languages as before test started (as in the schema.sql)")
+
+  // and
+  translationsCount := _getCountOf(db, "translations")
+  assert.Equal(t, 9, translationsCount, "We expect 9 of them altogether")
+
 }

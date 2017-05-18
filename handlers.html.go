@@ -13,6 +13,7 @@ func MainPage(c *gin.Context) {
 	c.HTML(http.StatusOK, "index.tmpl", gin.H {
 		"title": "Pojects",
 		"projects": GetProjects(dbFile),
+		"wasProjectDeleted": len(c.Query("projectdeleted")) > 0,
 	})
 }
 

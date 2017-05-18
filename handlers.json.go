@@ -42,7 +42,7 @@ func PostNewLanguage(c *gin.Context) {
 		if projectId, err := strconv.Atoi(c.PostForm("projectId")); err == nil {
 
 			countryCode := c.PostForm("countryCode")
-	    AddNewLanguage(projectId, countryCode)
+	    AddNewLanguage(dbFile, projectId, countryCode)
 			c.JSON(http.StatusOK, gin.H {})
 
 	} else {
@@ -99,7 +99,7 @@ func PostNewFile(c *gin.Context) {
 		mapLines, _ := readLines("/tmp/" + filename, delimeter)
 
 		// save it somehow
-		SaveImportedTermsForProject(*mapLines, country, projectId)
+		SaveImportedTermsForProject(dbFile, *mapLines, country, projectId)
 
 		// delete temp file
 		_ = os.Remove("/tmp/" + filename)

@@ -68,7 +68,7 @@ func CreateNewProject(dbFilePath string, name string, defaultLanguage string) *P
   id := int(id64)
   checkErr(err)
 
-  AddNewLanguage(id, defaultLanguage)
+  AddNewLanguage(dbFilePath, id, defaultLanguage)
 
   return FindOneProject(int(id), "")
 }
@@ -310,10 +310,10 @@ func UpdateTranslation(dbFilePath string, value string, termId int, countryCode 
 /**
  * Add new language to given project
  */
-func AddNewLanguage(projectId int, countryCode string) {
+func AddNewLanguage(dbFilePath string, projectId int, countryCode string) {
 
   // connect to a database
-  var db, err = sql.Open("sqlite3", dbFile)
+  var db, err = sql.Open("sqlite3", dbFilePath)
   if err != nil {
       log.Fatal(err)
   }
@@ -386,7 +386,29 @@ func DeleteTerm(dbFilePath string, termId int) bool {
  * Recursively delete the project
  */
 func DeleteProject(dbFilePath string, projectId int) bool {
-  return false
+
+  db, err := sql.Open("sqlite3", dbFilePath)
+	checkErr(err)
+  defer db.Close()
+
+	// Turning on Forgein key support (for cascading deleting)
+	stmt, err := db.Prepare("PRAGMA foreign_keys = ON;")
+	checkErr(err)
+
+	_, err = stmt.Exec()
+  checkErr(err)
+
+  // we expect cascade deleting of terms, project_languages and transations, please refer to constrains it the schema.sql
+  stmt, err = db.Prepare("DELETE FROM projects WHERE id = ?")
+	checkErr(err)
+
+	res, err := stmt.Exec(projectId)
+	checkErr(err)
+
+	affect, err := res.RowsAffected()
+  checkErr(err)
+
+  return affect > 0
 }
 
 /**
@@ -419,7 +441,7 @@ func getAvailableLanguagesForProject(projectId int, project_default_lang string,
 /**
  * Save the imported terms within a transaction.
  */
-func SaveImportedTermsForProject(terms map[string]string, countryCode string, projectId int) error {
+func SaveImportedTermsForProject(dbFilePath string ,terms map[string]string, countryCode string, projectId int) error {
 
   // connect to a database
   var db, err = sql.Open("sqlite3", dbFile)
@@ -431,7 +453,7 @@ func SaveImportedTermsForProject(terms map[string]string, countryCode string, pr
   project := _getPorjectById(projectId, db)
 
   // insert languages to the project, if is not used still
-  _insertLanguage(countryCode, project, db)
+  _insertLanguage(dbFilePath, countryCode, project, db)
 
   _insertAllTerms(terms, projectId, db)
 
@@ -443,7 +465,7 @@ func SaveImportedTermsForProject(terms map[string]string, countryCode string, pr
 /**
  * Insert country code if not used
  */
-func _insertLanguage(countryCode string, project *Project, db *sql.DB) {
+func _insertLanguage(dbFilePath string, countryCode string, project *Project, db *sql.DB) {
 
   existingLangs := getAvailableLanguagesForProject(project.ID, project.DefaultCountryCode, db)
   isFound := false
@@ -455,7 +477,7 @@ func _insertLanguage(countryCode string, project *Project, db *sql.DB) {
   }
 
   if (!isFound) {
-      AddNewLanguage(project.ID, countryCode)
+      AddNewLanguage(dbFilePath, project.ID, countryCode)
   }
 
 }
