@@ -1,0 +1,49 @@
+  {{ template "_header.tmpl" .}}
+
+    <header>
+
+      <div class="ui container">
+        <div class="ui breadcrumb">
+          <a class="section" href="/">Home</a>
+          <div class="divider"> / </div>
+          <div class="active section">Create new project</div>
+        </div>
+      </div>
+    </header>
+
+    <div class="ui container">
+
+        <h2 class="ui dividing header">Create new project</h2>
+
+        <div class="ui text container">
+
+          <form class="ui form" method="post" action="/api/project/add">
+
+            <div class="field">
+              <label>Name</label>
+              <input name="name" placeholder="Project Name" type="text" />
+            </div>
+
+            <div class="field">
+              <label>Default country language</label>
+              <div id="country-dropdown" class="ui fluid search selection dropdown">
+                 {{ template "_countries-selectbox.tmpl" .}}
+              </div>
+            </div>
+
+            <a href="/" class="ui basic button" type="submit">
+              <i class="remove icon"></i>
+              Cancel
+            </a>
+            <button class="ui positive basic button" type="submit">
+              <i class="plus icon"></i>
+              Create new project
+            </button>
+
+          </form>
+
+        </div>
+
+    </div>
+
+{{ template "_footer.tmpl" .}}
