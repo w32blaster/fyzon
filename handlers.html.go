@@ -10,10 +10,13 @@ import (
  * Main page
  */
 func MainPage(c *gin.Context) {
+	loggedInInterface, _ := c.Get("is_logged_in")
+
 	c.HTML(http.StatusOK, "index.tmpl", gin.H {
 		"title": "Pojects",
 		"projects": GetProjects(dbFile),
 		"wasProjectDeleted": len(c.Query("projectdeleted")) > 0,
+		"is_logged_in": loggedInInterface.(bool),
 	})
 }
 

@@ -17,3 +17,12 @@
   </head>
 
   <body>
+
+    {{ if .is_logged_in }}
+      <header>
+        <a href="/u/logout" class="ui right floated">
+          <i class="sign out icon"></i>
+          Log out
+        </a>
+      </header>
+    {{ end }}

@@ -1,0 +1,43 @@
+{{ template "_header.tmpl" .}}
+
+  <header>
+
+    <div class="ui container">
+      <div class="ui breadcrumb">
+        <a class="section" href="/">Home</a>
+        <div class="divider"> / </div>
+        <div class="active section">Login</div>
+      </div>
+    </div>
+  </header>
+
+  <div class="ui container">
+
+      <h2 class="ui dividing header">Login</h2>
+
+      <div class="ui text container">
+
+        <form class="ui form" method="post" action="/u/login">
+
+          <div class="field">
+            <label>Name</label>
+            <input name="username" placeholder="Login name" type="text" />
+          </div>
+
+          <div class="field">
+            <label>Password</label>
+            <input name="password" type="password" placeholder="Type your password here">
+          </div>
+
+          <button class="ui positive basic button" type="submit">
+            <i class="sign in icon"></i>
+            Login
+          </button>
+
+        </form>
+
+      </div>
+
+  </div>
+
+{{ template "_footer.tmpl" .}}

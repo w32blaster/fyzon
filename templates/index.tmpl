@@ -1,6 +1,6 @@
   {{ template "_header.tmpl" .}}
 
-    <header>
+    <header class="header-padded">
 
       <div class="ui container">
         <div class="ui breadcrumb">
@@ -21,11 +21,23 @@
 
                 <div class="ui right floated basic buttons">
 
-                    <!-- Add project -->
-                    <a href="/add/new/project" class="ui button">
-                      <i class="icon plus"></i>
-                      Create new project
-                    </a>
+                    {{ if .is_logged_in }}
+                      <!-- Add project -->
+                      <a href="/add/new/project" class="ui button">
+                        <i class="icon plus"></i>
+                        Create new project
+                      </a>
+                    {{ end }}
+
+                    {{ if not .is_logged_in }}
+                      <!-- Login -->
+                      <a href="/u/login" class="ui button">
+                        <i class="sign in plus"></i>
+                        Login
+                      </a>
+                    {{ end }}
+
+
                 </div>
 
               </div>

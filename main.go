@@ -13,6 +13,9 @@ const (
 func main() {
 	router := gin.Default()
 
+  // indicating whether the request was from an authenticated user or not
+  router.Use(setUserStatus())
+  
   router.LoadHTMLGlob("templates/*")
 
   // initialize all the routes
