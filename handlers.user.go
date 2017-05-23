@@ -9,10 +9,9 @@ import (
 
 func showLoginPage(c *gin.Context) {
 	// Call the render function with the name of the template to render
-	loggedInInterface, _ := c.Get("is_logged_in")
 	c.HTML(http.StatusOK, "login.tmpl", gin.H {
 		"title": "Login",
-		"is_logged_in": loggedInInterface.(bool),
+		"is_logged_in": IsLoggedIn(c),
 	})
 }
 
@@ -84,4 +83,13 @@ func register(c *gin.Context) {
 			"ErrorMessage": err.Error()})
 
 	}
+}
+
+/**
+ * Helping function to get login status
+ */
+func IsLoggedIn(c *gin.Context) bool {
+	loggedInInterface, _ := c.Get("is_logged_in")
+	return loggedInInterface.(bool)
+
 }

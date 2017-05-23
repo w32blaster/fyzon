@@ -10,13 +10,11 @@ import (
  * Main page
  */
 func MainPage(c *gin.Context) {
-	loggedInInterface, _ := c.Get("is_logged_in")
-
 	c.HTML(http.StatusOK, "index.tmpl", gin.H {
 		"title": "Pojects",
 		"projects": GetProjects(dbFile),
 		"wasProjectDeleted": len(c.Query("projectdeleted")) > 0,
-		"is_logged_in": loggedInInterface.(bool),
+		"is_logged_in": IsLoggedIn(c),
 	})
 }
 
@@ -48,6 +46,7 @@ func GetOneProject(c *gin.Context) {
 		 "currentLang": "all",
 		 "project": FindOneProject(id, ""),
 		 "wasTermDeleted": len(c.Query("termDeleted")) > 0,
+		 "is_logged_in": IsLoggedIn(c),
 	 })
 }
 
@@ -63,6 +62,7 @@ func GetOneProjectUntranslated(c *gin.Context) {
 		"projectId": id,
 		"project": FindOneProject(id, countryCode),
 		"wasTermDeleted": len(c.Query("termDeleted")) > 0,
+		"is_logged_in": IsLoggedIn(c),
 	})
 }
 

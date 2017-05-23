@@ -66,11 +66,13 @@
                       </div>
                     </div>
 
-                  <a href="/project/{{.ID}}">
-                    <div class="ui bottom attached button">
-                      <i class="world icon"></i> Translate
+                  {{ if $.is_logged_in }}
+                    <a href="/project/{{.ID}}">
+                      <div class="ui bottom attached button">
+                        <i class="world icon"></i> Translate
                       </div>
-                  </a>
+                    </a>
+                  {{ end }}
 
                   </div>
 
