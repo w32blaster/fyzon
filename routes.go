@@ -45,6 +45,9 @@ func initializeRoutes(router *gin.Engine) {
 
     // delete one project and a-a-a-a-a-l its terms and translations
     api.DELETE("/project/:id", ensureLoggedIn(), DeleteOneProject)
+
+    // download one file
+    api.GET("/project/:project/file/:lang/:delimeter", /* ensureLoggedIn(), */ DownloadFile)
   }
 
   // Group user related routes together
@@ -71,5 +74,5 @@ func initializeRoutes(router *gin.Engine) {
 		// Handle POST requests at /u/register
 		// Ensure that the user is not logged in by using the middleware
 		userRoutes.POST("/register", ensureNotLoggedIn(), register)
-}
+  }
 }

@@ -51,6 +51,35 @@ func PostNewLanguage(c *gin.Context) {
 }
 
 /**
+ * Download one ready File with translations
+ */
+func DownloadFile(c *gin.Context) {
+	projectId, err := strconv.Atoi(c.Param("project"))
+	countryCode := c.Param("lang")
+	delimeter := c.Param("delimeter")
+
+	if (err == nil && len(countryCode) == 2 && len(delimeter) == 1) {
+
+    fileContent, errFile := GenerateFile(projectId, countryCode, delimeter)
+
+		if (nil == errFile) {
+			c.Header("Content-Type", "application/txt; charset=utf-8")
+			c.Header("Transfer-Encoding", "chunked")
+			c.Header("Content-Disposition", "inline; filename=\"messages_" + countryCode + ".properties\"")
+			c.Header("Cache-Control", "no-store, no-cache, must-revalidate")
+			c.String(http.StatusOK, fileContent)
+		} else {
+			// error in the file content generation
+			c.AbortWithStatus(http.StatusBadRequest)
+		}
+
+	} else {
+		// bad parameters
+		c.AbortWithStatus(http.StatusBadRequest)
+	}
+}
+
+/**
  * Add new term to project
  */
 func PostNewTerm(c *gin.Context) {

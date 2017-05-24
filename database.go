@@ -5,6 +5,7 @@ import (
     _ "github.com/mattn/go-sqlite3"
     "log"
     "strings"
+    "bytes"
 )
 
 /**
@@ -567,7 +568,7 @@ func isLanguageAlreadyExists(projectId int, countryCode string, db *sql.DB) bool
 }
 
 /**
- * Chekc whether this term is already exists in the given project
+ * Check whether this term is already exists in the given project
  */
 func getTermIdFor(projectId int, termCode string, db *sql.DB) int {
 
@@ -578,6 +579,49 @@ func getTermIdFor(projectId int, termCode string, db *sql.DB) int {
   }
 
   return termId
+}
+
+/**
+ * Generate the content of a file with translations
+ */
+func GenerateFile(projectId int, countryCode string, delimeter string) (string, error) {
+
+  // connect to a database
+  var db, err = sql.Open("sqlite3", dbFile)
+  if err != nil {
+      log.Fatal(err)
+  }
+  defer db.Close()
+
+  // get all the translations
+  lRows, err := db.Query("SELECT t.code,tr.translation,t.comment FROM terms AS t INNER JOIN translations AS tr ON tr.term_id = t.id WHERE t.project_id = ? AND tr.country_code = ?", projectId, countryCode)
+  if err != nil {
+      log.Fatal(err)
+      return "", err
+  }
+  defer lRows.Close()
+
+  var buffer bytes.Buffer
+
+  for lRows.Next() {
+      var code string
+      var translation string
+      var comment string
+
+      err = lRows.Scan(&code, &translation, &comment)
+
+      if err != nil {
+          log.Fatal(err)
+          return "", err
+      }
+      if (len(comment) > 0) {
+          buffer.WriteString("# " + comment + "\n")
+      }
+
+      buffer.WriteString(code + delimeter + translation + "\n")
+  }
+
+  return buffer.String(), nil
 }
 
 /**
