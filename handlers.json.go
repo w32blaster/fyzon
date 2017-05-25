@@ -174,20 +174,30 @@ func DeleteOneProject(c *gin.Context)  {
 }
 
 /**
- * read lines for the given file
+ * Read lines for the given file
+ * Returns the map of translations:
  */
-func readLines(path string, delimeter string) (*map[string]string, error) {
+func readLines(path string, delimeter string) (*map[string]ImportTranslation, error) {
 	file, err := os.Open(path)
 	if err != nil {
 	  return nil, err
 	}
 	defer file.Close()
 
-  mapLines := make(map[string]string)
+  mapLines := make(map[string]ImportTranslation)
 	scanner := bufio.NewScanner(file)
+	previousLineComment := ""
+	currentLine := ""
 	for scanner.Scan() {
-		if key, value, err := parseLine(scanner.Text(), delimeter); err == nil {
-			mapLines[key] = value
+		currentLine = scanner.Text()
+		if (currentLine[0] == '#') {
+			// this line is the comment, remember it and move to the next line
+			previousLineComment = currentLine[1:len(currentLine)]
+
+		} else if key, value, err := parseLine(currentLine, delimeter); err == nil {
+			// that is normal line containing the pair of values key=translation
+			mapLines[key] = ImportTranslation{Translation: value, Comment: previousLineComment}
+			previousLineComment = ""
 		}
 	}
 	return &mapLines, scanner.Err()

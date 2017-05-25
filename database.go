@@ -49,6 +49,13 @@ type Project struct {
 }
 type Projects []Project
 
+/*
+ *  Tuple pair, used via a file parsing
+ */
+type ImportTranslation struct {
+  Translation string
+  Comment string
+}
 /**
  * Creates new project
  */
@@ -442,7 +449,7 @@ func getAvailableLanguagesForProject(projectId int, project_default_lang string,
 /**
  * Save the imported terms within a transaction.
  */
-func SaveImportedTermsForProject(dbFilePath string ,terms map[string]string, countryCode string, projectId int) error {
+func SaveImportedTermsForProject(dbFilePath string, terms map[string]ImportTranslation, countryCode string, projectId int) error {
 
   // connect to a database
   var db, err = sql.Open("sqlite3", dbFile)
@@ -483,7 +490,7 @@ func _insertLanguage(dbFilePath string, countryCode string, project *Project, db
 
 }
 
-func _insertAllTerms(terms map[string]string, projectId int, db *sql.DB) error {
+func _insertAllTerms(terms map[string]ImportTranslation, projectId int, db *sql.DB) error {
 
   // begin transaction
   tx, err := db.Begin()
@@ -499,12 +506,12 @@ func _insertAllTerms(terms map[string]string, projectId int, db *sql.DB) error {
   }
   defer stmt.Close()
 
-  for key, _ := range terms {
+  for key, value := range terms {
 
     if termId := getTermIdFor(projectId, key, db); termId == -1 {
 
       // insert and get fresh term
-      _, err = stmt.Exec(projectId, key, "")
+      _, err = stmt.Exec(projectId, key, value.Comment)
       if err != nil {
         log.Fatal(err)
       }
@@ -520,7 +527,7 @@ func _insertAllTerms(terms map[string]string, projectId int, db *sql.DB) error {
 /**
  * Insert all the translations within one transaction
  */
-func _insertAllTranslations(terms map[string]string, projectId int, countryCode string, db *sql.DB) error {
+func _insertAllTranslations(terms map[string]ImportTranslation, projectId int, countryCode string, db *sql.DB) error {
   tx, err := db.Begin()
   	if err != nil {
   		log.Fatal(err)
@@ -540,7 +547,7 @@ func _insertAllTranslations(terms map[string]string, projectId int, countryCode 
     if termId := getTermIdFor(projectId, key, db); termId != -1 {
 
       // add translation for this term:
-      _, err = stmtTranslation.Exec(value, countryCode, termId)
+      _, err = stmtTranslation.Exec(value.Translation, countryCode, termId)
   		if err != nil {
   			log.Fatal(err)
   		}
