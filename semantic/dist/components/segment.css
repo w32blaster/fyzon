@@ -665,7 +665,7 @@
 
 /* Nested */
 .ui.inverted.segment .segment {
-  color: #2c3e50;
+  color: #222623;
 }
 .ui.inverted.segment .inverted.segment {
   color: rgba(255, 255, 255, 0.9);
@@ -788,7 +788,7 @@
   border-color: #ecf0f1;
 }
 .ui.segment .close {
-  color: #2c3e50;
+  color: #222623;
 }
 .ui.piled.segment:before,
 .ui.stacked.segment:before,

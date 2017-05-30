@@ -236,7 +236,7 @@
   font-size: 1em !important;
   padding: 0.8em 1.13333333em !important;
   background: transparent !important;
-  color: #2c3e50 !important;
+  color: #222623 !important;
   text-transform: none !important;
   font-weight: normal !important;
   box-shadow: none !important;
@@ -939,7 +939,7 @@ Floated Menu / Item
 .ui.secondary.pointing.menu .link.item:hover,
 .ui.secondary.pointing.menu a.item:hover {
   background-color: transparent;
-  color: #2c3e50;
+  color: #222623;
 }
 
 /* Pressed */
@@ -1989,7 +1989,7 @@ Floated Menu / Item
   width: 25rem;
 }
 .ui.inverted.menu .label:hover {
-  color: #2c3e50;
+  color: #222623;
 }
 .ui.pagination.menu {
   color: #fff;

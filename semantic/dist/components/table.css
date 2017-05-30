@@ -23,7 +23,7 @@
   box-shadow: none;
   border-radius: 0.26666667rem;
   text-align: left;
-  color: #2c3e50;
+  color: #222623;
   border-collapse: separate;
   border-spacing: 0px;
 }
@@ -55,7 +55,7 @@
   cursor: auto;
   background: #F9FAFB;
   text-align: inherit;
-  color: #2c3e50;
+  color: #222623;
   padding: 0.93333333em 0.8em;
   vertical-align: inherit;
   font-style: none;
@@ -86,7 +86,7 @@
   border-top: 1px solid rgba(34, 36, 38, 0.15);
   background: #F9FAFB;
   text-align: inherit;
-  color: #2c3e50;
+  color: #222623;
   padding: 0.8em 0.8em;
   vertical-align: middle;
   font-style: normal;
@@ -292,11 +292,11 @@
 
 .ui.table tr.positive,
 .ui.table td.positive {
-  box-shadow: 0px 0px 0px #19bc9c inset;
+  box-shadow: 0px 0px 0px #889391 inset;
 }
 .ui.table tr.positive,
 .ui.table td.positive {
-  background: #19bc9c !important;
+  background: #889391 !important;
   color: #fff !important;
 }
 
@@ -348,12 +348,12 @@
 
 .ui.table tr.active,
 .ui.table td.active {
-  box-shadow: 0px 0px 0px #2c3e50 inset;
+  box-shadow: 0px 0px 0px #222623 inset;
 }
 .ui.table tr.active,
 .ui.table td.active {
   background: #E0E0E0 !important;
-  color: #2c3e50 !important;
+  color: #222623 !important;
 }
 
 /*--------------
@@ -514,12 +514,12 @@
 .ui.table tr td.selectable.active:hover,
 .ui.selectable.table tr:hover td.active {
   background: #E0E0E0 !important;
-  color: #2c3e50 !important;
+  color: #222623 !important;
 }
 .ui.selectable.table tr.positive:hover,
 .ui.table tr td.selectable.positive:hover,
 .ui.selectable.table tr:hover td.positive {
-  background: #17ae91 !important;
+  background: #808c8a !important;
   color: #f7f7f7 !important;
 }
 .ui.selectable.table tr.negative:hover,
@@ -861,7 +861,7 @@
   cursor: pointer;
   white-space: nowrap;
   border-left: 1px solid rgba(34, 36, 38, 0.15);
-  color: #2c3e50;
+  color: #222623;
 }
 .ui.sortable.table thead th:first-child {
   border-left: none;

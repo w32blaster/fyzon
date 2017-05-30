@@ -71,7 +71,7 @@
   margin: 0em 0em;
   padding: 1.13333333em 2em;
   background: #2C3E50;
-  color: #2c3e50;
+  color: #222623;
   box-shadow: none;
   border-radius: 0em;
   border: none;
@@ -386,7 +386,7 @@
 .ui.steps a.active.step:hover {
   cursor: pointer;
   background: #11181f;
-  color: #2c3e50;
+  color: #222623;
 }
 
 /* Completed */

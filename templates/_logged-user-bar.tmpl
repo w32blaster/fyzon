@@ -1,0 +1,30 @@
+
+<div class="ui right aligned grid">
+
+    <div class="fourteen wide column row">
+      <div class="column">
+
+        {{ if .is_logged_in }}
+
+            <!-- Log out -->
+            <a href="/u/logout" class="ui right floated">
+              <i class="sign out icon"></i>
+              Log out
+            </a>
+        {{ end }}
+
+        {{ if not .is_logged_in }}
+
+          <!-- Log in -->
+          <a href="/u/login" class="ui right floated">
+            <i class="sign in icon"></i>
+            Log in
+          </a>
+
+        {{ end }}
+
+
+      </div>
+    </div>
+
+  </div>

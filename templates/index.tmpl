@@ -10,6 +10,8 @@
 
     </header>
 
+    {{ template "_logged-user-bar.tmpl" .}}
+
     <div class="ui container">
 
         <h2 class="ui dividing header">{{ .title }}</h2>
@@ -28,15 +30,6 @@
                         Create new project
                       </a>
                     {{ end }}
-
-                    {{ if not .is_logged_in }}
-                      <!-- Login -->
-                      <a href="/u/login" class="ui button">
-                        <i class="sign in plus"></i>
-                        Login
-                      </a>
-                    {{ end }}
-
 
                 </div>
 
