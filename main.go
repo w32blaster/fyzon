@@ -7,7 +7,7 @@ import (
 var router *gin.Engine
 
 const (
-    dbFile = "./trans.sqlite3"
+    dbFile = "./db/trans.sqlite3"
 )
 
 func main() {
