@@ -61,6 +61,7 @@ func TestMain(m *testing.M) {
  * and the database contains new item
  */
 func TestWeAddNewItem(t *testing.T) {
+  log.Println("test WeAddNewItem")
 
   // Given:
   expectedId := 7 // because we have 6 testing terms in the database and next ID is 7th
@@ -79,6 +80,7 @@ func TestWeAddNewItem(t *testing.T) {
 
   // after:
   _ = DeleteTerm(dbTestFile, createdTerm.ID)
+
 }
 
 /**
@@ -86,6 +88,7 @@ func TestWeAddNewItem(t *testing.T) {
  * and its translations are gone
  */
 func TestDeleteOneTerm(t *testing.T) {
+  log.Println("test DeleteOneTerm")
 
   // before:
   db := _connectDb()
@@ -127,6 +130,7 @@ func TestDeleteOneTerm(t *testing.T) {
  *
  */
 func TestDeleteProject(t *testing.T) {
+  log.Println("test DeleteProject")
 
   /*
      Populate the database

@@ -1,6 +1,8 @@
+[![Build Status](https://travis-ci.org/w32blaster/monsieur-traducteur.svg?branch=master)](https://travis-ci.org/w32blaster/monsieur-traducteur)
+
 # Translation tool
 
-Lightweight. Simple. Free. 
+Lightweight. Simple. Free.
 
 Few screenshots here:
 
@@ -41,4 +43,3 @@ npm install semantic-ui --save
 cd semantic
 gulp build
 ```
-

@@ -9,3 +9,7 @@ install:
   - go get github.com/stretchr/testify
 
 script: go test ./...
+
+branches:
+  only:
+  - master
