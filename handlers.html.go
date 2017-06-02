@@ -44,7 +44,7 @@ func GetOneProject(c *gin.Context) {
 		 "title": "Pojects",
 		 "projectId": id,
 		 "currentLang": "all",
-		 "project": FindOneProject(id, ""),
+		 "project": FindOneProject(dbFile, id, ""),
 		 "wasTermDeleted": len(c.Query("termDeleted")) > 0,
 		 "is_logged_in": IsLoggedIn(c),
 	 })
@@ -60,7 +60,7 @@ func GetOneProjectUntranslated(c *gin.Context) {
 		"title": "Untranslated from " + countryCode,
 		"currentLang": countryCode,
 		"projectId": id,
-		"project": FindOneProject(id, countryCode),
+		"project": FindOneProject(dbFile, id, countryCode),
 		"wasTermDeleted": len(c.Query("termDeleted")) > 0,
 		"is_logged_in": IsLoggedIn(c),
 	})

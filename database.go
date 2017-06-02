@@ -78,7 +78,7 @@ func CreateNewProject(dbFilePath string, name string, defaultLanguage string) *P
 
   AddNewLanguage(dbFilePath, id, defaultLanguage)
 
-  return FindOneProject(int(id), "")
+  return FindOneProject(dbFilePath, int(id), "")
 }
 
 /*
@@ -142,10 +142,10 @@ func GetProjects(dbFilePath string) *Projects {
  * @countryCode - language terms that doesn't have any translations yet. If empty (""), then
  *                show all the terms.
  */
-func FindOneProject(id int, countryCode string) *Project {
+func FindOneProject(dbFilePath string, id int, countryCode string) *Project {
 
     // connect to a database
-    var db, err = sql.Open("sqlite3", dbFile)
+    var db, err = sql.Open("sqlite3", dbFilePath)
     if err != nil {
         log.Fatal(err)
     }
