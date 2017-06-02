@@ -1,0 +1,11 @@
+language: go
+
+go:
+  - 1.8.x
+
+install:
+  - go get github.com/gin-gonic/gin
+  - go get github.com/mattn/go-sqlite3
+  - go get github.com/stretchr/testify
+
+script: go test ./...
