@@ -130,7 +130,6 @@ func TestDeleteOneTerm(t *testing.T) {
  *
  */
 func TestDeleteProject(t *testing.T) {
-  log.Println("test DeleteProject 1")
 
   /*
      Populate the database
@@ -141,18 +140,15 @@ func TestDeleteProject(t *testing.T) {
   defer db.Close()
 
   // Given:
-  log.Println("test DeleteOneTerm 2")
   createdProject := CreateNewProject(dbTestFile, "Test Project", "en")
   AddNewLanguage(dbTestFile, createdProject.ID, "ru")
   AddNewLanguage(dbTestFile, createdProject.ID, "de")
 
   // and:
-  log.Println("test DeleteOneTerm 3")
   createdTermOne := AddNewTerm(dbTestFile, "term.one.project.to.be.deleted", "", createdProject.ID)
   createdTermTwo := AddNewTerm(dbTestFile, "term.two.project.to.be.deleted", "", createdProject.ID)
 
   // and:
-  log.Println("test DeleteOneTerm 4")
   UpdateTranslation(dbTestFile, "Translation in English", createdTermOne.ID, "en")
   UpdateTranslation(dbTestFile, "Translation in Russian", createdTermOne.ID, "ru")
   UpdateTranslation(dbTestFile, "Translation in German", createdTermOne.ID, "de")
@@ -161,17 +157,14 @@ func TestDeleteProject(t *testing.T) {
   UpdateTranslation(dbTestFile, "Translation2 in Russian", createdTermTwo.ID, "ru")
 
   // assert, that we have three projects in the database (two from schema.sql and one created above)
-  log.Println("test DeleteOneTerm 5")
   projectsCount := _getCountOf(db, "projects")
   assert.Equal(t, projectsCount, 3, "We have 3 projects after we created a project")
 
   // assert we have 5 (initially) + 1 (default language when we created new project) + 2 (in addition) = 8 languages
-  log.Println("test DeleteOneTerm 6")
   langsCount := _getCountOf(db, "project_languages")
   assert.Equal(t, langsCount, 8, "We have 8 languages after we created a project")
 
   // assert there are 14 translation (9 (schema.sql) + 5 added above)
-  log.Println("test DeleteOneTerm 7")
   translationsCount := _getCountOf(db, "translations")
   assert.Equal(t, 14, translationsCount, "After we insert more three translations, we expect 14 (9+5) of them altogether")
 
@@ -179,7 +172,6 @@ func TestDeleteProject(t *testing.T) {
      Here test begins
   */
 
-  log.Println("test DeleteOneTerm 8")
   // When:
   result := DeleteProject(dbTestFile, createdProject.ID)
 
@@ -187,10 +179,7 @@ func TestDeleteProject(t *testing.T) {
   assert.True(t, result);
 
   // and:
-  log.Println("test DeleteOneTerm 9")
   _assertDatabaseInOriginalCondition(t, db)
-
-  log.Println("test DeleteProject END")
 }
 
 /**
