@@ -25,4 +25,3 @@ VOLUME /db
 EXPOSE 8080
 
 ENTRYPOINT ["/monsieur-traducteur"]
-
