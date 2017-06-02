@@ -3,13 +3,26 @@ language: go
 go:
   - 1.8.x
 
+env:
+  - CGO_ENABLED=0
+
 install:
   - go get github.com/gin-gonic/gin
   - go get github.com/mattn/go-sqlite3
   - go get github.com/stretchr/testify
 
-script: go test ./...
+script:
+  - go test ./...
+  - CGO_ENABLED=0 GOOS=linux go build ./...
 
 branches:
   only:
   - master
+
+deploy:
+  provider: releases
+  api_key: $GH_TOKEN
+  file: $NAME
+  skip_cleanup: true
+  on:
+    tags: true

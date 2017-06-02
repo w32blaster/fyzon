@@ -1,6 +1,6 @@
 [![Build Status](https://travis-ci.org/w32blaster/monsieur-traducteur.svg?branch=master)](https://travis-ci.org/w32blaster/monsieur-traducteur)
 
-# Translation tool
+# Fyzon - Translation tool
 
 Lightweight. Simple. Free.
 

@@ -1,14 +1,14 @@
 FROM alpine:latest
 MAINTAINER W32Blaster
 
-ADD monsieur-traducteur /monsieur-traducteur
+ADD fyzon /fyzon
 ADD db/schema.sql /db/schema.sql
 
 ENV GIN_MODE=release
 
 # Install SQLite3 to generate fresh database, then delete because we don't need it at runtime
 RUN set -ex && \
-    chmod +x /monsieur-traducteur && \
+    chmod +x /fyzon && \
 
     apk upgrade --update && \
     apk add --no-cache sqlite && \
@@ -24,4 +24,4 @@ RUN set -ex && \
 VOLUME /db
 EXPOSE 8080
 
-ENTRYPOINT ["/monsieur-traducteur"]
+ENTRYPOINT ["/fyzon"]
