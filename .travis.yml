@@ -1,10 +1,14 @@
 language: go
 
+services: 
+  - docker
+
 go:
   - 1.8.x
 
-env:
-  - CGO_ENABLED=0
+before_install:
+  - docker pull karalabe/xgo-latest
+  - go get github.com/karalabe/xgo
 
 install:
   - go get github.com/gin-gonic/gin
@@ -13,7 +17,7 @@ install:
 
 script:
   - go test ./...
-  - CGO_ENABLED=0 GOOS=linux go build ./...
+  - xgo ./...
 
 branches:
   only:

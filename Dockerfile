@@ -1,7 +1,7 @@
 FROM alpine:latest
 MAINTAINER W32Blaster
 
-ADD fyzon /fyzon
+ADD fyzon-release /fyzon
 ADD db/schema.sql /db/schema.sql
 
 ENV GIN_MODE=release
