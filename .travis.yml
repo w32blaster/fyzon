@@ -16,12 +16,14 @@ install:
   - go get github.com/stretchr/testify
 
 script:
+  - ls
+  - pwd
   - go test ./...
   - xgo ./...
 
-branches:
-  only:
-  - master
+    # branches:
+    #  only:
+    #  - master
 
 deploy:
   provider: releases
