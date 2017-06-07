@@ -1,27 +1,26 @@
-FROM alpine:latest
+FROM golang:1.7-alpine
 MAINTAINER W32Blaster
 
-ADD fyzon-release /fyzon
-ADD db/schema.sql /db/schema.sql
+ADD . /go/src/fyzon
+
+RUN set -ex && \
+    apk add --no-cache git gcc g++ && \
+    cd /go/src/fyzon && \
+    go get -u -v github.com/gin-gonic/gin && \
+    go get -u -v github.com/mattn/go-sqlite3 && \
+    go get -u -v github.com/stretchr/testify && \
+    go build && \
+    go install .
+   
+ADD db/trans.sqlite3 /go/src/fyzon/db/trans.sqlite3
+#ADD templates/* /templates/
 
 ENV GIN_MODE=release
 
-# Install SQLite3 to generate fresh database, then delete because we don't need it at runtime
-RUN set -ex && \
-    chmod +x /fyzon && \
 
-    apk upgrade --update && \
-    apk add --no-cache sqlite && \
+WORKDIR /go/src/fyzon
 
-    # Now create demo database from schema file
-    sqlite3 /db/trans.sqlite3 < /db/schema.sql && \
-
-    # ...and delete sqlite completely
-    apk del sqlite && \
-    rm -rf /var/cache/apk/*
-
-
-VOLUME /db
+VOLUME /go/src/fyzon/db
 EXPOSE 8080
 
-ENTRYPOINT ["/fyzon"]
+ENTRYPOINT /go/bin/fyzon

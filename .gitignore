@@ -32,3 +32,4 @@ src/golang.org/
 src/gopkg.in/
 
 node_modules/
+vendor/
