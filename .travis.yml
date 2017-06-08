@@ -1,14 +1,7 @@
 language: go
 
-services: 
-  - docker
-
 go:
   - 1.8.x
-
-before_install:
-  - docker pull karalabe/xgo-latest
-  - go get github.com/karalabe/xgo
 
 install:
   - go get github.com/gin-gonic/gin
@@ -19,16 +12,4 @@ script:
   - ls
   - pwd
   - go test ./...
-  - xgo ./...
 
-    # branches:
-    #  only:
-    #  - master
-
-deploy:
-  provider: releases
-  api_key: $GH_TOKEN
-  file: $NAME
-  skip_cleanup: true
-  on:
-    tags: true
