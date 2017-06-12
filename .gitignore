@@ -33,3 +33,5 @@ src/gopkg.in/
 
 node_modules/
 vendor/
+src/
+

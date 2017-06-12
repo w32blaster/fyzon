@@ -1,5 +1,0 @@
-[submodule "gin"]
-   path = src/github.com/gin-gonic/gin
-   url = https://github.com/gin-gonic/gin.git
-
-
