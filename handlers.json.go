@@ -1,22 +1,22 @@
 package main
 
 import (
-	"net/http"
+	"bufio"
+	"errors"
 	"github.com/gin-gonic/gin"
-	"strconv"
 	"io"
 	"log"
-  "os"
-	"bufio"
+	"net/http"
+	"os"
+	"strconv"
 	"strings"
-	"errors"
 )
 
 /**
  * Ping
  */
 func Ping(c *gin.Context) {
-	c.JSON(200, gin.H {
+	c.JSON(200, gin.H{
 		"message": "pong",
 	})
 }
@@ -31,7 +31,7 @@ func PostOneTerm(c *gin.Context) {
 
 	UpdateTranslation(dbFile, value, id, countryCode)
 
-	c.JSON(http.StatusOK, gin.H {})
+	c.JSON(http.StatusOK, gin.H{})
 }
 
 /**
@@ -39,14 +39,14 @@ func PostOneTerm(c *gin.Context) {
  */
 func PostNewLanguage(c *gin.Context) {
 
-		if projectId, err := strconv.Atoi(c.PostForm("projectId")); err == nil {
+	if projectId, err := strconv.Atoi(c.PostForm("projectId")); err == nil {
 
-			countryCode := c.PostForm("countryCode")
-	    AddNewLanguage(dbFile, projectId, countryCode)
-			c.JSON(http.StatusOK, gin.H {})
+		countryCode := c.PostForm("countryCode")
+		AddNewLanguage(dbFile, projectId, countryCode)
+		c.JSON(http.StatusOK, gin.H{})
 
 	} else {
-      c.AbortWithStatus(http.StatusBadRequest)
+		c.AbortWithStatus(http.StatusBadRequest)
 	}
 }
 
@@ -58,14 +58,14 @@ func DownloadFile(c *gin.Context) {
 	countryCode := c.Param("lang")
 	delimeter := c.Param("delimeter")
 
-	if (err == nil && len(countryCode) == 2 && len(delimeter) == 1) {
+	if err == nil && len(countryCode) == 2 && len(delimeter) == 1 {
 
-    fileContent, errFile := GenerateFile(projectId, countryCode, delimeter)
+		fileContent, errFile := GenerateFile(projectId, countryCode, delimeter)
 
-		if (nil == errFile) {
+		if nil == errFile {
 			c.Header("Content-Type", "application/txt; charset=utf-8")
 			c.Header("Transfer-Encoding", "chunked")
-			c.Header("Content-Disposition", "inline; filename=\"messages_" + countryCode + ".properties\"")
+			c.Header("Content-Disposition", "inline; filename=\"messages_"+countryCode+".properties\"")
 			c.Header("Cache-Control", "no-store, no-cache, must-revalidate")
 			c.String(http.StatusOK, fileContent)
 		} else {
@@ -84,20 +84,20 @@ func DownloadFile(c *gin.Context) {
  */
 func PostNewTerm(c *gin.Context) {
 
-    // key and projectId are mandatory
-    termKey := c.PostForm("termKey")
-		projectId, err := strconv.Atoi(c.PostForm("projectId"));
+	// key and projectId are mandatory
+	termKey := c.PostForm("termKey")
+	projectId, err := strconv.Atoi(c.PostForm("projectId"))
 
-		if len(termKey) == 0 || err != nil {
-      c.AbortWithStatus(http.StatusBadRequest)
-		} else {
-			// description is optional
-			termDescr := c.PostForm("termDescr")
-			addedTerm := AddNewTerm(dbFile, termKey, termDescr, projectId)
-			c.JSON(http.StatusOK, gin.H {
-				"term": addedTerm,
-			})
-		}
+	if len(termKey) == 0 || err != nil {
+		c.AbortWithStatus(http.StatusBadRequest)
+	} else {
+		// description is optional
+		termDescr := c.PostForm("termDescr")
+		addedTerm := AddNewTerm(dbFile, termKey, termDescr, projectId)
+		c.JSON(http.StatusOK, gin.H{
+			"term": addedTerm,
+		})
+	}
 }
 
 /**
@@ -106,71 +106,70 @@ func PostNewTerm(c *gin.Context) {
  */
 func PostNewFile(c *gin.Context) {
 
-    file, header, err := c.Request.FormFile("upload")
-		delimeter := c.PostForm("delimeter")
-		country := c.PostForm("country")
-		projectId, err :=  strconv.Atoi(c.Param("id"))
+	file, header, err := c.Request.FormFile("upload")
+	delimeter := c.PostForm("delimeter")
+	country := c.PostForm("country")
+	projectId, err := strconv.Atoi(c.Param("id"))
 
+	filename := header.Filename
 
-    filename := header.Filename
+	out, err := os.Create("/tmp/" + filename)
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer out.Close()
 
-    out, err := os.Create("/tmp/" + filename)
-    if err != nil {
-        log.Fatal(err)
-    }
-    defer out.Close()
+	_, err = io.Copy(out, file)
+	if err != nil {
+		log.Fatal(err)
+	}
 
-    _, err = io.Copy(out, file)
-    if err != nil {
-        log.Fatal(err)
-    }
+	mapLines, _ := readLines("/tmp/"+filename, delimeter)
 
-		mapLines, _ := readLines("/tmp/" + filename, delimeter)
+	// save it somehow
+	SaveImportedTermsForProject(dbFile, *mapLines, country, projectId)
 
-		// save it somehow
-		SaveImportedTermsForProject(dbFile, *mapLines, country, projectId)
+	// delete temp file
+	_ = os.Remove("/tmp/" + filename)
 
-		// delete temp file
-		_ = os.Remove("/tmp/" + filename)
-
-		// redirect
-		c.Redirect(http.StatusMovedPermanently, "/project/" + strconv.Itoa(projectId) + "?imported")
+	// redirect
+	c.Redirect(http.StatusMovedPermanently, "/project/"+strconv.Itoa(projectId)+"?imported")
 }
 
 /**
  * Delete one term and all its translations
  */
-func DeleteOneTerm(c *gin.Context)  {
-		if termId, err := strconv.Atoi(c.Param("id")); err == nil {
+func DeleteOneTerm(c *gin.Context) {
+	if termId, err := strconv.Atoi(c.Param("id")); err == nil {
 
-			result := DeleteTerm(dbFile, termId)
-			if (result) {
-					c.JSON(http.StatusOK, gin.H {})
-			} else {
-				c.JSON(http.StatusBadRequest, gin.H {})
-			}
-
+		result := DeleteTerm(dbFile, termId)
+		if result {
+			c.JSON(http.StatusOK, gin.H{})
 		} else {
-				c.AbortWithStatus(http.StatusBadRequest)
+			c.JSON(http.StatusBadRequest, gin.H{})
 		}
+
+	} else {
+		c.AbortWithStatus(http.StatusBadRequest)
+	}
 }
 
 /**
  * Delete one project
  */
-func DeleteOneProject(c *gin.Context)  {
-		if projectId, err := strconv.Atoi(c.Param("id")); err == nil {
+func DeleteOneProject(c *gin.Context) {
+	if projectId, err := strconv.Atoi(c.Param("id")); err == nil {
 
-			result := DeleteProject(dbFile, projectId)
-			if (result) {
-					c.JSON(http.StatusOK, gin.H {})
-			} else {
-				c.JSON(http.StatusBadRequest, gin.H {})
-			}
-
+		result := DeleteProject(dbFile, projectId)
+		if result {
+			c.JSON(http.StatusOK, gin.H{})
 		} else {
-				c.AbortWithStatus(http.StatusBadRequest)
+			c.JSON(http.StatusBadRequest, gin.H{})
 		}
+
+	} else {
+		c.AbortWithStatus(http.StatusBadRequest)
+	}
 }
 
 /**
@@ -180,19 +179,19 @@ func DeleteOneProject(c *gin.Context)  {
 func readLines(path string, delimeter string) (*map[string]ImportTranslation, error) {
 	file, err := os.Open(path)
 	if err != nil {
-	  return nil, err
+		return nil, err
 	}
 	defer file.Close()
 
-  mapLines := make(map[string]ImportTranslation)
+	mapLines := make(map[string]ImportTranslation)
 	scanner := bufio.NewScanner(file)
 	previousLineComment := ""
 	currentLine := ""
 	for scanner.Scan() {
 		currentLine = scanner.Text()
-		if (currentLine[0] == '#') {
+		if currentLine[0] == '#' {
 			// this line is the comment, remember it and move to the next line
-			previousLineComment = currentLine[1:len(currentLine)]
+			previousLineComment = currentLine[1:]
 
 		} else if key, value, err := parseLine(currentLine, delimeter); err == nil {
 			// that is normal line containing the pair of values key=translation
@@ -207,10 +206,10 @@ func readLines(path string, delimeter string) (*map[string]ImportTranslation, er
  * Parse one line and return pair of values
  */
 func parseLine(line string, delimeter string) (string, string, error) {
-  parts := strings.Split(line, delimeter)
-	if (len(parts) == 2) {
-		  return strings.TrimSpace(parts[0]), strings.TrimSpace(parts[1]), nil
+	parts := strings.Split(line, delimeter)
+	if len(parts) == 2 {
+		return strings.TrimSpace(parts[0]), strings.TrimSpace(parts[1]), nil
 	} else {
-			return "", "", errors.New("Didn't found two parts in the incoming string")
+		return "", "", errors.New("Didn't found two parts in the incoming string")
 	}
 }
