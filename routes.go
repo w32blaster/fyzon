@@ -47,7 +47,7 @@ func initializeRoutes(router *gin.Engine) {
     api.DELETE("/project/:id", ensureLoggedIn(), DeleteOneProject)
 
     // download one file
-    api.GET("/project/:project/file/:lang/:delimeter", /* ensureLoggedIn(), */ DownloadFile)
+    api.GET("/project/:project/file/:lang/:delimeter/:type", /* ensureLoggedIn(), */ DownloadFile)
   }
 
   // Group user related routes together

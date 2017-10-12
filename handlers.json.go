@@ -3,13 +3,14 @@ package main
 import (
 	"bufio"
 	"errors"
-	"github.com/gin-gonic/gin"
 	"io"
 	"log"
 	"net/http"
 	"os"
 	"strconv"
 	"strings"
+
+	"github.com/gin-gonic/gin"
 )
 
 /**
@@ -54,13 +55,14 @@ func PostNewLanguage(c *gin.Context) {
  * Download one ready File with translations
  */
 func DownloadFile(c *gin.Context) {
-	projectId, err := strconv.Atoi(c.Param("project"))
+	projectID, err := strconv.Atoi(c.Param("project"))
 	countryCode := c.Param("lang")
 	delimeter := c.Param("delimeter")
+	fileType := c.Param("type")
 
 	if err == nil && len(countryCode) == 2 && len(delimeter) == 1 {
 
-		fileContent, errFile := GenerateFile(projectId, countryCode, delimeter)
+		fileContent, errFile := GenerateFile(projectID, countryCode, delimeter, GetGenerator(fileType))
 
 		if nil == errFile {
 			c.Header("Content-Type", "application/txt; charset=utf-8")
@@ -86,14 +88,14 @@ func PostNewTerm(c *gin.Context) {
 
 	// key and projectId are mandatory
 	termKey := c.PostForm("termKey")
-	projectId, err := strconv.Atoi(c.PostForm("projectId"))
+	projectID, err := strconv.Atoi(c.PostForm("projectId"))
 
 	if len(termKey) == 0 || err != nil {
 		c.AbortWithStatus(http.StatusBadRequest)
 	} else {
 		// description is optional
 		termDescr := c.PostForm("termDescr")
-		addedTerm := AddNewTerm(dbFile, termKey, termDescr, projectId)
+		addedTerm := AddNewTerm(dbFile, termKey, termDescr, projectID)
 		c.JSON(http.StatusOK, gin.H{
 			"term": addedTerm,
 		})
@@ -109,7 +111,7 @@ func PostNewFile(c *gin.Context) {
 	file, header, err := c.Request.FormFile("upload")
 	delimeter := c.PostForm("delimeter")
 	country := c.PostForm("country")
-	projectId, err := strconv.Atoi(c.Param("id"))
+	projectID, err := strconv.Atoi(c.Param("id"))
 
 	filename := header.Filename
 
@@ -127,13 +129,13 @@ func PostNewFile(c *gin.Context) {
 	mapLines, _ := readLines("/tmp/"+filename, delimeter)
 
 	// save it somehow
-	SaveImportedTermsForProject(dbFile, *mapLines, country, projectId)
+	SaveImportedTermsForProject(dbFile, *mapLines, country, projectID)
 
 	// delete temp file
 	_ = os.Remove("/tmp/" + filename)
 
 	// redirect
-	c.Redirect(http.StatusMovedPermanently, "/project/"+strconv.Itoa(projectId)+"?imported")
+	c.Redirect(http.StatusMovedPermanently, "/project/"+strconv.Itoa(projectID)+"?imported")
 }
 
 /**
