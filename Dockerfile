@@ -35,7 +35,7 @@ ENV GIN_MODE=release
 
 WORKDIR /go/bin
 
-VOLUME /go/src/github.com/w32blaster/fyzon/db
+VOLUME /go/bin/db
 EXPOSE 8080
 
 ENTRYPOINT /go/bin/fyzon
