@@ -11,7 +11,11 @@ RUN apk add --no-cache sqlite && \
     mkdir -p /go/bin/db && \
     # install database to the WORKDIR
     sqlite3 /go/bin/db/trans.sqlite3 < src/github.com/w32blaster/fyzon/db/schema.sql && \
-    cp src/github.com/w32blaster/fyzon/db/schema.sql /go/bin/
+    cp src/github.com/w32blaster/fyzon/db/schema.sql /go/bin/ && \
+
+    # copy DB import script for those folks who might want to keep database outside of the container
+    cp src/github.com/w32blaster/fyzon/db/importDb.sh /go/bin/ && \
+    chmod +x /go/bin/importDb.sh
 
 RUN set -ex && \
     apk add --no-cache git gcc g++ && \

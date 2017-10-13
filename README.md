@@ -18,16 +18,6 @@ increases drammatically.
 Fyzon is simple as hell. You can install it on your server via only one command and send the URL link to your translator. 
 Then you can download the latest copy of `.properties` file manually or using your CI via API. It is open source and always will be free.
 
-# Install
-Do you want to try it? Huh, that's super easy with our [docker image](https://hub.docker.com/r/w32blaster/fyzon/). 
-Simply run:
-
-```
-docker run -p 8080:8080 w32blaster/fyzon
-```
-
-and navigate to http://localhost:8080. Login with [user](https://github.com/w32blaster/fyzon/blob/master/models.user.go#L21) *user1* and password *pass1* (registration page is ongoing). Enjoy!
-
 
 # Few screenshots here:
 
@@ -44,6 +34,46 @@ Few screenshots for you.
 ## Upload new .properties file to import
 ![Import new file popup](https://raw.githubusercontent.com/w32blaster/monsieur-traducteur/master/docs/Selection_072.jpg)
 
+
+# Run
+Do you want to try it? Huh, that's super easy with our [docker image](https://hub.docker.com/r/w32blaster/fyzon/). 
+Simply run:
+
+```
+docker run -p 8080:8080 w32blaster/fyzon
+```
+
+and navigate to http://localhost:8080. Login with [user](https://github.com/w32blaster/fyzon/blob/master/models.user.go#L21) *user1* and password *pass1* (registration page is ongoing). Enjoy!
+
+Or, if you want to persist the database outside of container (which is recommended for production), then specify volume when you start the container:
+
+```
+docker run -p 8080:8080 --volume /your/directory:/go/bin/db w32blaster/fyzon
+```
+
+here is the same configuration, but for docker-compose:
+
+```
+ fyzon:
+   container_name: fyzon
+   restart: always
+   image: w32blaster/fyzon:latest
+   volumes:
+     - /your/directory:/go/bin/db
+   ports:
+     - 8080:8080
+
+```
+
+and then you need to set up the database (only the first time). The schema is stored in the container, so you need only call the command:
+
+```
+
+docker exec -it fyzon /go/bin/importDb.sh
+
+```
+
+After that you can restart the container and DB will always stay in the `/your/directory` directory.
 
 # How to download generated file?
 
