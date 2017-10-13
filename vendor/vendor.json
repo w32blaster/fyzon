@@ -1,9 +1,9 @@
 {
 	"comment": "",
-	"ignore": "",
+	"ignore": "test",
 	"package": [
 		{
-			"checksumSHA1": "WRu+mhZ2PfQu27qRr69HVGjtN4Q=",
+			"checksumSHA1": "dvabztWVQX8f6oMLRyv4dLH+TGY=",
 			"path": "github.com/davecgh/go-spew/spew",
 			"revision": "346938d642f2ec3594ed81d874461961cd0faa76",
 			"revisionTime": "2016-10-29T20:57:26Z"
@@ -27,7 +27,7 @@
 			"revisionTime": "2017-04-28T10:59:23Z"
 		},
 		{
-			"checksumSHA1": "5SusLlYpervGPhrlkj+GmJrie6o=",
+			"checksumSHA1": "qlPUeFabwF4RKAOF1H+yBFU1Veg=",
 			"path": "github.com/golang/protobuf/proto",
 			"revision": "9f174c986221c608fb5143bd623b6076a71feae3",
 			"revisionTime": "2017-05-26T16:57:56Z"
@@ -87,5 +87,5 @@
 			"revisionTime": "2017-04-07T17:21:22Z"
 		}
 	],
-	"rootPath": "fyzon"
+	"rootPath": "github.com/w32blaster/fyzon"
 }

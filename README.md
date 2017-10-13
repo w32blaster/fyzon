@@ -58,7 +58,10 @@ JSON format could be used in Go projects with [go-i18n](https://github.com/nicks
 curl http://localhost:8080/api/project/3/file/gb/json > en.all.json
 ```
 
-where "3" is ID of project, "en" desired language to be exported and "json" is type of file
+where:
+  * "3" is the ID of project
+  * "gb" is desired language (country) to be exported
+  * "json" is type of file
 
 ## Properties format
 
@@ -84,11 +87,11 @@ or, here you can optionally specify delimeter you want to use (":" is default). 
 curl http://localhost:8080/api/project/3/file/gb/properties?delimeter=%3D > messages_en.properties
 ```
 
-the result will be something like that:
+where "%3D" is encoded "=" symbol. The result will be something like that:
 
 ```
-button.submit=Submit
-button.cancel=Cancel
+button.submit= Submit
+button.cancel= Cancel
 ...
 ```
 
@@ -107,12 +110,10 @@ To start coding, you need only *sqlite3*, *go* installed on your computer. Then,
 sqlite3 db/trans.sqlite3 < db/schema.sql
 ```
 
-2) download and install all the golang dependencies
+2) download and install all the golang dependencies (assuming that you have [govendor](https://github.com/kardianos/govendor) installed)
 
 ```
-go get -u -v github.com/gin-gonic/gin
-go get -u -v github.com/mattn/go-sqlite3
-go get -u -v github.com/stretchr/testify
+govendor fetch -v +out
 
 ```
 

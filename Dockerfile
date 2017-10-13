@@ -12,10 +12,9 @@ RUN apk add --no-cache sqlite && \
 RUN set -ex && \
     apk add --no-cache git gcc g++ && \
     cd /go/src/github.com/w32blaster/fyzon && \
-    go get -u -v github.com/gin-gonic/gin && \
-    go get -u -v github.com/mattn/go-sqlite3 && \
-    go get -u -v github.com/stretchr/testify && \
-    go build && \
+    go get -u -v github.com/kardianos/govendor && \
+    govendor fetch -v +out  && \
+    CGO_ENABLED=0 go build -a --installsuffix cgo --ldflags="-s" && \
     go install . && \
 
     # remove sqlite and git, because we don't need it at runtime
