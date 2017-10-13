@@ -10,7 +10,8 @@ RUN apk add --no-cache sqlite && \
     rm -f src/github.com/w32blaster/fyzon/db/trans.sqlite3 && \
     mkdir -p /go/bin/db && \
     # install database to the WORKDIR
-    sqlite3 /go/bin/db/trans.sqlite3 < src/github.com/w32blaster/fyzon/db/schema.sql
+    sqlite3 /go/bin/db/trans.sqlite3 < src/github.com/w32blaster/fyzon/db/schema.sql && \
+    cp src/github.com/w32blaster/fyzon/db/schema.sql /go/bin/
 
 RUN set -ex && \
     apk add --no-cache git gcc g++ && \
