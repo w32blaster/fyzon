@@ -10,8 +10,8 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/fyzon/generator"
 	"github.com/gin-gonic/gin"
+	"github.com/w32blaster/fyzon/generator"
 )
 
 /**

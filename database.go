@@ -6,8 +6,8 @@ import (
 	"log"
 	"strings"
 
-	"github.com/fyzon/generator"
 	_ "github.com/mattn/go-sqlite3"
+	"github.com/w32blaster/fyzon/generator"
 )
 
 /**
