@@ -10,6 +10,7 @@ import (
 	"strconv"
 	"strings"
 
+	"github.com/fyzon/generator"
 	"github.com/gin-gonic/gin"
 )
 
@@ -57,12 +58,12 @@ func PostNewLanguage(c *gin.Context) {
 func DownloadFile(c *gin.Context) {
 	projectID, err := strconv.Atoi(c.Param("project"))
 	countryCode := c.Param("lang")
-	delimeter := c.Param("delimeter")
+	delimeter := c.DefaultQuery("delimeter", ":")
 	fileType := c.Param("type")
 
 	if err == nil && len(countryCode) == 2 && len(delimeter) == 1 {
 
-		fileContent, errFile := GenerateFile(projectID, countryCode, delimeter, GetGenerator(fileType))
+		fileContent, errFile := GenerateFile(projectID, countryCode, delimeter, generator.GetGenerator(fileType))
 
 		if nil == errFile {
 			c.Header("Content-Type", "application/txt; charset=utf-8")

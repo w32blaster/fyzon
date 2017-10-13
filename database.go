@@ -6,6 +6,7 @@ import (
 	"log"
 	"strings"
 
+	"github.com/fyzon/generator"
 	_ "github.com/mattn/go-sqlite3"
 )
 
@@ -592,7 +593,7 @@ func getTermIdFor(projectId int, termCode string, db *sql.DB) int {
 /**
  * Generate the content of a file with translations
  */
-func GenerateFile(projectId int, countryCode string, delimeter string, generator FileGenerator) (string, error) {
+func GenerateFile(projectId int, countryCode string, delimeter string, gen generator.FileGenerator) (string, error) {
 
 	// connect to a database
 	var db, err = sql.Open("sqlite3", dbFile)
@@ -611,7 +612,7 @@ func GenerateFile(projectId int, countryCode string, delimeter string, generator
 
 	var buffer bytes.Buffer
 
-	generator.WriteFirstLine(&buffer)
+	gen.WriteFirstLine(&buffer)
 
 	for lRows.Next() {
 		var code string
@@ -625,10 +626,15 @@ func GenerateFile(projectId int, countryCode string, delimeter string, generator
 			return "", err
 		}
 
-		generator.WriteLineTo(&buffer, code, translation, comment, delimeter)
+		gen.WriteLineTo(&buffer, &generator.Translation{
+			Comment:   comment,
+			Value:     translation,
+			Key:       code,
+			Delimeter: delimeter,
+		})
 	}
 
-	generator.WriteLastLine(&buffer)
+	gen.WriteLastLine(&buffer)
 
 	return buffer.String(), nil
 }

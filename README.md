@@ -44,6 +44,54 @@ Few screenshots for you.
 ## Upload new .properties file to import
 ![Import new file popup](https://raw.githubusercontent.com/w32blaster/monsieur-traducteur/master/docs/Selection_072.jpg)
 
+
+# How to download generated file?
+
+You can download the file with translations using API. Say, you have a CI/CD pipeline and before you build your application you might want to 
+dowload fresh translations. Use old plain CURL to do that:
+
+## JSON format
+
+JSON format could be used in Go projects with [go-i18n](https://github.com/nicksnyder/go-i18n) library. 
+
+```
+curl http://localhost:8080/api/project/3/file/gb/json > en.all.json
+```
+
+where "3" is ID of project, "en" desired language to be exported and "json" is type of file
+
+## Properties format
+
+`.properties` format is very common in Java code, such as Spring.
+
+```
+curl http://localhost:8080/api/project/3/file/gb/properties > messages_en.properties
+```
+
+the result will be something like this:
+
+```
+
+button.submit: Submit
+button.cancel: Cancel
+...
+
+```
+
+or, here you can optionally specify delimeter you want to use (":" is default). In this example, we will user "=" as the delimeter
+
+```
+curl http://localhost:8080/api/project/3/file/gb/properties?delimeter=%3D > messages_en.properties
+```
+
+the result will be something like that:
+
+```
+button.submit=Submit
+button.cancel=Cancel
+...
+```
+
 ----
 
 # How to start the development on your computer
@@ -76,6 +124,7 @@ cd semantic
 gulp build
 ```
 
-And here you go! Just compile with command `go build` and run it with `./fyzon`! Please, join the development, I would be happy to accept an PR from you! 
+And here you go! Just compile with command `go build` and run it with `./fyzon`! Or, in dev mode `go run !(*_test*).go`. 
+Please, join the development, I would be happy to accept an PR from you! 
 
 Good luck!

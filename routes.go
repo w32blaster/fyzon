@@ -1,7 +1,7 @@
 package main
 
 import (
-  "github.com/gin-gonic/gin"
+	"github.com/gin-gonic/gin"
 )
 
 /**
@@ -9,48 +9,48 @@ import (
  */
 func initializeRoutes(router *gin.Engine) {
 
-  // static assets
-  router.Static("/semantic", "./semantic")
-  router.Static("/assets", "./assets")
+	// static assets
+	router.Static("/semantic", "./semantic")
+	router.Static("/assets", "./assets")
 
-  // HTML endpoints
-  router.GET("/", MainPage)
-  router.GET("/project/:id", ensureLoggedIn(), GetOneProject)
-  router.GET("/project/:id/untranslated/:lang", ensureLoggedIn(), GetOneProjectUntranslated)
+	// HTML endpoints
+	router.GET("/", MainPage)
+	router.GET("/project/:id", ensureLoggedIn(), GetOneProject)
+	router.GET("/project/:id/untranslated/:lang", ensureLoggedIn(), GetOneProjectUntranslated)
 
-  // Import (upload) new messages file
-  router.POST("/project/:id/import", ensureLoggedIn(), PostNewFile)
+	// Import (upload) new messages file
+	router.POST("/project/:id/import", ensureLoggedIn(), PostNewFile)
 
-  router.GET("/add/new/project", ensureLoggedIn(), AddNewProjectForm)
+	router.GET("/add/new/project", ensureLoggedIn(), AddNewProjectForm)
 
-  // Group API routes together
-  api := router.Group("/api")
-  {
-    // update one term
+	// Group API routes together
+	api := router.Group("/api")
+	{
+		// update one term
 		api.POST("/terms/:id/:lang", ensureLoggedIn(), PostOneTerm)
 
-    // get one term
-    api.GET("/terms/:id", ensureLoggedIn(), GetAllTranslations)
+		// get one term
+		api.GET("/terms/:id", ensureLoggedIn(), GetAllTranslations)
 
-    // add new language to project
-    api.POST("/project/add/language", ensureLoggedIn(), PostNewLanguage)
+		// add new language to project
+		api.POST("/project/add/language", ensureLoggedIn(), PostNewLanguage)
 
-    // add new term to project
-    api.POST("/project/add/term", ensureLoggedIn(), PostNewTerm)
+		// add new term to project
+		api.POST("/project/add/term", ensureLoggedIn(), PostNewTerm)
 
-    api.POST("/project/add", ensureLoggedIn(), PostCreateNewProject)
+		api.POST("/project/add", ensureLoggedIn(), PostCreateNewProject)
 
-    // delete one term and all its translations
-    api.DELETE("/terms/:id", ensureLoggedIn(), DeleteOneTerm)
+		// delete one term and all its translations
+		api.DELETE("/terms/:id", ensureLoggedIn(), DeleteOneTerm)
 
-    // delete one project and a-a-a-a-a-l its terms and translations
-    api.DELETE("/project/:id", ensureLoggedIn(), DeleteOneProject)
+		// delete one project and a-a-a-a-a-l its terms and translations
+		api.DELETE("/project/:id", ensureLoggedIn(), DeleteOneProject)
 
-    // download one file
-    api.GET("/project/:project/file/:lang/:delimeter/:type", /* ensureLoggedIn(), */ DownloadFile)
-  }
+		// download one file
+		api.GET("/project/:project/file/:lang/:type" /* ensureLoggedIn(), */, DownloadFile)
+	}
 
-  // Group user related routes together
+	// Group user related routes together
 	userRoutes := router.Group("/u")
 	{
 		// Handle the GET requests at /u/login
@@ -74,5 +74,5 @@ func initializeRoutes(router *gin.Engine) {
 		// Handle POST requests at /u/register
 		// Ensure that the user is not logged in by using the middleware
 		userRoutes.POST("/register", ensureNotLoggedIn(), register)
-  }
+	}
 }
