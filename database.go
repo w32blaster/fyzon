@@ -603,7 +603,7 @@ func GenerateFile(projectId int, countryCode string, delimeter string, gen gener
 	defer db.Close()
 
 	// get all the translations
-	lRows, err := db.Query("SELECT t.code,tr.translation,t.comment FROM terms AS t INNER JOIN translations AS tr ON tr.term_id = t.id WHERE t.project_id = ? AND tr.country_code = ?", projectId, countryCode)
+	lRows, err := db.Query("SELECT t.code,tr.translation,t.comment FROM terms AS t INNER JOIN translations AS tr ON tr.term_id = t.id WHERE t.project_id = ? AND tr.country_code = ? ORDER BY t.code", projectId, countryCode)
 	if err != nil {
 		log.Fatal(err)
 		return "", err

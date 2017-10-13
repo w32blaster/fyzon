@@ -1,9 +1,10 @@
 package main
 
 import (
-	"github.com/gin-gonic/gin"
 	"net/http"
 	"strconv"
+
+	"github.com/gin-gonic/gin"
 )
 
 /**
@@ -40,11 +41,12 @@ func PostCreateNewProject(c *gin.Context) {
  */
 func GetOneProject(c *gin.Context) {
 	id, _ := strconv.Atoi(c.Param("id"))
+	project := FindOneProject(dbFile, id, "")
 	c.HTML(http.StatusOK, "project.tmpl", gin.H{
-		"title":          "Pojects",
+		"title":          "Poject " + project.Name,
 		"projectId":      id,
 		"currentLang":    "all",
-		"project":        FindOneProject(dbFile, id, ""),
+		"project":        project,
 		"wasTermDeleted": len(c.Query("termDeleted")) > 0,
 		"is_logged_in":   IsLoggedIn(c),
 	})
