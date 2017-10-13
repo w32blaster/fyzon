@@ -25,8 +25,8 @@ RUN set -ex && \
     CGO_ENABLED=0 go build -a --installsuffix cgo --ldflags="-s" && \
     go install . && \
 
-    # remove sqlite and git, because we don't need it at runtime
-    apk del sqlite git && \
+    # remove git, because we don't need it at runtime
+    apk del git && \
     rm -rf /var/cache/apk/* && \
 
     # remove sources as well, because we already compiled at the moment and we don't need them on runtime
