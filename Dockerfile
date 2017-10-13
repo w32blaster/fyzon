@@ -1,19 +1,26 @@
 FROM golang:1.7-alpine
-MAINTAINER W32Blaster
 
 ADD . /go/src/github.com/w32blaster/fyzon
-ADD ./templates /go/src/github.com/w32blaster/fyzon/templates
+
+# add templates to the WORKDIR
+ADD ./templates /go/bin/templates
 
     # install SQlite3 to set up a new database
 RUN apk add --no-cache sqlite && \
     rm -f src/github.com/w32blaster/fyzon/db/trans.sqlite3 && \
-    sqlite3 src/github.com/w32blaster/fyzon/db/trans.sqlite3 < src/github.com/w32blaster/fyzon/db/schema.sql
+    mkdir -p /go/bin/db && \
+    # install database to the WORKDIR
+    sqlite3 /go/bin/db/trans.sqlite3 < src/github.com/w32blaster/fyzon/db/schema.sql
 
 RUN set -ex && \
     apk add --no-cache git gcc g++ && \
     cd /go/src/github.com/w32blaster/fyzon && \
     go get -u -v github.com/kardianos/govendor && \
+    
+    # install dependencies    
     govendor fetch -v +out  && \
+
+    # build the project
     CGO_ENABLED=0 go build -a --installsuffix cgo --ldflags="-s" && \
     go install . && \
 
@@ -21,14 +28,14 @@ RUN set -ex && \
     apk del sqlite git && \
     rm -rf /var/cache/apk/* && \
 
-    # remove sources as well, because we already compiled them
-    rm -rf src/*
+    # remove sources as well, because we already compiled at the moment and we don't need them on runtime
+    rm -rf /go/src
 
 ENV GIN_MODE=release
 
-WORKDIR /go/src/fyzon
+WORKDIR /go/bin
 
-VOLUME /go/src/fyzon/db
+VOLUME /go/src/github.com/w32blaster/fyzon/db
 EXPOSE 8080
 
 ENTRYPOINT /go/bin/fyzon
