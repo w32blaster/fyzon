@@ -129,12 +129,12 @@ button.cancel= Cancel
 
 # How to start the development on your computer
 
-Wow, you read this paragraph, that means you decided to bless this badly written code with your attention! Welcome, mate!
+Wow, you are reading this paragraph, that means you decided to bless this badly written code with your attention! :grin: Welcome, mate!
 
 
-To start coding, you need only *sqlite3*, *go* installed on your computer. Then,
+To start coding, you need only *sqlite3*, *go*, *npm* and *govendor* installed on your computer. Clone the code and navigate to the project folder, then:
 
-1) and import the database schema
+1) import the database schema
 
 ```
 sqlite3 db/trans.sqlite3 < db/schema.sql
@@ -147,7 +147,7 @@ govendor fetch -v +out
 
 ```
 
-3) rebuild SemanticUI theme
+3) rebuild [SemanticUI](https://semantic-ui.com/) theme
 
 ```
 npm install semantic-ui --save
@@ -155,7 +155,7 @@ cd semantic
 gulp build
 ```
 
-And here you go! Just compile with command `go build` and run it with `./fyzon`! Or, in dev mode `go run !(*_test*).go`. 
-Please, join the development, I would be happy to accept an PR from you! 
+And here you go! Just compile with command `go build` and run it with `./fyzon`! Or, in dev mode execute the command `go run !(*_test*).go`. 
+Please, enjoy the development, I would be happy to accept an PR from you! 
 
 Good luck!
