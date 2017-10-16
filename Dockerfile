@@ -6,10 +6,13 @@ ADD . /go/src/github.com/w32blaster/fyzon
 ADD ./templates /go/bin/templates
 ADD ./assets /go/bin/assets
 
+RUN echo '@edge http://nl.alpinelinux.org/alpine/edge/main' >> /etc/apk/repositories && \
+    apk update && apk upgrade && \
+    
     # install SQlite3 to set up a new database
-RUN apk add --no-cache sqlite && \
-    rm -f src/github.com/w32blaster/fyzon/db/trans.sqlite3 && \
+    apk add --no-cache sqlite nodejs@edge nodejs-npm@edge && \
     mkdir -p /go/bin/db && \
+
     # install database to the WORKDIR
     sqlite3 /go/bin/db/trans.sqlite3 < src/github.com/w32blaster/fyzon/db/schema.sql && \
     cp src/github.com/w32blaster/fyzon/db/schema.sql /go/bin/ && \
@@ -20,18 +23,33 @@ RUN apk add --no-cache sqlite && \
 
 RUN set -ex && \
     apk add --no-cache git gcc g++ && \
-    cd /go/src/github.com/w32blaster/fyzon && \
+    npm -version 
+
+RUN cd /go/src/github.com/w32blaster/fyzon && \
     go get -u -v github.com/kardianos/govendor && \
     
     # install dependencies    
     govendor fetch -v +out  && \
 
+    # Build the Semantic UI
+    npm install && \
+    npm install semantic-ui --save && \
+    npm install gulp -g && \
+
+    # Build current theme for our Fyzon using gulp
+    cd semantic && \
+    gulp build && \
+    cd .. && \
+
+    # and copy freshly built Semantic files
+    cp -r semantic /go/bin/ && \
+
     # build the project
     CGO_ENABLED=0 go build -a --installsuffix cgo --ldflags="-s" && \
     go install . && \
 
-    # remove git, because we don't need it at runtime
-    apk del git && \
+    # remove git and nodeJS, because we don't need it at runtime
+    apk del git nodejs nodejs-npm && \
     rm -rf /var/cache/apk/* && \
 
     # remove sources as well, because we already compiled at the moment and we don't need them on runtime
