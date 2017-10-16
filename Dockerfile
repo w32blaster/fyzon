@@ -4,7 +4,7 @@ ADD . /go/src/github.com/w32blaster/fyzon
 
 # add templates to the WORKDIR
 ADD ./templates /go/bin/templates && \
-    ./assets/go/bin/assets
+    ./assets /go/bin/assets
 
     # install SQlite3 to set up a new database
 RUN apk add --no-cache sqlite && \
