@@ -4,6 +4,9 @@
 
 Lightweight. Simple. Free.
 
+# Fyzon resource
+If you use [ConcourseCI](http://concourse.ci/) to build your projects, then consider to use my [Fyzon Resource](https://github.com/w32blaster/fyzon-resource) to automate translations downloading.
+
 ## Why
 Ok, say, you have an application and you have to localyze it. Say, you have a `*.properies` file with some phrases in English
 and you need to make similar files with another languages. You make them locally and your app works. Next, you want to
