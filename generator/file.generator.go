@@ -27,7 +27,7 @@ var tmplProperies = template.Must(template.New("").Parse(`
 var tmplJSON = template.Must(template.New("").Parse(
 	`
 	"{{.Key}}": {
-		{{end}}"one": "{{.Value}}"
+		"one": "{{.Value}}"
 	},
 	`))
 
